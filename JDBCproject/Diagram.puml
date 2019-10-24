@@ -1,0 +1,53 @@
+@startuml
+
+class UserEntity{
+private final Long id;
+    private final String password;
+    private final String email;
+    private final RoleEntity roleEntity;
+}
+class MasterEntity extends UserEntity{
+}
+class CustomerEntity extends UserEntity {
+          private final String name;
+          private final String surname;
+          private final AddressEntity addressEntity;
+          private final String phoneNumber;
+}
+ class ManagerEntity extends UserEntity {
+ }
+
+ class ApplianceEntity {
+     private final Long id;
+     private final String name;
+     private final String model;
+     private final double price;
+     private final ManufacturerEntity manufacturerEntity;
+     private final TypeEntity typeEntity;
+ }
+
+ class ElectricApplianceEntity extends ApplianceEntity {
+     private final int powerConsumption;
+ }
+
+ApplianceRepository <|.. ApplianceRepositoryImpl
+OrderRepository <|.. OrderRepositoryImpl
+UserRepository <|.. UserRepositoryImpl
+
+CustomerService <|.. CustomerServiceImpl
+ManagerService <|.. ManagerServiceImpl
+MasterService <|.. MasterServiceImpl
+OrderService <|.. OrderServiceImpl
+
+/'class UserBuilder {
+}
+class CustomerBuilder extends UserBuilder
+class ManagerBuilder extends UserBuilder
+class MasterBuilder extends UserBuilder'/
+
+UserEntity *-- UserBuilder
+CustomerEntity *-- CustomerBuilder
+ManagerEntity *-- ManagerBuilder
+MasterEntity *-- MasterBuilder
+
+@enduml

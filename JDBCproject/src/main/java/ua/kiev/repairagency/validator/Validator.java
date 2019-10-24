@@ -1,11 +1,10 @@
-package ua.kiev.appliances.validator;
+package ua.kiev.repairagency.validator;
 
-import org.springframework.stereotype.Component;
-import ua.kiev.appliances.domain.user.CustomerEntity;
+import ua.kiev.repairagency.entity.user.CustomerEntity;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-@Component
+
 public class Validator {
     private static final String LOGIN_REGEX = "^[A-Z0-9.-]+@[A-Z0-9.-]+\\\\.[A-Z]{2,6}$";
     private static final String PASSWORD_REGEX = "(?=.*[0-9])(?=.*[a-z])(?=\\S+$).{8,}";

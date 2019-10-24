@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Diagram>
+  <ID>JAVA</ID>
+  <OriginalElement>ua.kiev.repairagency</OriginalElement>
+  <nodes>
+    <node x="-102.0" y="263.0">ua.kiev.repairagency.entity.user.MasterEntity</node>
+    <node x="302.0" y="646.0">ua.kiev.repairagency.service.impl.ManagerServiceImpl</node>
+    <node x="69.0" y="647.0">ua.kiev.repairagency.service.impl.CustomerServiceImpl</node>
+    <node x="-138.0" y="650.0">ua.kiev.repairagency.service.impl.MasterServiceImpl</node>
+    <node x="48.0" y="263.0">ua.kiev.repairagency.entity.user.ManagerEntity</node>
+    <node x="-127.0" y="106.0">ua.kiev.repairagency.entity.user.MasterEntity.MasterBuilder</node>
+    <node x="441.0" y="258.0">ua.kiev.repairagency.entity.appliance.ElectricApplianceEntity</node>
+    <node x="469.0" y="182.0">ua.kiev.repairagency.entity.appliance.ApplianceEntity</node>
+    <node x="205.0" y="263.0">ua.kiev.repairagency.entity.user.CustomerEntity</node>
+    <node x="-120.0" y="378.0">ua.kiev.repairagency.repository.dao.UserDao</node>
+    <node x="465.0" y="30.0">ua.kiev.repairagency.entity.appliance.ApplianceEntity.ApplianceBuilder</node>
+    <node x="83.0" y="570.0">ua.kiev.repairagency.service.CustomerService</node>
+    <node x="30.0" y="106.0">ua.kiev.repairagency.entity.user.ManagerEntity.ManagerBuilder</node>
+    <node x="430.0" y="373.0">ua.kiev.repairagency.repository.dao.ApplianceDao</node>
+    <node x="58.5" y="187.0">ua.kiev.repairagency.entity.user.UserEntity</node>
+    <node x="121.0" y="451.0">ua.kiev.repairagency.repository.dao.impl.OrderDaoImpl</node>
+    <node x="-124.0" y="574.0">ua.kiev.repairagency.service.MasterService</node>
+    <node x="437.0" y="106.0">ua.kiev.repairagency.entity.appliance.ElectricApplianceEntity.ElectricApplianceBuilder</node>
+    <node x="-134.0" y="454.0">ua.kiev.repairagency.repository.dao.impl.UserDaoImpl</node>
+    <node x="416.0" y="449.0">ua.kiev.repairagency.repository.dao.impl.ApplianceDaoImpl</node>
+    <node x="135.0" y="375.0">ua.kiev.repairagency.repository.dao.OrderDao</node>
+    <node x="40.5" y="30.0">ua.kiev.repairagency.entity.user.UserEntity.UserBuilder</node>
+    <node x="515.0" y="644.0">ua.kiev.repairagency.service.impl.OrderServiceImpl</node>
+    <node x="316.0" y="570.0">ua.kiev.repairagency.service.ManagerService</node>
+    <node x="194.0" y="106.0">ua.kiev.repairagency.entity.user.CustomerEntity.CustomerBuilder</node>
+    <node x="529.0" y="568.0">ua.kiev.repairagency.service.OrderService</node>
+  </nodes>
+  <notes />
+  <edges>
+    <edge source="ua.kiev.repairagency.repository.dao.impl.OrderDaoImpl" target="ua.kiev.repairagency.repository.dao.OrderDao">
+      <point x="0.0" y="-13.0" />
+      <point x="0.0" y="13.0" />
+    </edge>
+    <edge source="ua.kiev.repairagency.entity.user.CustomerEntity" target="ua.kiev.repairagency.entity.user.UserEntity">
+      <point x="0.0" y="-13.0" />
+      <point x="277.0" y="238.0" />
+      <point x="155.16666666666663" y="238.0" />
+      <point x="38.66666666666663" y="13.0" />
+    </edge>
+    <edge source="ua.kiev.repairagency.repository.dao.impl.ApplianceDaoImpl" target="ua.kiev.repairagency.repository.dao.ApplianceDao">
+      <point x="0.0" y="-13.0" />
+      <point x="0.0" y="13.0" />
+    </edge>
+    <edge source="ua.kiev.repairagency.service.impl.OrderServiceImpl" target="ua.kiev.repairagency.service.OrderService">
+      <point x="0.0" y="-13.0" />
+      <point x="0.0" y="13.0" />
+    </edge>
+    <edge source="ua.kiev.repairagency.entity.user.MasterEntity.MasterBuilder" target="ua.kiev.repairagency.entity.user.UserEntity.UserBuilder">
+      <point x="0.0" y="-13.0" />
+      <point x="-58.5" y="81.0" />
+      <point x="61.0" y="81.0" />
+      <point x="-41.0" y="13.0" />
+    </edge>
+    <edge source="ua.kiev.repairagency.entity.appliance.ElectricApplianceEntity.ElectricApplianceBuilder" target="ua.kiev.repairagency.entity.appliance.ApplianceEntity.ApplianceBuilder">
+      <point x="0.0" y="-13.0" />
+      <point x="0.0" y="13.0" />
+    </edge>
+    <edge source="ua.kiev.repairagency.service.impl.MasterServiceImpl" target="ua.kiev.repairagency.service.MasterService">
+      <point x="0.0" y="-13.0" />
+      <point x="0.0" y="13.0" />
+    </edge>
+    <edge source="ua.kiev.repairagency.service.impl.ManagerServiceImpl" target="ua.kiev.repairagency.service.ManagerService">
+      <point x="0.0" y="-13.0" />
+      <point x="0.0" y="13.0" />
+    </edge>
+    <edge source="ua.kiev.repairagency.service.impl.CustomerServiceImpl" target="ua.kiev.repairagency.service.CustomerService">
+      <point x="0.0" y="-13.0" />
+      <point x="0.0" y="13.0" />
+    </edge>
+    <edge source="ua.kiev.repairagency.entity.appliance.ElectricApplianceEntity" target="ua.kiev.repairagency.entity.appliance.ApplianceEntity">
+      <point x="0.0" y="-13.0" />
+      <point x="0.0" y="13.0" />
+    </edge>
+    <edge source="ua.kiev.repairagency.entity.user.CustomerEntity.CustomerBuilder" target="ua.kiev.repairagency.entity.user.UserEntity.UserBuilder">
+      <point x="0.0" y="-13.0" />
+      <point x="269.5" y="81.0" />
+      <point x="143.0" y="81.0" />
+      <point x="41.0" y="13.0" />
+    </edge>
+    <edge source="ua.kiev.repairagency.entity.user.MasterEntity" target="ua.kiev.repairagency.entity.user.UserEntity">
+      <point x="0.0" y="-13.0" />
+      <point x="-37.0" y="238.0" />
+      <point x="77.83333333333337" y="238.0" />
+      <point x="-38.66666666666666" y="13.0" />
+    </edge>
+    <edge source="ua.kiev.repairagency.entity.user.ManagerEntity" target="ua.kiev.repairagency.entity.user.UserEntity">
+      <point x="0.0" y="-13.0" />
+      <point x="0.0" y="13.0" />
+    </edge>
+    <edge source="ua.kiev.repairagency.entity.user.ManagerEntity.ManagerBuilder" target="ua.kiev.repairagency.entity.user.UserEntity.UserBuilder">
+      <point x="0.0" y="-13.0" />
+      <point x="0.0" y="13.0" />
+    </edge>
+    <edge source="ua.kiev.repairagency.repository.dao.impl.UserDaoImpl" target="ua.kiev.repairagency.repository.dao.UserDao">
+      <point x="0.0" y="-13.0" />
+      <point x="0.0" y="13.0" />
+    </edge>
+  </edges>
+  <settings layout="Hierarchic Group" zoom="1.0" x="295.5" y="559.0" />
+  <SelectedNodes>
+    <node>ua.kiev.repairagency.repository.dao.impl.OrderDaoImpl</node>
+  </SelectedNodes>
+  <Categories />
+  <SCOPE>All</SCOPE>
+  <VISIBILITY>private</VISIBILITY>
+</Diagram>
+

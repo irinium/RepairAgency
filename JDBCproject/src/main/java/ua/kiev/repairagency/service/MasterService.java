@@ -1,11 +1,11 @@
 package ua.kiev.repairagency.service;
 
-import ua.kiev.repairagency.domain.order.OrderEntity;
-import ua.kiev.repairagency.domain.user.ManagerEntity;
-import ua.kiev.repairagency.domain.user.UserEntity;
+import ua.kiev.repairagency.entity.order.OrderEntity;
+import ua.kiev.repairagency.entity.user.MasterEntity;
+import ua.kiev.repairagency.entity.user.UserEntity;
 
 public interface MasterService {
-    void register(ManagerEntity managerEntity);
+    void register(MasterEntity master);
 
     UserEntity login(String email, String password);
 

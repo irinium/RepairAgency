@@ -2,16 +2,18 @@ package ua.kiev.repairagency.repository.helper;
 
 import java.sql.*;
 
-import ua.kiev.appliances.config.DataBaseConfig;
+import ua.kiev.repairagency.config.DataBaseConfig;
 
 public class SqlHelper {
 
     public interface Query<T> {
         T execute(Statement statement) throws SQLException;
     }
+
     public interface PreparedQuery<T> {
         T execute(PreparedStatement preparedStatement) throws SQLException;
     }
+
     public interface CallableQuery<T> {
         T execute(CallableStatement statement) throws SQLException;
     }

@@ -1,40 +1,36 @@
-package ua.kiev.appliances.service.impl;
+package ua.kiev.repairagency.service.impl;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-import ua.kiev.appliances.domain.order.OrderEntity;
-import ua.kiev.appliances.repository.OrderRepository;
+import ua.kiev.repairagency.repository.dao.OrderDao;
+import ua.kiev.repairagency.entity.order.OrderEntity;
+import ua.kiev.repairagency.service.OrderService;
 
 import java.util.List;
 
-@Service
-public class OrderServiceImpl {
-    private OrderRepository orderRepository;
+public class OrderServiceImpl implements OrderService {
+    private OrderDao orderDao;
 
-@Autowired
-    public OrderServiceImpl(OrderRepository orderRepository) {
-        this.orderRepository = orderRepository;
+    public OrderServiceImpl(OrderDao orderDao) {
+        this.orderDao = orderDao;
     }
 
     public void save(OrderEntity orderEntity) {
         if (orderEntity != null) {
-            List<OrderEntity> orderEntities = orderRepository.getAll();
+            List<OrderEntity> orderEntities = orderDao.findAll();
             if (!orderEntities.isEmpty()) {
                 OrderEntity lastOrderEntity = orderEntities.get(orderEntities.size() - 1);
                 orderEntity.setId(lastOrderEntity.getId() + 1);
-                orderRepository.save(orderEntity);
+                orderDao.save(orderEntity);
             }
         }
     }
 
     public void delete(OrderEntity orderEntity) {
         if (orderEntity != null) {
-            orderRepository.delete(orderEntity);
+            orderDao.delete(orderEntity);
         }
     }
 
     public List<OrderEntity> getAll() {
-        return orderRepository.getAll();
+        return orderDao.findAll();
     }
-
 }

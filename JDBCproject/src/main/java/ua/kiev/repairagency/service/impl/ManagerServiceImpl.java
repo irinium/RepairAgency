@@ -1,8 +1,12 @@
 package ua.kiev.repairagency.service.impl;
 
-import ua.kiev.repairagency.domain.user.ManagerEntity;
-import ua.kiev.repairagency.domain.user.UserEntity;
-import ua.kiev.repairagency.repository.UserRepository;
+import ua.kiev.repairagency.entity.appliance.ElectricApplianceEntity;
+import ua.kiev.repairagency.entity.order.OrderEntity;
+import ua.kiev.repairagency.entity.user.ManagerEntity;
+import ua.kiev.repairagency.entity.user.UserEntity;
+import ua.kiev.repairagency.repository.dao.ApplianceDao;
+import ua.kiev.repairagency.repository.dao.UserDao;
+import ua.kiev.repairagency.repository.dao.impl.OrderDaoImpl;
 import ua.kiev.repairagency.service.ManagerService;
 import ua.kiev.repairagency.service.PasswordEncoderImpl;
 import ua.kiev.repairagency.service.exception.EntityNotFoundException;
@@ -10,65 +14,74 @@ import ua.kiev.repairagency.service.exception.EntityNotFoundException;
 import javax.mail.*;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
+import java.util.Optional;
 import java.util.Properties;
 
 import static java.util.stream.Collectors.toList;
 
 public class ManagerServiceImpl implements ManagerService {
-    private final UserRepository userRepository;
+    private final UserDao userDao;
+    private final ApplianceDao applianceDao;
+    private final OrderDaoImpl orderDao = new OrderDaoImpl();//////////////////////////
     private final PasswordEncoderImpl passwordEncoder;
 
-
-    public ManagerServiceImpl(UserRepository userRepository,
+    public ManagerServiceImpl(UserDao userDao, ApplianceDao applianceDao,
                               PasswordEncoderImpl passwordEncoder) {
-        this.userRepository = userRepository;
+        this.userDao = userDao;
+        this.applianceDao = applianceDao;
         this.passwordEncoder = passwordEncoder;
     }
 
     @Override
     public void register(ManagerEntity managerEntity) {
-        userRepository.save(managerEntity);
+        userDao.save(managerEntity);
     }
 
     @Override
     public UserEntity login(String login, String password) {
         String encoder = passwordEncoder.encode(password);
-        UserEntity userEntity = userRepository.findByEmail(login);
-        if (userEntity == null) {
-            throw new EntityNotFoundException("Entity not found!");
-        } else {
-            String adminPassword = userEntity.getPassword();
-            if (passwordEncoder.matches(adminPassword, encoder)) {
-                return userEntity;
-            }
-            throw new EntityNotFoundException("Entity not found!");
+        ManagerEntity manager = (ManagerEntity) userDao.findByEmail(login)
+                .orElseThrow(() -> new EntityNotFoundException("EntityNotFound"));
+        String adminPassword = manager.getPassword();
+        if (passwordEncoder.matches(adminPassword, encoder)) {
+            return manager;
         }
+        throw new EntityNotFoundException("");
     }
+
 
     @Override
     public void update(UserEntity userEntity, String password) {
-        userRepository.update(userEntity, password);
+        userDao.update(userEntity, password);
     }
 
     @Override
-    public UserEntity findById(Long id) {
-        return userRepository.findById(id);
+    public Optional findById(Long id) {
+        return userDao.findById(id);
     }
 
     @Override
     public UserEntity deleteById(Long id) {
-        return userRepository.deleteById(id);
+        return userDao.deleteById(id);
     }
 
     @Override
-    public UserEntity findByEmail(String email) {
-        return userRepository.findByEmail(email);
+    public Optional findByEmail(String email) {
+        return userDao.findByEmail(email);
+    }
+
+    public Optional<ElectricApplianceEntity> findApplianceById(Long id) {
+        return applianceDao.findById(id);
+    }
+
+    public void setRepairPrice(OrderEntity order, Long pice){
+        orderDao.update(order,pice);
     }
 
     @Override
     public void sendAdvertisements(ManagerEntity managerEntity, String advertisement) {
         final String EMAIL_FROM = "Electric-appliance-center@gmail.com";
-        final String EMAIL_TO = userRepository.getUserEntities().stream()
+        final String EMAIL_TO = userDao.findAll().stream()
                 .map(UserEntity::getEmail)
                 .collect(toList()).toString();
 
