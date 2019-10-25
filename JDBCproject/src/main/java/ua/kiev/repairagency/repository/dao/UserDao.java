@@ -17,5 +17,5 @@ public interface UserDao {
 
     void update(UserEntity userEntity, String password);
 
-    UserEntity deleteById(Long id);
+    Optional<UserEntity> deleteById(Long id);
 }

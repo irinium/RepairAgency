@@ -26,7 +26,7 @@ public class OrderServiceImpl implements OrderService {
 
     public void delete(OrderEntity orderEntity) {
         if (orderEntity != null) {
-            orderDao.delete(orderEntity);
+            orderDao.deleteById(orderEntity);
         }
     }
 

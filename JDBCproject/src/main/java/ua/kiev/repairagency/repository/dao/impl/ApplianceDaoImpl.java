@@ -4,18 +4,16 @@ import ua.kiev.repairagency.entity.appliance.ElectricApplianceEntity;
 import ua.kiev.repairagency.entity.appliance.ManufacturerEntity;
 import ua.kiev.repairagency.entity.appliance.TypeEntity;
 import ua.kiev.repairagency.repository.dao.ApplianceDao;
-import ua.kiev.repairagency.repository.helper.SqlHelper;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Optional;
 
 import static ua.kiev.repairagency.repository.helper.SqlHelper.*;
 
-public class ApplianceDaoImpl implements ApplianceDao {
+public class ApplianceDaoImpl extends GenericDaoImpl implements ApplianceDao {
     private static final String GET_APPLIANCE_LIST_QUERY =
             "SELECT\n" +
             "    a.appliance_id a_id,\n" +
@@ -36,13 +34,11 @@ public class ApplianceDaoImpl implements ApplianceDao {
             "(`appliance_id`,`name`,`model`,`disrepair`,`power_consumption`,`manufacturer_id`,`type_id`)\n" +
             "VALUES (?,?,?,?,?,?,?);";
     private static final String FIND_QUERY = "SELECT * FROM `Appliances` WHERE appliance_id = ?;";
-    private static final String DELETE_REQUEST = "DELETE FROM `Appliances` WHERE appliance_id =?;";
+    private static final String DELETE_QUERY = "DELETE FROM `Appliances` WHERE appliance_id =?;";
 
     @Override
     public List<ElectricApplianceEntity> findAll() {
-        List<Optional> appliances = new LinkedList<>();
-        return prepareStatement(GET_APPLIANCE_LIST_QUERY, statement ->
-                appliances.add(mapResultSetToEntity(statement)));
+       return super.findAll(GET_APPLIANCE_LIST_QUERY);
     }
 
     @Override
@@ -61,21 +57,15 @@ public class ApplianceDaoImpl implements ApplianceDao {
 
     @Override
     public Optional <ElectricApplianceEntity> findById(Long id) {
-        return prepareStatement(FIND_QUERY, statement -> {
-            statement.setLong(1, id);
-            return mapResultSetToEntity(statement);
-        });
+        return super.findById(id, FIND_QUERY);
     }
 
     @Override
     public Optional <ElectricApplianceEntity> deleteById(Long id) {
-        return prepareStatement(DELETE_REQUEST, statement -> {
-            statement.setLong(1, id);
-            return statement.executeUpdate();
-        });
+        return super.deleteById(id, DELETE_QUERY);
     }
 
-    private Optional mapResultSetToEntity(PreparedStatement statement) throws SQLException {
+    protected Optional mapResultSetToEntity(PreparedStatement statement) throws SQLException {
         ResultSet resultSet = statement.executeQuery();
         return resultSet.next() ?
                 Optional.ofNullable(new ElectricApplianceEntity.ElectricApplianceBuilder()

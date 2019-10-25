@@ -9,7 +9,7 @@ import java.util.Optional;
 public interface OrderDao {
     void save(OrderEntity orderEntity);
 
-    void delete(OrderEntity orderEntity);
+    void deleteById(Long id);
 
     void update(OrderEntity orderEntity, Long price);
 
