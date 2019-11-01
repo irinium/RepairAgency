@@ -8,5 +8,4 @@ public enum ManufacturerEntity {
     NOVATECK,
     COOPER_HUNTER,
     TIBERIS;
-
 }

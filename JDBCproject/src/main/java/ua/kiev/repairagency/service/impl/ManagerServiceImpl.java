@@ -1,89 +1,99 @@
 package ua.kiev.repairagency.service.impl;
 
-import ua.kiev.repairagency.entity.appliance.ElectricApplianceEntity;
+import ua.kiev.repairagency.dao.OrderDao;
 import ua.kiev.repairagency.entity.order.OrderEntity;
+import ua.kiev.repairagency.entity.user.CustomerEntity;
 import ua.kiev.repairagency.entity.user.ManagerEntity;
+import ua.kiev.repairagency.entity.user.MasterEntity;
 import ua.kiev.repairagency.entity.user.UserEntity;
-import ua.kiev.repairagency.repository.dao.ApplianceDao;
-import ua.kiev.repairagency.repository.dao.UserDao;
-import ua.kiev.repairagency.repository.dao.impl.OrderDaoImpl;
+import ua.kiev.repairagency.dao.ApplianceDao;
+import ua.kiev.repairagency.dao.UserDao;
 import ua.kiev.repairagency.service.ManagerService;
-import ua.kiev.repairagency.service.PasswordEncoderImpl;
-import ua.kiev.repairagency.service.exception.EntityNotFoundException;
+import ua.kiev.repairagency.service.PasswordEncoder;
 
 import javax.mail.*;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
+import java.util.List;
 import java.util.Optional;
 import java.util.Properties;
 
-import static java.util.stream.Collectors.toList;
-
-public class ManagerServiceImpl implements ManagerService {
+public class ManagerServiceImpl extends GenericService<ManagerEntity> implements ManagerService {
     private final UserDao userDao;
     private final ApplianceDao applianceDao;
-    private final OrderDaoImpl orderDao = new OrderDaoImpl();//////////////////////////
-    private final PasswordEncoderImpl passwordEncoder;
+    private final OrderDao orderDao;
 
-    public ManagerServiceImpl(UserDao userDao, ApplianceDao applianceDao,
-                              PasswordEncoderImpl passwordEncoder) {
+
+    public ManagerServiceImpl(UserDao userDao, ApplianceDao applianceDao, OrderDao orderDao) {
+        super();
         this.userDao = userDao;
         this.applianceDao = applianceDao;
-        this.passwordEncoder = passwordEncoder;
+        this.orderDao = orderDao;
     }
 
     @Override
-    public void register(ManagerEntity managerEntity) {
-        userDao.save(managerEntity);
+    public List<UserEntity> findAll() {
+        return userDao.findAll();
+    }
+
+    public void register(MasterEntity masterEntity) {
+        super.register(masterEntity);
     }
 
     @Override
-    public UserEntity login(String login, String password) {
-        String encoder = passwordEncoder.encode(password);
-        ManagerEntity manager = (ManagerEntity) userDao.findByEmail(login)
-                .orElseThrow(() -> new EntityNotFoundException("EntityNotFound"));
-        String adminPassword = manager.getPassword();
-        if (passwordEncoder.matches(adminPassword, encoder)) {
-            return manager;
-        }
-        throw new EntityNotFoundException("");
+    @SuppressWarnings("unchecked")
+    public ManagerEntity login(String login, String password) {
+        return super.login(login, password);
     }
-
 
     @Override
     public void update(UserEntity userEntity, String password) {
-        userDao.update(userEntity, password);
+        update(userEntity,password);
     }
 
     @Override
-    public Optional findById(Long id) {
+    public Optional<UserEntity> findById(Long id) {
         return userDao.findById(id);
     }
 
-    @Override
-    public UserEntity deleteById(Long id) {
-        return userDao.deleteById(id);
+    public Optional<OrderEntity> findOrderById(Long id) {
+        return orderDao.findById(id);
     }
 
     @Override
-    public Optional findByEmail(String email) {
+    public void deleteById(Long id) {
+        userDao.deleteById(id);
+    }
+
+    public void deleteOrderById(Long id) {
+        orderDao.deleteById(id);
+    }
+
+    @Override
+    public Optional findUserByEmail(String email) {
         return userDao.findByEmail(email);
     }
 
-    public Optional<ElectricApplianceEntity> findApplianceById(Long id) {
-        return applianceDao.findById(id);
-    }
-
-    public void setRepairPrice(OrderEntity order, Long pice){
-        orderDao.update(order,pice);
+    @Override
+    public void setPrice(OrderEntity order, Long price) {
+        orderDao.update(order, price);
     }
 
     @Override
-    public void sendAdvertisements(ManagerEntity managerEntity, String advertisement) {
-        final String EMAIL_FROM = "Electric-appliance-center@gmail.com";
-        final String EMAIL_TO = userDao.findAll().stream()
-                .map(UserEntity::getEmail)
-                .collect(toList()).toString();
+    public void acceptOrder(OrderEntity orderEntity, ManagerEntity managerEntity, CustomerEntity customerEntity) {
+        orderDao.save(orderEntity);
+        sendEmailAboutOrderStatus(managerEntity, acceptMessage(customerEntity, managerEntity, orderEntity), customerEntity);
+    }
+
+    @Override
+    public void rejectOrder(OrderEntity orderEntity, ManagerEntity managerEntity, String reason, CustomerEntity customerEntity) {
+        sendEmailAboutOrderStatus(managerEntity, rejectMessage(customerEntity, managerEntity, reason), customerEntity);
+        orderDao.deleteById(orderEntity.getId());
+    }
+
+    private void sendEmailAboutOrderStatus(ManagerEntity managerEntity, String text, CustomerEntity customerEntity) {
+        final String EMAIL_FROM = managerEntity.getEmail();
+        final String EMAIL_TO = customerEntity.getEmail();
 
         Properties props = new Properties();
         props.put("mail.smtp.starttls.enable", "true");
@@ -102,13 +112,34 @@ public class ManagerServiceImpl implements ManagerService {
             message.setFrom(new InternetAddress(EMAIL_FROM));
             message.setRecipients(Message.RecipientType.TO,
                     InternetAddress.parse(EMAIL_TO));
-            message.setSubject("Advertisement");
-            message.setText(advertisement);
+            message.setSubject("Reject request to Repair Agency");
+            message.setText(text);
             Transport.send(message);
-            System.out.println("Done");
         } catch (MessagingException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    private String acceptMessage(CustomerEntity customerEntity, ManagerEntity managerEntity, OrderEntity orderEntity) {
+        return "Dear, " + customerEntity.getName() + ",\n" +
+                "I'm a manager of Repair Agency. Thank you for your interesting in our company. " +
+                "Your order is " + orderEntity + "\n" +
+                "We appreciate your contacting us. Please write to us anytime if you need help.\n" +
+                "Sincerely, Repair Agency\n" + managerEntity.getEmail() + " " + managerEntity.getPhoneNumber();
+    }
+
+    private String rejectMessage(CustomerEntity customerEntity, ManagerEntity managerEntity, String reason) {
+        return "Dear, " + customerEntity.getName() + ",\n" +
+                "I'm a manager of Repair Agency. Thank you for your interesting in our company. " +
+                "Unfortunately, we won't be able to accommodate your request for repair yor appliance, because " + reason +
+                "\n" +
+                "We appreciate your contacting us. We value your business and look forward to serving you." +
+                " Please write to us anytime if you need help with another request in the future.\n" +
+                "Sincerely, Repair Agency\n" + managerEntity.getEmail() + " " + managerEntity.getPhoneNumber();
+    }
+
+    public void answerToResponse(String answer){
+
     }
 }
 

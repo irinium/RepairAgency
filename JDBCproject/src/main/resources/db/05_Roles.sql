@@ -1,6 +1,7 @@
 INSERT INTO `Roles`
-    (`role_id`,`name`)
+    (`role_id`,`role_name`)
 VALUES
     ('1','CUSTOMER'),
-    ('2','ADMIN');
+    ('2','ADMIN'),
+    ('3','MASTER');
 

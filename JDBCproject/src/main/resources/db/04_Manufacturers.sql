@@ -1,5 +1,5 @@
 INSERT INTO `Manufacturers`
-    (`manufacturer_id`,`name`)
+    (`manufacturer_id`,`manufacturer_name`)
 VALUES
     ('1','LG'),
     ('2','SAMSUNG'),

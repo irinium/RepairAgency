@@ -4,14 +4,14 @@ class UserEntity{
 private final Long id;
     private final String password;
     private final String email;
-    private final RoleEntity roleEntity;
+    private final RoleEntity role;
 }
 class MasterEntity extends UserEntity{
 }
 class CustomerEntity extends UserEntity {
           private final String name;
           private final String surname;
-          private final AddressEntity addressEntity;
+          private final AddressEntity address;
           private final String phoneNumber;
 }
  class ManagerEntity extends UserEntity {
@@ -22,28 +22,30 @@ class CustomerEntity extends UserEntity {
      private final String name;
      private final String model;
      private final double price;
-     private final ManufacturerEntity manufacturerEntity;
-     private final TypeEntity typeEntity;
+     private final ManufacturerEntity manufacturer;
+     private final TypeEntity type;
  }
 
  class ElectricApplianceEntity extends ApplianceEntity {
      private final int powerConsumption;
  }
 
-ApplianceRepository <|.. ApplianceRepositoryImpl
-OrderRepository <|.. OrderRepositoryImpl
-UserRepository <|.. UserRepositoryImpl
+ApplianceDao <|.. ApplianceDaoImpl
+OrderDao <|.. OrderDaoImpl
+UserDao <|.. UserDaoImpl
+GenericDao <|.. GenericDaoImpl
 
+class ApplianceDaoImpl extends GenericDaoImpl{
+}
+class UserDaoImpl extends GenericDaoImpl{
+}
+class OrderDaoImpl extends GenericDaoImpl{
+}
 CustomerService <|.. CustomerServiceImpl
 ManagerService <|.. ManagerServiceImpl
 MasterService <|.. MasterServiceImpl
 OrderService <|.. OrderServiceImpl
 
-/'class UserBuilder {
-}
-class CustomerBuilder extends UserBuilder
-class ManagerBuilder extends UserBuilder
-class MasterBuilder extends UserBuilder'/
 
 UserEntity *-- UserBuilder
 CustomerEntity *-- CustomerBuilder

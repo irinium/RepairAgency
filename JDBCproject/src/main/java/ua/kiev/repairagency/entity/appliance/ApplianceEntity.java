@@ -1,6 +1,8 @@
 package ua.kiev.repairagency.entity.appliance;
 
-public class ApplianceEntity {
+import ua.kiev.repairagency.entity.Entity;
+
+public class ApplianceEntity extends Entity {
     private final Long id;
     private final String name;
     private final String model;
@@ -78,7 +80,7 @@ public class ApplianceEntity {
             return self();
         }
 
-        public SELF withPrice(String disrepair) {
+        public SELF withDisrepair(String disrepair) {
             this.disrepair = disrepair;
             return self();
         }

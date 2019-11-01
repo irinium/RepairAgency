@@ -12,18 +12,18 @@
     <node x="441.0" y="258.0">ua.kiev.repairagency.entity.appliance.ElectricApplianceEntity</node>
     <node x="469.0" y="182.0">ua.kiev.repairagency.entity.appliance.ApplianceEntity</node>
     <node x="205.0" y="263.0">ua.kiev.repairagency.entity.user.CustomerEntity</node>
-    <node x="-120.0" y="378.0">ua.kiev.repairagency.repository.dao.UserDao</node>
+    <node x="-120.0" y="378.0">ua.kiev.repairagency.dao.UserDao</node>
     <node x="465.0" y="30.0">ua.kiev.repairagency.entity.appliance.ApplianceEntity.ApplianceBuilder</node>
     <node x="83.0" y="570.0">ua.kiev.repairagency.service.CustomerService</node>
     <node x="30.0" y="106.0">ua.kiev.repairagency.entity.user.ManagerEntity.ManagerBuilder</node>
-    <node x="430.0" y="373.0">ua.kiev.repairagency.repository.dao.ApplianceDao</node>
+    <node x="430.0" y="373.0">ua.kiev.repairagency.dao.ApplianceDao</node>
     <node x="58.5" y="187.0">ua.kiev.repairagency.entity.user.UserEntity</node>
-    <node x="121.0" y="451.0">ua.kiev.repairagency.repository.dao.impl.OrderDaoImpl</node>
+    <node x="121.0" y="451.0">ua.kiev.repairagency.dao.impl.OrderDaoImpl</node>
     <node x="-124.0" y="574.0">ua.kiev.repairagency.service.MasterService</node>
     <node x="437.0" y="106.0">ua.kiev.repairagency.entity.appliance.ElectricApplianceEntity.ElectricApplianceBuilder</node>
-    <node x="-134.0" y="454.0">ua.kiev.repairagency.repository.dao.impl.UserDaoImpl</node>
-    <node x="416.0" y="449.0">ua.kiev.repairagency.repository.dao.impl.ApplianceDaoImpl</node>
-    <node x="135.0" y="375.0">ua.kiev.repairagency.repository.dao.OrderDao</node>
+    <node x="-134.0" y="454.0">ua.kiev.repairagency.dao.impl.UserDaoImpl</node>
+    <node x="416.0" y="449.0">ua.kiev.repairagency.dao.impl.ApplianceDaoImpl</node>
+    <node x="135.0" y="375.0">ua.kiev.repairagency.dao.OrderDao</node>
     <node x="40.5" y="30.0">ua.kiev.repairagency.entity.user.UserEntity.UserBuilder</node>
     <node x="515.0" y="644.0">ua.kiev.repairagency.service.impl.OrderServiceImpl</node>
     <node x="316.0" y="570.0">ua.kiev.repairagency.service.ManagerService</node>
@@ -32,7 +32,7 @@
   </nodes>
   <notes />
   <edges>
-    <edge source="ua.kiev.repairagency.repository.dao.impl.OrderDaoImpl" target="ua.kiev.repairagency.repository.dao.OrderDao">
+    <edge source="ua.kiev.repairagency.dao.impl.OrderDaoImpl" target="ua.kiev.repairagency.dao.OrderDao">
       <point x="0.0" y="-13.0" />
       <point x="0.0" y="13.0" />
     </edge>
@@ -42,7 +42,7 @@
       <point x="155.16666666666663" y="238.0" />
       <point x="38.66666666666663" y="13.0" />
     </edge>
-    <edge source="ua.kiev.repairagency.repository.dao.impl.ApplianceDaoImpl" target="ua.kiev.repairagency.repository.dao.ApplianceDao">
+    <edge source="ua.kiev.repairagency.dao.impl.ApplianceDaoImpl" target="ua.kiev.repairagency.dao.ApplianceDao">
       <point x="0.0" y="-13.0" />
       <point x="0.0" y="13.0" />
     </edge>
@@ -96,14 +96,14 @@
       <point x="0.0" y="-13.0" />
       <point x="0.0" y="13.0" />
     </edge>
-    <edge source="ua.kiev.repairagency.repository.dao.impl.UserDaoImpl" target="ua.kiev.repairagency.repository.dao.UserDao">
+    <edge source="ua.kiev.repairagency.dao.impl.UserDaoImpl" target="ua.kiev.repairagency.dao.UserDao">
       <point x="0.0" y="-13.0" />
       <point x="0.0" y="13.0" />
     </edge>
   </edges>
   <settings layout="Hierarchic Group" zoom="1.0" x="295.5" y="559.0" />
   <SelectedNodes>
-    <node>ua.kiev.repairagency.repository.dao.impl.OrderDaoImpl</node>
+    <node>ua.kiev.repairagency.dao.impl.OrderDaoImpl</node>
   </SelectedNodes>
   <Categories />
   <SCOPE>All</SCOPE>

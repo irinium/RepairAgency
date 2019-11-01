@@ -1,22 +1,27 @@
 package ua.kiev.repairagency.service;
 
+import ua.kiev.repairagency.entity.order.OrderEntity;
+import ua.kiev.repairagency.entity.user.CustomerEntity;
 import ua.kiev.repairagency.entity.user.ManagerEntity;
+import ua.kiev.repairagency.entity.user.MasterEntity;
 import ua.kiev.repairagency.entity.user.UserEntity;
 
+import java.util.List;
 import java.util.Optional;
 
 public interface ManagerService {
-    void register(ManagerEntity managerEntity);
 
-    UserEntity login(String email, String password);
+    public Optional<UserEntity> findById(Long id);
 
-    Optional findById(Long id) throws NoSuchFieldException;
+    public void deleteById(Long id);
 
-    void update(UserEntity userEntity, String password);
+    public List<UserEntity> findAll();
 
-    UserEntity deleteById(Long id) throws NoSuchFieldException;
+    Optional findUserByEmail(String email);
 
-    Optional findByEmail(String email);
+    void acceptOrder(OrderEntity orderEntity, ManagerEntity managerEntity, CustomerEntity customerEntity);
 
-    void sendAdvertisements (ManagerEntity managerEntity,String advertisement);
+    void rejectOrder(OrderEntity orderEntity, ManagerEntity managerEntity, String reason, CustomerEntity customerEntity);
+
+    void setPrice(OrderEntity order, Long price);
 }

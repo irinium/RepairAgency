@@ -1,6 +1,6 @@
 package ua.kiev.repairagency.service.impl;
 
-import ua.kiev.repairagency.repository.dao.OrderDao;
+import ua.kiev.repairagency.dao.OrderDao;
 import ua.kiev.repairagency.entity.order.OrderEntity;
 import ua.kiev.repairagency.service.OrderService;
 
@@ -26,7 +26,7 @@ public class OrderServiceImpl implements OrderService {
 
     public void delete(OrderEntity orderEntity) {
         if (orderEntity != null) {
-            orderDao.deleteById(orderEntity);
+            orderDao.deleteById(orderEntity.getId());
         }
     }
 

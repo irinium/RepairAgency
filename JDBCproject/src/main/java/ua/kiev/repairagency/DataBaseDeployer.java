@@ -1,25 +1,20 @@
 package ua.kiev.repairagency;
 
-
 import org.apache.log4j.Level;
-import org.apache.log4j.LogManager;
-import org.apache.log4j.xml.DOMConfigurator;
+import org.apache.log4j.Logger;
 import ua.kiev.repairagency.config.DataBaseConfig;
-import ua.kiev.repairagency.repository.helper.SqlHelper;
+import ua.kiev.repairagency.dao.helper.SqlHelper;
 
 import java.io.File;
 import java.sql.Statement;
 import java.util.Arrays;
 import java.util.Scanner;
-import org.apache.log4j.Logger;
 
 import static java.lang.String.format;
 
 public class DataBaseDeployer {
     private static final Logger LOGGER = Logger.getLogger(DataBaseDeployer.class);
-    static {
-       new  DOMConfigurator().doConfigure("log4j.xml", LogManager.getLoggerRepository());
-    }
+
     public static void main(String[] args) {
         createDb();
         deployDb();

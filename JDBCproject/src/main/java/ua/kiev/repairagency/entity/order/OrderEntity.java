@@ -1,12 +1,21 @@
 package ua.kiev.repairagency.entity.order;
 
-public class OrderEntity {
+import ua.kiev.repairagency.entity.Entity;
+
+public class OrderEntity extends Entity {
     private Long id;
     private String title;
     private Long price;
+    private Long userId;
+    private Long applianceId;
+    private Long masterId;
 
-    public OrderEntity(Long id, String title) {
+    public OrderEntity(Long id, Long applianceId, Long price, Long userId, Long masterId, String title) {
         this.id = id;
+        this.applianceId = applianceId;
+        this.price = price;
+        this.userId = userId;
+        this.masterId = masterId;
         this.title = title;
     }
 
@@ -22,8 +31,17 @@ public class OrderEntity {
         return title;
     }
 
-    public void setTitle(String title) {
+    public OrderEntity setTitle(String title) {
         this.title = title;
+        return this;
+    }
+
+    public Long getApplianceId() {
+        return applianceId;
+    }
+
+    public void setApplianceId(Long applianceId) {
+        this.applianceId = applianceId;
     }
 
     public Long getPrice() {
@@ -34,13 +52,29 @@ public class OrderEntity {
         this.price = price;
     }
 
+    public Long getUserId() {
+        return userId;
+    }
+
+    public void setUserId(Long userId) {
+        this.userId = userId;
+    }
+
+    public Long getMasterId() {
+        return masterId;
+    }
+
+    public void setMasterId(Long masterId) {
+        this.masterId = masterId;
+    }
+
     @Override
     public int hashCode() {
         final int prime = 31;
         int result = 1;
         result = prime * result + ((id == null) ? 0 : id.hashCode());
         result = prime * result + ((price == null) ? 0 : price.hashCode());
-        result = prime * result + ((title == null) ? 0 : title.hashCode());
+        result = prime * result + ((applianceId == null) ? 0 : applianceId.hashCode());
         return result;
     }
 
@@ -63,16 +97,16 @@ public class OrderEntity {
                 return false;
         } else if (!price.equals(other.price))
             return false;
-        if (title == null) {
-            if (other.title != null)
+        if (applianceId == null) {
+            if (other.applianceId != null)
                 return false;
-        } else if (!title.equals(other.title))
+        } else if (!applianceId.equals(other.applianceId))
             return false;
         return true;
     }
 
     @Override
     public String toString() {
-        return "Order [id=" + id + ", title=" + title + ", price=" + price + "]";
+        return "Order [id=" + id + ", title=" + applianceId.toString() + ", price=" + price + "master=" + masterId + "]";
     }
 }

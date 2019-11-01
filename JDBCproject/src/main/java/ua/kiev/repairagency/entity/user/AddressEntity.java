@@ -1,15 +1,30 @@
 package ua.kiev.repairagency.entity.user;
 
 public class AddressEntity {
-    private final String street;
+    private final Long id;
     private final int houseNumber;
+    private final String street;
     private final String town;
+    private final String code;
 
+    public AddressEntity(){
+        this.id = 0L;
+        this.street = null;
+        this.houseNumber = 0;
+        this.town = null;
+        this.code = null;
+    }
 
-    public AddressEntity(int houseNumber, String street, String town) {
+    public AddressEntity(Long id,int houseNumber, String street, String town, String code) {
+        this.id = id;
         this.street = street;
         this.houseNumber = houseNumber;
         this.town = town;
+        this.code = code;
+    }
+
+    public Long getId() {
+        return id;
     }
 
     public String getStreet() {
@@ -24,10 +39,7 @@ public class AddressEntity {
         return town;
     }
 
-     public AddressEntity(){
-        this.street = null;
-        this.houseNumber = 0;
-        this.town = null;
-
+    public String getCode() {
+        return code;
     }
 }

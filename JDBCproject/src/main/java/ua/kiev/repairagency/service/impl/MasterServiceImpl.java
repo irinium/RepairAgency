@@ -8,17 +8,11 @@ import ua.kiev.repairagency.service.MasterService;
 public class MasterServiceImpl implements MasterService {
 
     @Override
-    public void register(MasterEntity master) {
-
-    }
-
-    @Override
     public UserEntity login(String email, String password) {
         return null;
     }
 
     @Override
     public void acceptOrder(OrderEntity order) {
-
     }
 }

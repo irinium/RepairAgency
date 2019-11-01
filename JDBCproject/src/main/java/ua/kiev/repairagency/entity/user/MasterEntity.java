@@ -2,8 +2,8 @@ package ua.kiev.repairagency.entity.user;
 
 public class MasterEntity extends UserEntity {
 
-    protected MasterEntity(UserBuilder<? extends UserBuilder> userUserBuilder) {
-        super(userUserBuilder);
+    protected MasterEntity(MasterBuilder masterBuilder) {
+        super(masterBuilder);
     }
 
     public static class MasterBuilder extends UserBuilder<MasterBuilder> {
