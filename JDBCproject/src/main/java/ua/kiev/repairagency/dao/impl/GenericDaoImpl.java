@@ -17,9 +17,8 @@ public abstract class GenericDaoImpl<E, ID> {
 
        return prepareStatement(query, statement -> {
             statement.setInt(1, start);
-            int rows = getNumberOfRows();
-            if (rows <= recordsPerPage) {
-                statement.setInt(2, rows);
+            if (getNumberOfRows() <= recordsPerPage) {
+                statement.setInt(2, getNumberOfRows());
             } else {
                 statement.setInt(2, recordsPerPage);
             }

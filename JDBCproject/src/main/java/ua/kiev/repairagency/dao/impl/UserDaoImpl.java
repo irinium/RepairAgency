@@ -24,12 +24,12 @@ public class UserDaoImpl extends GenericDaoImpl<UserEntity, Long> implements Use
                     "    u.phone phone,\n" +
                     "    r.role_name role_name\n" +
                     " FROM `Users` u \n" +
-                    " JOIN `Roles` r ON u.role_id = r.role_id" +
+                    " LEFT JOIN `Roles` r ON u.role_id = r.role_id" +
+                    " GROUP BY u.user_id " +
                     " LIMIT ?,?;";
 
     private static final String INSERT_QUERY = "INSERT INTO `Users`" +
-            "(`email`,`password`,`phone`,`role_id`, `user_name`,`surname`) VALUES (?,?,?,?,?,?);" +
-            "";
+            "(`email`,`password`,`phone`,`role_id`, `user_name`,`surname`) VALUES (?,?,?,?,?,?);";
 
     private static final String FIND_BY_ID_QUERY = "SELECT * FROM `Users` WHERE user_id = ?;";
 
@@ -63,7 +63,7 @@ public class UserDaoImpl extends GenericDaoImpl<UserEntity, Long> implements Use
             statement.setString(3, user.getPhoneNumber());
             statement.setString(5, user.getName());
             statement.setString(6, user.getSurname());
-            statement.setInt(4, user.getRoleEntity().ordinal());
+            statement.setInt(4, user.getRoleEntity().ordinal()+1);
             return statement.executeUpdate();
         });
     }
