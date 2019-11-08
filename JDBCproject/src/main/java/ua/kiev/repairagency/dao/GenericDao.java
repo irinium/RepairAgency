@@ -6,7 +6,5 @@ import java.util.Optional;
 public interface GenericDao<E, Long> {
     Optional<E> findById(Long id);
 
-    List<E> findAll();
-
-    void deleteById(Long id);
+    List<E> findAll(int currentPage, int recordsPerPage);
 }

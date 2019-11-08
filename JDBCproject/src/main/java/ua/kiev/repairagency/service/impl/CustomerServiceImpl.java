@@ -3,59 +3,69 @@ package ua.kiev.repairagency.service.impl;
 import ua.kiev.repairagency.dao.ApplianceDao;
 import ua.kiev.repairagency.dao.OrderDao;
 import ua.kiev.repairagency.dao.UserDao;
+import ua.kiev.repairagency.dao.impl.ResponseDaoImpl;
+import ua.kiev.repairagency.domain.appliance.ElectricAppliance;
+import ua.kiev.repairagency.domain.order.Order;
+import ua.kiev.repairagency.domain.order.Response;
+import ua.kiev.repairagency.domain.user.Customer;
 import ua.kiev.repairagency.domain.user.User;
-import ua.kiev.repairagency.entity.appliance.ApplianceEntity;
-import ua.kiev.repairagency.entity.appliance.ElectricApplianceEntity;
-import ua.kiev.repairagency.entity.order.OrderEntity;
-import ua.kiev.repairagency.entity.user.CustomerEntity;
-import ua.kiev.repairagency.entity.user.UserEntity;
 import ua.kiev.repairagency.service.CustomerService;
 import ua.kiev.repairagency.service.PasswordEncoder;
-import ua.kiev.repairagency.service.exception.EntityNotFoundException;
-import ua.kiev.repairagency.validator.Validator;
+import ua.kiev.repairagency.service.mapper.OrderMapper;
+import ua.kiev.repairagency.service.mapper.ResponseMapper;
+import ua.kiev.repairagency.service.mapper.UserMapper;
+import ua.kiev.repairagency.service.validator.Validator;
 
-import java.util.Comparator;
 import java.util.List;
-import java.util.Optional;
-
-import static java.util.stream.Collectors.toList;
 
 
-public class CustomerServiceImpl extends GenericService<CustomerEntity> implements CustomerService {
-    private final UserDao userDao;
+public class CustomerServiceImpl extends UserGenericService<Customer> implements CustomerService {
     private final OrderDao orderDao;
     private final ApplianceDao applianceDao;
+    private final OrderMapper orderMapper;
+    private final ResponseDaoImpl responseDao;
+    private final ResponseMapper responseMapper;
 
     public CustomerServiceImpl(UserDao userDao,
                                OrderDao orderDao,
-                               ApplianceDao applianceDao) {
-        super();
-        this.userDao = userDao;
+                               ApplianceDao applianceDao,
+                               PasswordEncoder passwordEncoder,
+                               Validator validator,
+                               UserMapper userMapper, OrderMapper orderMapper, ResponseDaoImpl responseDao, ResponseMapper responseMapper) {
+        super(passwordEncoder, userDao, validator, userMapper);
         this.orderDao = orderDao;
         this.applianceDao = applianceDao;
+        this.orderMapper = orderMapper;
+        this.responseDao = responseDao;
+        this.responseMapper = responseMapper;
     }
 
-    public void register(CustomerEntity customerEntity) {
-       super.register(customerEntity);
+    public void register(Customer customer) {
+        super.register(customer);
     }
 
     @Override
     @SuppressWarnings("unchecked")
-    public UserEntity login(String email, String password) {
+    public User login(String email, String password) {
         return super.login(email, password);
     }
 
     @Override
-    public void makeOrder(ElectricApplianceEntity applianceEntity, UserEntity userEntity, String title) {
-        orderDao.save(new OrderEntity(applianceEntity.getId(), applianceEntity.getId(), 0L, userEntity.getId(), 0L, title));
+    public void makeOrder(ElectricAppliance appliance, Customer customer, String title) {
+        orderDao.save(orderMapper.mapOrderToOrderEntity(new Order.OrderBuilder()
+                .withAppliance(appliance)
+                .withCustomer(customer)
+                .withTitle(title)
+                .build()));
     }
 
     @Override
-    public List findAllOrders(UserEntity userEntity) {
-        return orderDao.findUserOrders(userEntity);
+    public List findAllOrders(User user) {
+        return orderDao.findUserOrders(userMapper.mapUserToUserEntity(user));
     }
 
-    public void createResponse(String response){
-
+    @Override
+    public void createResponse(Response response) {
+        responseDao.save(responseMapper.mapResponseToResponseEntity(response));
     }
 }

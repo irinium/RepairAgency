@@ -1,8 +1,6 @@
 package ua.kiev.repairagency.entity.appliance;
 
-import ua.kiev.repairagency.entity.Entity;
-
-public class ApplianceEntity extends Entity {
+public class ApplianceEntity {
     private final Long id;
     private final String name;
     private final String model;

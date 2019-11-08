@@ -2,7 +2,7 @@ package ua.kiev.repairagency;
 
 import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
-import ua.kiev.repairagency.config.DataBaseConfig;
+import ua.kiev.repairagency.dao.config.DataBaseConfig;
 import ua.kiev.repairagency.dao.helper.SqlHelper;
 
 import java.io.File;

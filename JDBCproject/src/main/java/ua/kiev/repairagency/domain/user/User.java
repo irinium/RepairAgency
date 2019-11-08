@@ -2,8 +2,10 @@ package ua.kiev.repairagency.domain.user;
 
 public class User {
     private final Long id;
-    private final String password;
+    protected String password;
     private final String email;
+    private final String name;
+    private final String surname;
     private final String phoneNumber;
     private final Role role;
 
@@ -11,6 +13,8 @@ public class User {
         this.id = userUserBuilder.id;
         this.password = userUserBuilder.password;
         this.email = userUserBuilder.email;
+        this.surname = userUserBuilder.surname;
+        this.name = userUserBuilder.name;
         this.phoneNumber = userUserBuilder.phoneNumber;
         this.role = userUserBuilder.role;
     }
@@ -27,7 +31,15 @@ public class User {
         return email;
     }
 
-    public String getPhoneNumber() {
+    public String getName() {
+        return name;
+    }
+
+    public String getSurname() {
+        return surname;
+    }
+
+    public String getPhone() {
         return phoneNumber;
     }
 
@@ -35,10 +47,16 @@ public class User {
         return role;
     }
 
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
     public static class UserBuilder<SELF extends UserBuilder<SELF>> {
         private Long id;
         private String password;
         private String email;
+        private String name;
+        private String surname;
         private Role role;
         private String phoneNumber;
 
@@ -66,6 +84,16 @@ public class User {
 
         public SELF withEmail(String email) {
             this.email = email;
+            return self();
+        }
+
+        public SELF withName(String name) {
+            this.name = name;
+            return self();
+        }
+
+        public SELF withSurname(String surname) {
+            this.surname = surname;
             return self();
         }
 

@@ -17,6 +17,8 @@ public class UserMapper {
         return new User.UserBuilder()
                 .withId(userEntity.getId())
                 .withEmail(userEntity.getEmail())
+                .withName(userEntity.getName())
+                .withSurname(userEntity.getSurname())
                 .withPassword(userEntity.getPassword())
                 .withPhoneNumber(userEntity.getPhoneNumber())
                 .withRole(Role.valueOf(userEntity.getRoleEntity().name()))
@@ -25,9 +27,11 @@ public class UserMapper {
 
     public UserEntity mapUserToUserEntity(User user) {
         return new UserEntity.UserBuilder()
-                .withId(user.getId())
                 .withEmail(user.getEmail())
-                .withPassword(passwordEncoder.encode(user.getPassword()))
+                .withName(user.getName())
+                .withSurname(user.getSurname())
+                .withPassword(user.getPassword())
+                .withPhoneNumber(user.getPhone())
                 .withRole(RoleEntity.valueOf(user.getRole().name()))
                 .build();
     }

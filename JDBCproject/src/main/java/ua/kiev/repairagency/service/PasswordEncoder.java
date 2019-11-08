@@ -17,7 +17,8 @@ public class PasswordEncoder {
         }
     }
 
-    public boolean matches(String encodedPassword, String password) {
-        return encodedPassword.matches(password);
+    public String decode(String encodedString) {
+        byte[] decodedBytes = Base64.getDecoder().decode(encodedString);
+        return new String(decodedBytes);
     }
 }

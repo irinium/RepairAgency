@@ -51,12 +51,20 @@ CREATE TABLE `Addresses` (
 );
 
 CREATE TABLE `Orders` (
-    `order_id`   INT                 NOT NULL AUTO_INCREMENT,
-    `title`      varchar(128)        NOT NULL,
-    `price`      BIGINT unsigned     NOT NULL,
-    `user_id`    INT                 NOT NULL,
-    `appliance_id`    INT            NOT NULL,
-    `master_id`    INT            NOT NULL,
+    `order_id`      INT                 NOT NULL AUTO_INCREMENT,
+    `title`         varchar(128)        NOT NULL,
+    `price`         BIGINT unsigned,
+    `user_id`       INT                 NOT NULL,
+    `appliance_id`  INT                 NOT NULL,
+    `master_id`     INT,
+    `state`         BOOL,
     PRIMARY KEY (`order_id`)
+);
+CREATE TABLE `Responses` (
+    `response_id`   INT              NOT NULL AUTO_INCREMENT,
+    `text`          TEXT             NOT NULL,
+    `user_id`       INT              NOT NULL,
+    `date`          DATE             NOT NULL,
+    PRIMARY KEY (`response_id`)
 );
 

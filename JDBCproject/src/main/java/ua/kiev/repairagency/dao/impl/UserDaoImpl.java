@@ -1,17 +1,17 @@
 package ua.kiev.repairagency.dao.impl;
 
-import ua.kiev.repairagency.entity.user.CustomerEntity;
+import ua.kiev.repairagency.dao.UserDao;
 import ua.kiev.repairagency.entity.user.RoleEntity;
 import ua.kiev.repairagency.entity.user.UserEntity;
-import ua.kiev.repairagency.dao.UserDao;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Optional;
 
-import static ua.kiev.repairagency.dao.helper.SqlHelper.*;
+import static ua.kiev.repairagency.dao.helper.SqlHelper.prepareStatement;
 
 public class UserDaoImpl extends GenericDaoImpl<UserEntity, Long> implements UserDao {
     private static final String GET_USERS_LIST_QUERY =
@@ -21,44 +21,49 @@ public class UserDaoImpl extends GenericDaoImpl<UserEntity, Long> implements Use
                     "    u.password password,\n" +
                     "    u.user_name user_name,\n" +
                     "    u.surname surname,\n" +
-                    "    u.address_id address_id,\n" +
                     "    u.phone phone,\n" +
-                    "    u.role_id role_id,\n" +
-                    "    r.role_id r_id,\n" +
-                    "    r.name role_name\n" +
-                    "    a.address_id a_id\n" +
-                    "    a.house house\n" +
-                    "    a.street street\n" +
-                    "    a.town town\n" +
-                    "    a.code code\n" +
-                    "FROM `Users` u \n" +
-                    "JOIN `Roles` r ON u.role_id = r.role_id " +
-                    "JOIN `Addresses` a ON u.address_id = a.address_id;";
+                    "    r.role_name role_name\n" +
+                    " FROM `Users` u \n" +
+                    " JOIN `Roles` r ON u.role_id = r.role_id" +
+                    " LIMIT ?,?;";
+
     private static final String INSERT_QUERY = "INSERT INTO `Users`" +
-            "(`user_id`,`email`,`password`,`phone`,`role_id`, `user_name`,`surname`,`address_id`) VALUES (?,?,?,?,?,?,?,?)";
+            "(`email`,`password`,`phone`,`role_id`, `user_name`,`surname`) VALUES (?,?,?,?,?,?);" +
+            "";
+
     private static final String FIND_BY_ID_QUERY = "SELECT * FROM `Users` WHERE user_id = ?;";
-    private static final String FIND_BY_EMAIL_QUERY = "SELECT * FROM `Users` WHERE email = ?;";
-    private static final String DELETE_QUERY = "DELETE FROM `Users` WHERE user_id = ?;";
+
+    private static final String FIND_BY_EMAIL_QUERY = "SELECT\n" +
+            "    u.user_id user_id,\n" +
+            "    u.email email,\n" +
+            "    u.password password,\n" +
+            "    u.user_name user_name,\n" +
+            "    u.surname surname,\n" +
+            "    u.phone phone,\n" +
+            "    r.role_name role_name\n" +
+            " FROM `Users` u \n" +
+            " JOIN `Roles` r ON u.role_id = r.role_id WHERE email = ?;";
+
     private static final String UPDATE_QUERY = "UPDATE `Users` SET password = ? WHERE user_id = ?;";
 
     @Override
-    public List<UserEntity> findAll() {
-        return findAll(GET_USERS_LIST_QUERY);
+    public List<UserEntity> findAll(int currentPage, int recordsPerPage) {
+        return findAll(GET_USERS_LIST_QUERY, currentPage, recordsPerPage);
+    }
+
+    public int getNumberOfRows() throws SQLException {
+        return super.getNumberOfRows();
     }
 
     @Override
-    public <T extends UserEntity> T save(T user) {
+    public Integer save(UserEntity user) {
         return prepareStatement(INSERT_QUERY, statement -> {
-            statement.setLong(1, user.getId());
-            statement.setString(2, user.getEmail());
-            statement.setString(3, user.getPassword());
-            statement.setString(4, user.getPhoneNumber());
-            statement.setInt(5, user.getRoleEntity().ordinal());
-            if (user instanceof CustomerEntity) {
-                statement.setString(6, ((CustomerEntity) user).getName());
-                statement.setString(7, ((CustomerEntity) user).getSurname());
-                statement.setLong(8, ((CustomerEntity) user).getAddressEntity().getId());
-            }
+            statement.setString(1, user.getEmail());
+            statement.setString(2, user.getPassword());
+            statement.setString(3, user.getPhoneNumber());
+            statement.setString(5, user.getName());
+            statement.setString(6, user.getSurname());
+            statement.setInt(4, user.getRoleEntity().ordinal());
             return statement.executeUpdate();
         });
     }
@@ -71,7 +76,7 @@ public class UserDaoImpl extends GenericDaoImpl<UserEntity, Long> implements Use
     public Optional<UserEntity> findByEmail(String email) {
         return prepareStatement(FIND_BY_EMAIL_QUERY, statement -> {
             statement.setString(1, email);
-            return mapResultSetToEntity(statement);
+            return Optional.ofNullable(mapResultSetToEntity(statement).isEmpty()? null: mapResultSetToEntity(statement).get(0));
         });
     }
 
@@ -85,22 +90,21 @@ public class UserDaoImpl extends GenericDaoImpl<UserEntity, Long> implements Use
     }
 
     @Override
-    public void deleteById(Long id) {
-        deleteById(id, DELETE_QUERY);
-    }
-
-    @Override
-    protected Optional<UserEntity> mapResultSetToEntity(PreparedStatement statement) throws SQLException {
+    public List<UserEntity> mapResultSetToEntity(PreparedStatement statement) throws SQLException {
         ResultSet resultSet = statement.executeQuery();
-        return resultSet.next() ?
-                Optional.ofNullable(new UserEntity.UserBuilder()
-                        .withId(resultSet.getLong("user_id"))
-                        .withEmail(resultSet.getString("email"))
-                        .withPassword(resultSet.getString("password"))
-                        .withPhoneNumber(resultSet.getString("phone"))
-                        .withRole(RoleEntity.valueOf(resultSet.getString("role_name")))
-
-
-                        .build()) : Optional.empty();
+        List<UserEntity> list = new LinkedList<>();
+        while (resultSet.next()) {
+            UserEntity userEntity = new UserEntity.UserBuilder()
+                    .withId(resultSet.getLong("user_id"))
+                    .withEmail(resultSet.getString("email"))
+                    .withPassword(resultSet.getString("password"))
+                    .withPhoneNumber(resultSet.getString("phone"))
+                    .withName(resultSet.getString("user_name"))
+                    .withSurname(resultSet.getString("surname"))
+                    .withRole(RoleEntity.valueOf(resultSet.getString("role_name")))
+                    .build();
+            list.add(userEntity);
+        }
+        return list;
     }
 }

@@ -1,112 +1,114 @@
 package ua.kiev.repairagency.domain.order;
 
-public class Order {
-    private Long id;
-    private String title;
-    private Long price;
-    private Long userId;
-    private Long applianceId;
-    private Long masterId;
+import ua.kiev.repairagency.domain.appliance.ElectricAppliance;
+import ua.kiev.repairagency.domain.user.Customer;
+import ua.kiev.repairagency.domain.user.Master;
 
-    public Order(Long id, Long applianceId, Long price, Long userId, Long masterId, String title) {
-        this.id = id;
-        this.applianceId = applianceId;
-        this.price = price;
-        this.userId = userId;
-        this.masterId = masterId;
-        this.title = title;
+public class Order {
+    private final Long id;
+    private final String title;
+    private final Long price;
+    private final Customer customer;
+    private final ElectricAppliance appliance;
+    private final Master master;
+    private final Boolean state; //access -true, denied - false
+
+    public Order(OrderBuilder orderBuilder) {
+        this.id = orderBuilder.id;
+        this.appliance = orderBuilder.appliance;
+        this.price = orderBuilder.price;
+        this.customer = orderBuilder.customer;
+        this.master = orderBuilder.master;
+        this.title = orderBuilder.title;
+        this.state = orderBuilder.state;
     }
 
     public Long getId() {
         return id;
     }
 
-    public void setId(Long id) {
-        this.id = id;
-    }
-
     public String getTitle() {
         return title;
     }
 
-    public void setTitle(String title) {
-        this.title = title;
+    public ElectricAppliance getAppliance() {
+        return appliance;
     }
 
     public Long getPrice() {
         return price;
     }
 
-    public void setPrice(Long price) {
-        this.price = price;
+    public Customer getCustomer() {
+        return customer;
     }
 
-    public Long getMasterId() {
-        return masterId;
+    public Master getMaster() {
+        return master;
     }
 
-    public Order setMasterId(Long masterId) {
-        this.masterId = masterId;
-        return this;
+    public Boolean getState() {
+        return state;
     }
 
-    public Long getUserId() {
-        return userId;
+    public OrderBuilder builder(){
+        return new OrderBuilder();
     }
 
-    public Order setUserId(Long userId) {
-        this.userId = userId;
-        return this;
-    }
+    public static class OrderBuilder {
+        private Long id;
+        private String title;
+        private Long price;
+        private Customer customer;
+        private ElectricAppliance appliance;
+        private Master master;
+        private Boolean state; //access -true, denied - false
 
-    public Long getApplianceId() {
-        return applianceId;
-    }
+        public OrderBuilder() {
+        }
 
-    public Order setApplianceId(Long applianceId) {
-        this.applianceId = applianceId;
-        return this;
-    }
+        public OrderBuilder withId(Long id) {
+            this.id = id;
+            return this;
+        }
 
-    @Override
-    public int hashCode() {
-        final int prime = 31;
-        int result = 1;
-        result = prime * result + ((id == null) ? 0 : id.hashCode());
-        result = prime * result + ((price == null) ? 0 : price.hashCode());
-        result = prime * result + ((title == null) ? 0 : title.hashCode());
-        return result;
-    }
+        public OrderBuilder withTitle(String title) {
+            this.title = title;
+            return this;
+        }
 
-    @Override
-    public boolean equals(Object obj) {
-        if (this == obj)
-            return true;
-        if (obj == null)
-            return false;
-        if (getClass() != obj.getClass())
-            return false;
-        Order other = (Order) obj;
-        if (id == null) {
-            if (other.id != null)
-                return false;
-        } else if (!id.equals(other.id))
-            return false;
-        if (price == null) {
-            if (other.price != null)
-                return false;
-        } else if (!price.equals(other.price))
-            return false;
-        if (title == null) {
-            if (other.title != null)
-                return false;
-        } else if (!title.equals(other.title))
-            return false;
-        return true;
+        public OrderBuilder withAppliance(ElectricAppliance appliance) {
+            this.appliance = appliance;
+            return this;
+        }
+
+        public OrderBuilder withPrice(Long price) {
+            this.price = price;
+            return this;
+        }
+
+        public OrderBuilder withCustomer(Customer customer) {
+            this.customer = customer;
+            return this;
+        }
+
+        public OrderBuilder withMaster(Master master) {
+            this.master = master;
+            return this;
+        }
+
+        public OrderBuilder withState(Boolean state) {
+            this.state = state;
+            return this;
+        }
+
+        public Order build(){
+            return new Order(this);
+        }
     }
 
     @Override
     public String toString() {
-        return "Order [id=" + id + ", title=" + title + ", price=" + price + "master=" + masterId + "]";
+        return "Order [id=" + id + ", title=" + title + ", price=" + price + "master=" + master.getName() + master.getSurname() + "]";
     }
 }

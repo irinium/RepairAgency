@@ -1,8 +1,8 @@
 package ua.kiev.repairagency.dao.helper;
 
-import java.sql.*;
+import ua.kiev.repairagency.dao.config.DataBaseConfig;
 
-import ua.kiev.repairagency.config.DataBaseConfig;
+import java.sql.*;
 
 public class SqlHelper {
 

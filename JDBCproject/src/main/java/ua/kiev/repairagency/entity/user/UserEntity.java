@@ -1,8 +1,6 @@
 package ua.kiev.repairagency.entity.user;
 
-import ua.kiev.repairagency.entity.Entity;
-
-public class UserEntity extends Entity {
+public class UserEntity {
     private final Long id;
     private final String password;
     private final String email;
@@ -51,7 +49,7 @@ public class UserEntity extends Entity {
 
     public static class UserBuilder<SELF extends UserBuilder<SELF>> {
         private Long id;
-        private String password;
+        protected String password;
         private String email;
         private String name;
         private String surname;
@@ -59,6 +57,10 @@ public class UserEntity extends Entity {
         private String phoneNumber;
 
         public UserBuilder() {
+        }
+
+        public void setPassword(String password) {
+            this.password = password;
         }
 
         @SuppressWarnings("unchecked")

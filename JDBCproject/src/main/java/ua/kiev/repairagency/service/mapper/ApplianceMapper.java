@@ -1,6 +1,5 @@
 package ua.kiev.repairagency.service.mapper;
 
-import ua.kiev.repairagency.domain.appliance.Appliance;
 import ua.kiev.repairagency.domain.appliance.ElectricAppliance;
 import ua.kiev.repairagency.domain.appliance.Manufacturer;
 import ua.kiev.repairagency.domain.appliance.Type;
@@ -23,7 +22,6 @@ public class ApplianceMapper {
 
     public ElectricApplianceEntity mapApplianceToApplianceEntity(ElectricAppliance appliance) {
         return new ElectricApplianceEntity.ElectricApplianceBuilder()
-                .withId(appliance.getId())
                 .withName(appliance.getName())
                 .withModel(appliance.getModel())
                 .withManufacturer(ManufacturerEntity.valueOf(appliance.getManufacturer().name()))

@@ -8,6 +8,7 @@ import ua.kiev.repairagency.dao.ApplianceDao;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Optional;
 
@@ -37,8 +38,8 @@ public class ApplianceDaoImpl extends GenericDaoImpl implements ApplianceDao {
     private static final String DELETE_QUERY = "DELETE FROM `Appliances` WHERE appliance_id =?;";
 
     @Override
-    public List<ElectricApplianceEntity> findAll() {
-        return findAll(GET_APPLIANCE_LIST_QUERY);
+    public List<ElectricApplianceEntity> findAll(int currentPage, int recordsPerPage) {
+        return findAll(GET_APPLIANCE_LIST_QUERY,currentPage,recordsPerPage);
     }
 
     @Override
@@ -60,22 +61,21 @@ public class ApplianceDaoImpl extends GenericDaoImpl implements ApplianceDao {
         return findById(id, FIND_QUERY);
     }
 
-    @Override
-    public void deleteById(Long id) {
-        deleteById(id, DELETE_QUERY);
-    }
-
-    protected Optional mapResultSetToEntity(PreparedStatement statement) throws SQLException {
+    public List<ElectricApplianceEntity> mapResultSetToEntity(PreparedStatement statement) throws SQLException {
+        List<ElectricApplianceEntity> applianceEntityList = new LinkedList<>();
         ResultSet resultSet = statement.executeQuery();
-        return resultSet.next() ?
-                Optional.ofNullable(new ElectricApplianceEntity.ElectricApplianceBuilder()
-                        .withId(resultSet.getLong("a_id"))
-                        .withName(resultSet.getString("a_name"))
-                        .withManufacturer(ManufacturerEntity.valueOf(resultSet.getString("m_name")))
-                        .withModel(resultSet.getString("model"))
-                        .withPowerConsumption(resultSet.getInt("power"))
-                        .withDisrepair(resultSet.getString("disrepair"))
-                        .withType(TypeEntity.valueOf(resultSet.getString("t_name")))
-                        .build()) : Optional.empty();
+        while (resultSet.next()) {
+            ElectricApplianceEntity applianceEntity = new ElectricApplianceEntity.ElectricApplianceBuilder()
+                    .withId(resultSet.getLong("a_id"))
+                    .withName(resultSet.getString("a_name"))
+                    .withManufacturer(ManufacturerEntity.valueOf(resultSet.getString("m_name")))
+                    .withModel(resultSet.getString("model"))
+                    .withPowerConsumption(resultSet.getInt("power"))
+                    .withDisrepair(resultSet.getString("disrepair"))
+                    .withType(TypeEntity.valueOf(resultSet.getString("t_name")))
+                    .build();
+            applianceEntityList.add(applianceEntity);
+        }
+        return applianceEntityList;
     }
 }

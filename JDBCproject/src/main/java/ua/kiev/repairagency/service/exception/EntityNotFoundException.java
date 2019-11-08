@@ -1,7 +1,11 @@
 package ua.kiev.repairagency.service.exception;
 
 public class EntityNotFoundException extends RuntimeException{
-    public EntityNotFoundException(String s) {
-        System.out.println(s);
+
+    public EntityNotFoundException() {
+    }
+
+    public EntityNotFoundException(String message) {
+        super(message);
     }
 }

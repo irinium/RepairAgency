@@ -9,11 +9,13 @@ import java.util.Optional;
 public interface OrderDao extends GenericDao<OrderEntity, Long> {
     void save(OrderEntity orderEntity);
 
-    void deleteById(Long id);
-
     void update(OrderEntity orderEntity, Long price);
 
-    List<OrderEntity> findAll();
+    void update(OrderEntity orderEntity, Boolean state);
+
+    void setMaster(OrderEntity orderEntity, Long masterId);
+
+    List<OrderEntity> findAll(int currentPage, int recordsPerPage);
 
     List<OrderEntity> findUserOrders(UserEntity userEntity);
 

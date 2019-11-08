@@ -1,18 +1,33 @@
 package ua.kiev.repairagency.service.impl;
 
-import ua.kiev.repairagency.entity.order.OrderEntity;
-import ua.kiev.repairagency.entity.user.MasterEntity;
-import ua.kiev.repairagency.entity.user.UserEntity;
+import ua.kiev.repairagency.dao.OrderDao;
+import ua.kiev.repairagency.dao.UserDao;
+import ua.kiev.repairagency.domain.order.Order;
+import ua.kiev.repairagency.domain.user.Master;
+import ua.kiev.repairagency.domain.user.User;
 import ua.kiev.repairagency.service.MasterService;
+import ua.kiev.repairagency.service.PasswordEncoder;
+import ua.kiev.repairagency.service.mapper.OrderMapper;
+import ua.kiev.repairagency.service.mapper.UserMapper;
+import ua.kiev.repairagency.service.validator.Validator;
 
-public class MasterServiceImpl implements MasterService {
+public class MasterServiceImpl extends UserGenericService<Master> implements MasterService {
+    private final OrderMapper orderMapper;
+    private final OrderDao orderDao;
 
-    @Override
-    public UserEntity login(String email, String password) {
-        return null;
+    public MasterServiceImpl(PasswordEncoder passwordEncoder, UserDao userDao, Validator validator, UserMapper userMapper, OrderMapper orderMapper, OrderDao orderDao) {
+        super(passwordEncoder, userDao, validator, userMapper);
+        this.orderMapper = orderMapper;
+        this.orderDao = orderDao;
     }
 
     @Override
-    public void acceptOrder(OrderEntity order) {
+    public User login(String email, String password) {
+        return super.login(email, password);
+    }
+
+    @Override
+    public void acceptOrder(Order order, Master master) {
+        orderDao.setMaster(orderMapper.mapOrderToOrderEntity(order), master.getId());
     }
 }

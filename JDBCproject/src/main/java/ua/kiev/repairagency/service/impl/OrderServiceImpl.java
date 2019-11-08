@@ -1,36 +1,43 @@
 package ua.kiev.repairagency.service.impl;
 
 import ua.kiev.repairagency.dao.OrderDao;
-import ua.kiev.repairagency.entity.order.OrderEntity;
+import ua.kiev.repairagency.domain.order.Order;
 import ua.kiev.repairagency.service.OrderService;
+import ua.kiev.repairagency.service.exception.EmptyDataException;
+import ua.kiev.repairagency.service.mapper.OrderMapper;
 
 import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
 
 public class OrderServiceImpl implements OrderService {
-    private OrderDao orderDao;
+    private final OrderDao orderDao;
+    private final OrderMapper orderMapper;
 
-    public OrderServiceImpl(OrderDao orderDao) {
+    public OrderServiceImpl(OrderDao orderDao, OrderMapper orderMapper) {
         this.orderDao = orderDao;
+        this.orderMapper = orderMapper;
     }
 
-    public void save(OrderEntity orderEntity) {
-        if (orderEntity != null) {
-            List<OrderEntity> orderEntities = orderDao.findAll();
-            if (!orderEntities.isEmpty()) {
-                OrderEntity lastOrderEntity = orderEntities.get(orderEntities.size() - 1);
-                orderEntity.setId(lastOrderEntity.getId() + 1);
-                orderDao.save(orderEntity);
-            }
-        }
+    public void save(Order order) {
+        orderDao.save(Optional.ofNullable(orderMapper
+                .mapOrderToOrderEntity(order))
+                .orElseThrow(() -> new EmptyDataException("Empty data set!")));
     }
 
-    public void delete(OrderEntity orderEntity) {
-        if (orderEntity != null) {
-            orderDao.deleteById(orderEntity.getId());
-        }
+    public List<Order> getAll(int currentPage, int recordsPerPage) {
+        return orderDao.findAll(currentPage,recordsPerPage).stream()
+                .map(orderMapper::mapOrderEntityToOrder)
+                .collect(Collectors.toList());
     }
 
-    public List<OrderEntity> getAll() {
-        return orderDao.findAll();
+    @Override
+    public void update(Order order, Boolean state) {
+        orderDao.update(orderMapper.mapOrderToOrderEntity(order), state);
+    }
+
+    @Override
+    public void update(Order order, Long price) {
+        orderDao.update(orderMapper.mapOrderToOrderEntity(order), price);
     }
 }
