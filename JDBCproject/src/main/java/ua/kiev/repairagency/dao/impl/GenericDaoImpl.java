@@ -11,11 +11,10 @@ import static ua.kiev.repairagency.dao.helper.SqlHelper.prepareStatement;
 public abstract class GenericDaoImpl<E, ID> {
     private static final String NUMBER_OF_ROWS_FROM_USERS = "SELECT COUNT(user_id) FROM `Users`";
 
-    public List<E> findAll(String query, int currentPage, int recordsPerPage) {
+    public List<E> findAll(String query,int currentPage, int recordsPerPage) {
+        int start = currentPage * 5 - recordsPerPage;
 
-        int start = currentPage * recordsPerPage - recordsPerPage;
-
-       return prepareStatement(query, statement -> {
+        return prepareStatement(query, statement -> {
             statement.setInt(1, start);
             if (getNumberOfRows() <= recordsPerPage) {
                 statement.setInt(2, getNumberOfRows());
@@ -25,6 +24,7 @@ public abstract class GenericDaoImpl<E, ID> {
             return mapResultSetToEntity(statement);
         });
     }
+
 
     public int getNumberOfRows() throws SQLException {
         return prepareStatement(NUMBER_OF_ROWS_FROM_USERS, this::mapResultSetToNumber);

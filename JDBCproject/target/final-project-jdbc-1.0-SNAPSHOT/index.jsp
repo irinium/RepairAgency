@@ -10,6 +10,6 @@
     <title>$Repair agency$</title>
   </head>
   <body>
-  <jsp:forward page="view/listPagenation.jsp" ></jsp:forward>
+  <jsp:forward page="view/home.jsp" ></jsp:forward>
   </body>
 </html>

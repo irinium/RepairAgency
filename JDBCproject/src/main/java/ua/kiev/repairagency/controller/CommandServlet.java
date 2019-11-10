@@ -32,9 +32,10 @@ public class CommandServlet extends HttpServlet { //TODO rename
             page =  commandNameToCommand.get(commandName).execute(req);
         }else {
             page = commandNameToCommand.get(defaultCommand).execute(req);
-            throw new ServletException();
         }
 
         req.getRequestDispatcher(page).forward(req, resp);
     }
+
+
 }

@@ -25,6 +25,7 @@ public class UserDaoImpl extends GenericDaoImpl<UserEntity, Long> implements Use
                     "    r.role_name role_name\n" +
                     " FROM `Users` u \n" +
                     " LEFT JOIN `Roles` r ON u.role_id = r.role_id" +
+                    " WHERE u.role_id = 1 " +
                     " GROUP BY u.user_id " +
                     " LIMIT ?,?;";
 
@@ -48,7 +49,7 @@ public class UserDaoImpl extends GenericDaoImpl<UserEntity, Long> implements Use
 
     @Override
     public List<UserEntity> findAll(int currentPage, int recordsPerPage) {
-        return findAll(GET_USERS_LIST_QUERY, currentPage, recordsPerPage);
+        return findAll(GET_USERS_LIST_QUERY, currentPage,recordsPerPage);
     }
 
     public int getNumberOfRows() throws SQLException {

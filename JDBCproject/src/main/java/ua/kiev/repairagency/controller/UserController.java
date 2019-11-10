@@ -1,8 +1,6 @@
 package ua.kiev.repairagency.controller;
 
 import ua.kiev.repairagency.context.ApplicationContextInjector;
-import ua.kiev.repairagency.domain.user.Role;
-import ua.kiev.repairagency.domain.user.User;
 import ua.kiev.repairagency.service.impl.UserGenericService;
 
 import javax.servlet.ServletException;
@@ -21,11 +19,9 @@ public class UserController extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        final User user = (User) req.getSession().getAttribute("user");
-        final Role role = user.getRole();
+      //  final List<User> users = userService.findAll(int currentPage, int recordsPerPage);
 
-        //final List<User> users = userService.findAll();
-        //req.setAttribute("users", users);
+      //  req.setAttribute("users", users);
 
         req.getRequestDispatcher("view/users.jsp").forward(req, resp);
     }

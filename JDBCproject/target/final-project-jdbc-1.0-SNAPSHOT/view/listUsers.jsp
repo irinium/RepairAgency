@@ -1,31 +1,40 @@
-<%--
-  Created by IntelliJ IDEA.
-  User: home
-  Date: 07.11.2019
-  Time: 14:14
-  To change this template use File | Settings | File Templates.
---%>
-<%@page contentType="text/html" pageEncoding="UTF-8"%>
-<%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-<!DOCTYPE html>
-<html>
-<head>
-    <meta charset="UTF-8">
-    <title>Users</title>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css">
-</head>
+<%@ page contentType="text/html;charset=UTF-8" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
-<body class="m-3">
+<fmt:setLocale value="${sessionScope.locale}"/>
+<fmt:setBundle basename="messages"/>
+
+<html lang="param.locale">
+<head>
+    <title>Users</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+          integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+
+</head>
+<body background="http://localhost:8081/view/css/images/Best-Appliance-Repair-Services-in-Canberra.jpg")>
+<div class="locale">
+    <form class="setlocale">
+        <label for="locale"></label><select id="locale" name="locale" onchange="submit()">
+        <option value="en" ${locale == 'en' ? 'selected' : ''}>English</option>
+        <option value="ru" ${locale == 'ru' ? 'selected' : ''}>Русский</option>
+    </select>
+    </form>
+</div>
+
+<input type="hidden" name="currentPage" value="1">
 
 <div class="row col-md-6">
-    <table class="table table-striped table-bordered table-sm">
+    <table class="table table-striped table-bordered table-blue">
+        <thead class="thead-dark">
         <tr>
-            <th>Name</th>
-            <th>Surname</th>
-            <th>Email</th>
-            <th>Phone</th>
+            <th scope="col"><fmt:message key="label.name"/></th>
+            <th scope="col"><fmt:message key="label.surname"/></th>
+            <th scope="col"><fmt:message key="label.email"/></th>
+            <th scope="col"><fmt:message key="label.phone"/></th>
         </tr>
-
+        </thead>
+        <tbody light>
         <c:forEach items="${users}" var="user">
             <tr>
                 <td>${user.getName()}</td>
@@ -34,6 +43,7 @@
                 <td>${user.getPhone()}</td>
             </tr>
         </c:forEach>
+        </tbody>
     </table>
 </div>
 
@@ -41,7 +51,7 @@
     <ul class="pagination">
         <c:if test="${currentPage != 1}">
             <li class="page-item"><a class="page-link"
-                                     href="ListEntities?recordsPerPage=${recordsPerPage}&currentPage=${currentPage-1}">Previous</a>
+                                     href="userlist?recordsPerPage=${recordsPerPage}&currentPage=${currentPage-1}">Previous</a>
             </li>
         </c:if>
 
@@ -54,7 +64,7 @@
                 </c:when>
                 <c:otherwise>
                     <li class="page-item"><a class="page-link"
-                                             href="ListEntities?recordsPerPage=${recordsPerPage}&currentPage=${i}">${i}</a>
+                                             href="userlist?recordsPerPage=${recordsPerPage}&currentPage=${i}">${i}</a>
                     </li>
                 </c:otherwise>
             </c:choose>
@@ -62,15 +72,11 @@
 
         <c:if test="${currentPage lt noOfPages}">
             <li class="page-item"><a class="page-link"
-                                     href="ListEntities?recordsPerPage=${recordsPerPage}&currentPage=${currentPage+1}">Next</a>
+                                     href="userlist?recordsPerPage=${recordsPerPage}&currentPage=${currentPage+1}">Next</a>
             </li>
         </c:if>
     </ul>
 </nav>
-
-<script src="https://code.jquery.com/jquery-3.1.1.slim.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js"></script>
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js"></script>
 
 </body>
 </html>

@@ -53,6 +53,7 @@ public final class ApplicationContextInjector {
         userCommandNameToCommand.put("login", LOGIN_COMMAND);
         userCommandNameToCommand.put("logout", LOGOUT_COMMAND);
         userCommandNameToCommand.put("register", REGISTER_COMMAND);
+        userCommandNameToCommand.put("listUsers", REGISTER_COMMAND);
 
         return Collections.unmodifiableMap(userCommandNameToCommand);
     }

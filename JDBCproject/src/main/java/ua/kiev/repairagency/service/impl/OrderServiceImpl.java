@@ -26,7 +26,7 @@ public class OrderServiceImpl implements OrderService {
     }
 
     public List<Order> getAll(int currentPage, int recordsPerPage) {
-        return orderDao.findAll(currentPage,recordsPerPage).stream()
+        return orderDao.findAll(currentPage, recordsPerPage).stream()
                 .map(orderMapper::mapOrderEntityToOrder)
                 .collect(Collectors.toList());
     }

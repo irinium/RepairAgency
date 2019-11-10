@@ -45,8 +45,8 @@ public class ResponseDaoImpl extends GenericDaoImpl {
         return super.findById(id, FIND_BY_ID_QUERY);
     }
 
-    public void save(ResponseEntity responseEntity) {
-        prepareStatement(INSERT_QUERY, statement -> {
+    public Integer save(ResponseEntity responseEntity) {
+       return prepareStatement(INSERT_QUERY, statement -> {
             statement.setString(1, responseEntity.getText());
             statement.setLong(2, responseEntity.getUser().getId());
             return statement.executeUpdate();

@@ -26,7 +26,7 @@ public class UserGenericService<T extends User> {
         this.userMapper = userMapper;
     }
 
-    public <T extends User> void register(T entity) {
+    public <T extends User> T register(T entity) {
         try {
             validator.validate(entity);
             if (!userDao.findByEmail(entity.getEmail()).isPresent()) {
@@ -40,6 +40,7 @@ public class UserGenericService<T extends User> {
         } catch (IllegalArgumentException e) {
             e.getMessage();
         }
+        return entity;
     }
 
     @SuppressWarnings("unchecked")

@@ -46,19 +46,13 @@ public class ErrorHandler extends HttpServlet {
 
         if (throwable == null && statusCode == null) {
             out.println("<h3>Error Information Is Missing</h3>");
-        } else if (statusCode != 500) {
-            out.write("<h3>Error Details</h3>");
-            out.write("<ul><li><strong>Status Code</strong>?= "+ statusCode + "</li>");
-            out.write("<li><strong>Requested URI</strong>?= "+ requestUri + "</li></ul>");
         } else {
-            out.println("<h3>Exception Details</h3>");
-            out.println("<ul><li><strong>Servlet Name</strong>?= " + servletName + "</li>");
-            out.println("<li><strong>Exception Name</strong>?= " + throwable.getClass( ).getName( ) + "</li>");
-            out.println("<li><strong>Requested URI</strong>?= " + requestUri + "</li>");
-            out.println("<li><strong>Exception Message</strong>?= " + throwable.getMessage( ) + "</li></ul>");
+            out.write("<h3>Error Details</h3>");
+            out.write("<ul><li><strong>Status Code</strong>?= " + statusCode + "</li>");
+            out.write("<li><strong>Requested URI</strong>?= " + requestUri + "</li></ul>");
         }
 
-        out.println("<div> </div>Click <a id=\"homeUrl\" href=\"index.jsp\">home</a>");
+        out.println("<div> </div>Click <a id=\"homeUrl\" href=\"problem.jsp\">home</a>");
         out.println("</body>\n</html>");
         out.close();
     }
