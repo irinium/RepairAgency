@@ -6,7 +6,7 @@ import java.sql.SQLException;
 import java.util.List;
 import java.util.Optional;
 
-public interface ApplianceDao {
+public interface ApplianceDao extends GenericDao<ElectricApplianceEntity, Long> {
     void save(ElectricApplianceEntity entity);
 
     Optional<ElectricApplianceEntity> findById(Long id);

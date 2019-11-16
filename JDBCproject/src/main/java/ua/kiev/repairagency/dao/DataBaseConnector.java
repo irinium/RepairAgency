@@ -11,10 +11,12 @@ import java.util.ResourceBundle;
 public class DataBaseConnector {
     private static final Logger LOGGER = Logger.getLogger(DataBaseConnector.class);
 
-    private static final BasicDataSource dataSource = new BasicDataSource();
+    private final BasicDataSource dataSource;
 
     public DataBaseConnector(String fileConfigName) {
+        dataSource = new BasicDataSource();
         ResourceBundle resourceBundle = ResourceBundle.getBundle(fileConfigName);
+
         dataSource.setDriverClassName(resourceBundle.getString("db.driver"));
         dataSource.setUrl(resourceBundle.getString("db.url"));
         dataSource.setUsername(resourceBundle.getString("db.user"));

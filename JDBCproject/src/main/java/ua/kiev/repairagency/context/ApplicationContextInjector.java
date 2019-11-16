@@ -40,10 +40,14 @@ public final class ApplicationContextInjector {
     private static final OrderDao ORDER_DAO = new OrderDaoImpl(USER_DAO, APPLIANCE_DAO, CONNECTOR);
     private static final ResponseDaoImpl RESPONSE_DAO = new ResponseDaoImpl(USER_DAO, CONNECTOR);
 
-    private static final UserGenericService USER_GENERIC_SERVICE = new UserGenericService(PASSWORD_ENCODER, USER_DAO, VALIDATOR, USER_MAPPER);
-    private static final ManagerService MANAGER_SERVICE = new ManagerServiceImpl(USER_DAO, APPLIANCE_DAO, ORDER_DAO, PASSWORD_ENCODER, VALIDATOR, USER_MAPPER, ORDER_MAPPER);
-    private static final CustomerService CUSTOMER_SERVICE = new CustomerServiceImpl(USER_DAO, ORDER_DAO, APPLIANCE_DAO, PASSWORD_ENCODER, VALIDATOR, USER_MAPPER, ORDER_MAPPER, RESPONSE_DAO, RESPONSE_MAPPER);
-    private static final MasterService MASTER_SERVICE = new MasterServiceImpl(PASSWORD_ENCODER, USER_DAO, VALIDATOR, USER_MAPPER, ORDER_MAPPER, ORDER_DAO);
+    private static final UserGenericService USER_GENERIC_SERVICE =
+            new UserGenericService(PASSWORD_ENCODER, USER_DAO, VALIDATOR, USER_MAPPER);
+    private static final ManagerService MANAGER_SERVICE = new ManagerServiceImpl(USER_DAO, APPLIANCE_DAO,
+            ORDER_DAO, PASSWORD_ENCODER, VALIDATOR, USER_MAPPER, ORDER_MAPPER);
+    private static final CustomerService CUSTOMER_SERVICE = new CustomerServiceImpl(USER_DAO, ORDER_DAO,
+            APPLIANCE_DAO, PASSWORD_ENCODER, VALIDATOR, USER_MAPPER, ORDER_MAPPER, RESPONSE_DAO, RESPONSE_MAPPER);
+    private static final MasterService MASTER_SERVICE = new MasterServiceImpl(PASSWORD_ENCODER, USER_DAO,
+            VALIDATOR, USER_MAPPER, ORDER_MAPPER, ORDER_DAO);
     private static final OrderService ORDER_SERVICE = new OrderServiceImpl(ORDER_DAO, ORDER_MAPPER);
 
     private static final Command LOGIN_COMMAND = new LoginCommand(USER_GENERIC_SERVICE);

@@ -1,4 +1,4 @@
-package ua.kiev.repairagency.dao.config;
+package ua.kiev.repairagency.dao.converter;
 
 import java.io.IOException;
 import java.io.InputStream;

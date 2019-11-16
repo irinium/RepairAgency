@@ -25,7 +25,4 @@ public interface OrderDao extends GenericDao<OrderEntity, Long> {
     void updateByState(OrderEntity orderEntity, Boolean state);
 
     void updateByMaster(OrderEntity orderEntity, Long masterId);
-
-
-
 }
