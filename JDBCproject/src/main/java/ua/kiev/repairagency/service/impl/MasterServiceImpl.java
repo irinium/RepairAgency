@@ -3,7 +3,6 @@ package ua.kiev.repairagency.service.impl;
 import ua.kiev.repairagency.dao.OrderDao;
 import ua.kiev.repairagency.dao.UserDao;
 import ua.kiev.repairagency.domain.order.Order;
-import ua.kiev.repairagency.domain.user.Master;
 import ua.kiev.repairagency.domain.user.User;
 import ua.kiev.repairagency.service.MasterService;
 import ua.kiev.repairagency.service.PasswordEncoder;
@@ -11,7 +10,7 @@ import ua.kiev.repairagency.service.mapper.OrderMapper;
 import ua.kiev.repairagency.service.mapper.UserMapper;
 import ua.kiev.repairagency.service.validator.Validator;
 
-public class MasterServiceImpl extends UserGenericService<Master> implements MasterService {
+public class MasterServiceImpl extends UserGenericService implements MasterService {
     private final OrderMapper orderMapper;
     private final OrderDao orderDao;
 
@@ -27,7 +26,7 @@ public class MasterServiceImpl extends UserGenericService<Master> implements Mas
     }
 
     @Override
-    public void acceptOrder(Order order, Master master) {
+    public void acceptOrder(Order order, User master) {
         orderDao.setMaster(orderMapper.mapOrderToOrderEntity(order), master.getId());
     }
 }

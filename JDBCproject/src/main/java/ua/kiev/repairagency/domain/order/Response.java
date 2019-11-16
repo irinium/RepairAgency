@@ -2,19 +2,14 @@ package ua.kiev.repairagency.domain.order;
 
 import ua.kiev.repairagency.domain.user.User;
 
-import java.time.LocalDate;
-
 public class Response {
     private Long id;
     private String text;
     private User user;
-    private LocalDate data;
 
-    public Response(Long id, String text, User user, LocalDate data) {
-        this.id = id;
+    public Response(String text, User user) {
         this.text = text;
         this.user = user;
-        this.data = data;
     }
 
     public Long getId() {
@@ -29,10 +24,6 @@ public class Response {
         return user;
     }
 
-    public LocalDate getData() {
-        return data;
-    }
-
     public void setId(Long id) {
         this.id = id;
     }
@@ -43,9 +34,5 @@ public class Response {
 
     public void setUser(User user) {
         this.user = user;
-    }
-
-    public void setData(LocalDate data) {
-        this.data = data;
     }
 }

@@ -9,6 +9,8 @@ public interface OrderService {
 
     List<Order> getAll(int currentPage, int recordsPerPage);
 
+    int getNumberOfRows();
+
     void update(Order order, Boolean state);
 
     void update(Order order, Long price);

@@ -1,17 +1,15 @@
 package ua.kiev.repairagency.entity.order;
 
 import ua.kiev.repairagency.entity.appliance.ElectricApplianceEntity;
-import ua.kiev.repairagency.entity.user.CustomerEntity;
-import ua.kiev.repairagency.entity.user.MasterEntity;
 import ua.kiev.repairagency.entity.user.UserEntity;
 
 public class OrderEntity {
     private final Long id;
     private final String title;
     private final Long price;
-    private final CustomerEntity customerEntity;
+    private final UserEntity customerEntity;
     private final ElectricApplianceEntity applianceEntity;
-    private final MasterEntity masterEntity;
+    private final UserEntity masterEntity;
     private final Boolean state; //access -true, denied - false
 
     public OrderEntity(OrderBuilder orderBuilder) {
@@ -40,11 +38,11 @@ public class OrderEntity {
         return price;
     }
 
-    public CustomerEntity getCustomerEntity() {
+    public UserEntity getCustomerEntity() {
         return customerEntity;
     }
 
-    public MasterEntity getMasterEntity() {
+    public UserEntity getMasterEntity() {
         return masterEntity;
     }
 
@@ -60,9 +58,9 @@ public class OrderEntity {
         private Long id;
         private String title;
         private Long price;
-        private CustomerEntity customerEntity;
+        private UserEntity customerEntity;
         private ElectricApplianceEntity applianceEntity;
-        private MasterEntity masterEntity;
+        private UserEntity masterEntity;
         private Boolean state; //access -true, denied - false
 
         public OrderBuilder() {
@@ -88,12 +86,12 @@ public class OrderEntity {
             return this;
         }
 
-        public OrderBuilder withCustomerEntity(CustomerEntity customerEntity) {
+        public OrderBuilder withCustomerEntity(UserEntity customerEntity) {
             this.customerEntity = customerEntity;
             return this;
         }
 
-        public OrderBuilder withMasterEntity(MasterEntity masterEntity) {
+        public OrderBuilder withMasterEntity(UserEntity masterEntity) {
             this.masterEntity = masterEntity;
             return this;
         }
@@ -105,10 +103,5 @@ public class OrderEntity {
         public OrderEntity build(){
             return new OrderEntity(this);
         }
-    }
-
-    @Override
-    public String toString() {
-        return "Order [id=" + id + ", title=" + applianceEntity.toString() + ", price=" + price + "master=" + masterEntity.getName() + masterEntity.getSurname() + "]";
     }
 }

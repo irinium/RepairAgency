@@ -1,5 +1,5 @@
 body {
-    background-image: linear-gradient(rgba(246, 221, 204, 0.6), rgba(213, 159, 116, 0.6)),
+    background-image: linear-gradient(rgba(219, 225, 226, 0.6), rgba(75, 96, 175, 0.6)),
     url("http://localhost:8081/view/css/images/Best-Appliance-Repair-Services-in-Canberra.jpg");
     min-width: 100%; min-height: 100%;
     height: 100vh;
@@ -16,7 +16,7 @@ body {
 .form{
     position: relative;
     z-index: 1;
-    background: #d5a77e;
+    background: #4b60af;
     max-width: 360px;
     margin: 0 auto 100px;
     padding: 45px;
@@ -39,7 +39,7 @@ body {
     font-family: "Roboto", sans-serif;
     text-transform: uppercase;
     outline: 0;
-    background-image: linear-gradient(to right,  #f6ddcc, #d5a77e);
+    background-image: linear-gradient(to right,  #dbe1e2, #4b60af);
     width: 100%;
     border: 0;
     padding: 15px;
@@ -55,7 +55,7 @@ body {
 }
 
 .form .message a{
-    color: #f6ddcc;
+    color: #dbe1e2;
     text-decoration: none;
 }
 

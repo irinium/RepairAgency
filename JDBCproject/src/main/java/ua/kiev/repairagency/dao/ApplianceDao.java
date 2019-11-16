@@ -10,9 +10,11 @@ import java.util.Optional;
 public interface ApplianceDao extends GenericDao<ElectricApplianceEntity, Long> {
     List<ElectricApplianceEntity> findAll(int currentPage, int recordsPerPage);
 
-    <T extends ElectricApplianceEntity> void save(T appliance);
+    Integer save(ElectricApplianceEntity appliance);
 
     Optional<ElectricApplianceEntity> findById(Long id);
+
+    List<ElectricApplianceEntity> findByUserId(Long id);
 
     List<ElectricApplianceEntity> mapResultSetToEntity(PreparedStatement statement) throws SQLException;
 }

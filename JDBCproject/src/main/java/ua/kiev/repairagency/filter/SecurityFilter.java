@@ -5,9 +5,11 @@ import ua.kiev.repairagency.domain.user.User;
 
 import javax.servlet.*;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 public class SecurityFilter implements Filter {//TODO complete the security filter code
+
     @Override
     public void init(FilterConfig filterConfig) throws ServletException {
 
@@ -15,17 +17,27 @@ public class SecurityFilter implements Filter {//TODO complete the security filt
 
     @Override
     public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain) throws IOException, ServletException {
-        final HttpServletRequest request = (HttpServletRequest)servletRequest;
+        final HttpServletRequest request = (HttpServletRequest) servletRequest;
+        final HttpServletResponse response = (HttpServletResponse) servletResponse;
 
-        final User user = (User) request.getSession().getAttribute("user");
-        if (user.getRole() == Role.MANAGER) {
-            request.getRequestDispatcher("view/managerHome").forward(request, servletResponse);
-        }else if (user.getRole() == Role.CUSTOMER){
-            request.getRequestDispatcher("view/customerHome").forward(request,servletResponse);
-        }else {
-            request.getRequestDispatcher("view/masterHome.jsp").forward(request, servletResponse);
+        User user = (User) request.getSession().getAttribute("user");
+        Object requestedPage = request.getSession().getAttribute("page");
+
+        if (requestedPage == null) {
+            filterChain.doFilter(request, response);
+        } else {
+            String page = requestedPage.toString();
+            if (user != null && user.getRole().equals(Role.CUSTOMER)) {
+                if (page.equals("/view/managerHome.jsp") || page.equals("/view/masterHome.jsp")) {
+                    response.sendRedirect("/view/accessDenied.jsp");
+                }
+            } else if (user != null && user.getRole().equals(Role.MASTER)) {
+                if (page.equals("/view/masterHome.jsp") || page.equals("view/customerHome.jsp")) {
+                    response.sendRedirect("/view/accessDenied.jsp");
+                }
+            }
+            filterChain.doFilter(request, response);
         }
-        filterChain.doFilter(request, servletResponse);
     }
 
     @Override

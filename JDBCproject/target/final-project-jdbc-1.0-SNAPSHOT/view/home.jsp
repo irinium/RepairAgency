@@ -47,19 +47,19 @@
         <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav ml-auto">
                 <li class="nav-item">
-                    <a class="nav-link" href="#top" <fmt:message key="navbar.home" var="home"/>> ${home} </a>
+                    <a class="nav-link" href="#top" <fmt:message key="navbar.home" var="addApp"/>> ${addApp} </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="#about-us" <fmt:message key="navbar.aboutus" var="about"/>> ${about}</a>
+                    <a class="nav-link" href="#about-us" <fmt:message key="navbar.aboutus" var="myApp"/>> ${myApp}</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="#services" <fmt:message key="navbar.services" var="service"/>> ${service}</a>
+                    <a class="nav-link" href="#services" <fmt:message key="navbar.services" var="leaveFeebk"/>> ${leaveFeebk}</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="#testimonials" <fmt:message key="navbar.testimonials" var="testimon"/>>${testimon}</a>
+                    <a class="nav-link" href="#testimonials" <fmt:message key="navbar.testimonials" var="account"/>>${account}</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="#footer" <fmt:message key="navbar.contact" var="contact"/>>${contact}</a>
+                    <a class="nav-link" href="#footer" <fmt:message key="navbar.contact" var="logout"/>>${logout}</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="/view/login_register.jsp" <fmt:message key="button.login" var="login"/>>${login}</a>
@@ -87,6 +87,7 @@
 
 <!---------------Services section------------------>
 <section id="services">
+    <form action="/view/login_register.jsp">
     <div class="container text-center">
         <h1 class="title" <fmt:message key="services.title" var="servtitle"/>>${servtitle}</h1>
         <div class="row text-center">
@@ -106,8 +107,9 @@
                 <p>${climatictext}</p>
             </div>
         </div>
-        <button type="button" class="btn btn-primary" <fmt:message key="button.application" var="application"/>><a href="/view/login_register.jsp"/>${application}</button>
+        <button type="submit" class="btn btn-primary" <fmt:message key="button.application" var="application"/>>${application}</button>
     </div>
+    </form>
 </section>
 
 <!-------------------About us------------------->
@@ -172,10 +174,10 @@
 <div class="container text-center" <fmt:message key="social.title" var="socialtitle"/>>
     <p>${socialtitle}</p>
     <div class="social-icons">
-        <a href="#"><img src="/view/css/images/fasebook.png"></a>
-        <a href="#"><img src="/view/css/images/insta.png"></a>
-        <a href="#"><img src="/view/css/images/linkedin.png"></a>
-        <a href="#"><img src="/view/css/images/viber.png"></a>
+        <a href="https://uk-ua.facebook.com"><img src="/view/css/images/fasebook.png"></a>
+        <a href="https://www.instagram.com/?hl=ru"><img src="/view/css/images/insta.png"></a>
+        <a href="https://www.linkedin.com"><img src="/view/css/images/linkedin.png"></a>
+        <a href="https://www.viber.com/ru"><img src="/view/css/images/viber.png"></a>
     </div>
 </div>
 

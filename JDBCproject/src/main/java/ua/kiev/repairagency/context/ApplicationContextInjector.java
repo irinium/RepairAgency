@@ -1,9 +1,9 @@
 package ua.kiev.repairagency.context;
 
 import ua.kiev.repairagency.controller.command.Command;
-import ua.kiev.repairagency.controller.command.user.LoginCommand;
-import ua.kiev.repairagency.controller.command.user.LogoutCommand;
-import ua.kiev.repairagency.controller.command.user.RegisterCommand;
+import ua.kiev.repairagency.controller.command.manager.GetAllCustomers;
+import ua.kiev.repairagency.controller.command.manager.RegisterMasterCommand;
+import ua.kiev.repairagency.controller.command.user.*;
 import ua.kiev.repairagency.dao.ApplianceDao;
 import ua.kiev.repairagency.dao.OrderDao;
 import ua.kiev.repairagency.dao.UserDao;
@@ -27,13 +27,13 @@ public final class ApplicationContextInjector {
     private static final PasswordEncoder PASSWORD_ENCODER = new PasswordEncoder();
     private static final Validator VALIDATOR = new Validator();
 
-    private static final UserMapper USER_MAPPER = new UserMapper(PASSWORD_ENCODER);
-    private static final ApplianceMapper APPLIANCE_MAPPER = new ApplianceMapper();
+    private static final UserMapper USER_MAPPER = new UserMapper();
+    private static final ApplianceMapper APPLIANCE_MAPPER = new ApplianceMapper(USER_MAPPER);
     private static final OrderMapper ORDER_MAPPER = new OrderMapper(APPLIANCE_MAPPER, USER_MAPPER);
     private static final ResponseMapper RESPONSE_MAPPER = new ResponseMapper(USER_MAPPER);
 
     private static final UserDao USER_DAO = new UserDaoImpl();
-    private static final ApplianceDao APPLIANCE_DAO = new ApplianceDaoImpl();
+    private static final ApplianceDao APPLIANCE_DAO = new ApplianceDaoImpl(USER_DAO);
     private static final OrderDao ORDER_DAO = new OrderDaoImpl(USER_DAO, APPLIANCE_DAO);
     private static final ResponseDaoImpl RESPONSE_DAO = new ResponseDaoImpl(USER_DAO);
 
@@ -46,6 +46,11 @@ public final class ApplicationContextInjector {
     private static final Command LOGIN_COMMAND = new LoginCommand(USER_GENERIC_SERVICE);
     private static final Command LOGOUT_COMMAND = new LogoutCommand();
     private static final Command REGISTER_COMMAND = new RegisterCommand(USER_GENERIC_SERVICE, MANAGER_SERVICE);
+    private static final Command GET_ALL_CUSTOMERS = new GetAllCustomers(USER_GENERIC_SERVICE);
+    private static final Command MAKE_ORDER = new MakeOrderCommand(CUSTOMER_SERVICE);
+    private static final Command ORDER_LIST = new OrderListCommand(ORDER_SERVICE);
+    private static final Command LEAVE_FEEDBACK = new LeaveFeedback(CUSTOMER_SERVICE);
+    private static final Command REGISTER_MASTER = new RegisterMasterCommand(USER_GENERIC_SERVICE);
     private static final Map<String, Command> USER_COMMAND_NAME_TO_COMMAND = initUserCommand();
 
     private static Map<String, Command> initUserCommand() {
@@ -53,7 +58,11 @@ public final class ApplicationContextInjector {
         userCommandNameToCommand.put("login", LOGIN_COMMAND);
         userCommandNameToCommand.put("logout", LOGOUT_COMMAND);
         userCommandNameToCommand.put("register", REGISTER_COMMAND);
-        userCommandNameToCommand.put("listUsers", REGISTER_COMMAND);
+        userCommandNameToCommand.put("listUsers", GET_ALL_CUSTOMERS);
+        userCommandNameToCommand.put("makeOrder", MAKE_ORDER);
+        userCommandNameToCommand.put("orderList", ORDER_LIST);
+        userCommandNameToCommand.put("feedback", LEAVE_FEEDBACK);
+        userCommandNameToCommand.put("registerMaster", REGISTER_MASTER);
 
         return Collections.unmodifiableMap(userCommandNameToCommand);
     }
@@ -81,10 +90,6 @@ public final class ApplicationContextInjector {
 
     public static UserGenericService getUserGenericService() {
         return USER_GENERIC_SERVICE;
-    }
-
-    public static ManagerService getManagerService() {
-        return MANAGER_SERVICE;
     }
 
     public static OrderService getOrderService() {

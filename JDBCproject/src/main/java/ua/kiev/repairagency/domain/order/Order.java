@@ -1,16 +1,15 @@
 package ua.kiev.repairagency.domain.order;
 
 import ua.kiev.repairagency.domain.appliance.ElectricAppliance;
-import ua.kiev.repairagency.domain.user.Customer;
-import ua.kiev.repairagency.domain.user.Master;
+import ua.kiev.repairagency.domain.user.User;
 
 public class Order {
     private final Long id;
     private final String title;
     private final Long price;
-    private final Customer customer;
+    private final User customer;
     private final ElectricAppliance appliance;
-    private final Master master;
+    private final User master;
     private final Boolean state; //access -true, denied - false
 
     public Order(OrderBuilder orderBuilder) {
@@ -39,11 +38,11 @@ public class Order {
         return price;
     }
 
-    public Customer getCustomer() {
+    public User getCustomer() {
         return customer;
     }
 
-    public Master getMaster() {
+    public User getMaster() {
         return master;
     }
 
@@ -59,9 +58,9 @@ public class Order {
         private Long id;
         private String title;
         private Long price;
-        private Customer customer;
+        private User customer;
         private ElectricAppliance appliance;
-        private Master master;
+        private User master;
         private Boolean state; //access -true, denied - false
 
         public OrderBuilder() {
@@ -87,12 +86,12 @@ public class Order {
             return this;
         }
 
-        public OrderBuilder withCustomer(Customer customer) {
+        public OrderBuilder withCustomer(User customer) {
             this.customer = customer;
             return this;
         }
 
-        public OrderBuilder withMaster(Master master) {
+        public OrderBuilder withMaster(User master) {
             this.master = master;
             return this;
         }
@@ -105,10 +104,5 @@ public class Order {
         public Order build(){
             return new Order(this);
         }
-    }
-
-    @Override
-    public String toString() {
-        return "Order [id=" + id + ", title=" + title + ", price=" + price + "master=" + master.getName() + master.getSurname() + "]";
     }
 }

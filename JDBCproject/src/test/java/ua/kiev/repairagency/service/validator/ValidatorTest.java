@@ -34,7 +34,7 @@ public class ValidatorTest {
     }
 
     private static User initUser(String email, String password) {
-        return new User.UserBuilder()
+        return User.builder()
                 .withEmail(email)
                 .withPassword(password)
                 .build();

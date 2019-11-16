@@ -10,11 +10,10 @@ CREATE TABLE `Users` (
 );
 
 CREATE TABLE `Appliances` (
-    `appliance_id`       INT          NOT NULL AUTO_INCREMENT,
+    `appliance_id`       INT          NOT NULL,
     `appliance_name`     varchar(64)  NOT NULL,
     `model`              varchar(64)  NOT NULL,
     `disrepair`          varchar(128) NOT NULL,
-    `power_consumption`  INT          NOT NULL,
     `manufacturer_id`    INT          NOT NULL,
     `type_id`            INT          NOT NULL,
     `user_id`            INT          NOT NULL,
@@ -41,7 +40,7 @@ CREATE TABLE `Roles` (
 
 CREATE TABLE `Orders` (
     `order_id`      INT                 NOT NULL AUTO_INCREMENT,
-    `title`         varchar(128)        NOT NULL,
+    `title`         varchar(128),
     `price`         BIGINT unsigned,
     `user_id`       INT                 NOT NULL,
     `appliance_id`  INT                 NOT NULL,
@@ -51,9 +50,8 @@ CREATE TABLE `Orders` (
 );
 CREATE TABLE `Responses` (
     `response_id`   INT              NOT NULL AUTO_INCREMENT,
-    `text`          TEXT             NOT NULL,
+    `text`          TINYTEXT             NOT NULL,
     `user_id`       INT              NOT NULL,
-    `date`          DATE             NOT NULL,
     PRIMARY KEY (`response_id`)
 );
 

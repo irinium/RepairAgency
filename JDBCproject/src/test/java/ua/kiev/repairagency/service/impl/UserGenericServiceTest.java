@@ -26,7 +26,7 @@ import static org.mockito.Mockito.*;
 @RunWith(MockitoJUnitRunner.class)
 public class UserGenericServiceTest {
     private static final String PASSWORD = "password";
-    private static final User USER = new User.UserBuilder()
+    private static final User USER = User.builder()
             .withId(9L)
             .withEmail("alex9999@gmail.com")
             .withPassword("alex9999")
@@ -39,15 +39,15 @@ public class UserGenericServiceTest {
     public final ExpectedException exception = ExpectedException.none();
 
     @InjectMocks
-    UserGenericService userGenericService;
+    private UserGenericService userGenericService;
     @Mock
-    PasswordEncoder passwordEncoder;
+    private PasswordEncoder passwordEncoder;
     @Mock
-    UserDao userDao;
+    private UserDao userDao;
     @Mock
-    Validator validator;
+    private Validator validator;
     @Mock
-    UserMapper userMapper;
+    private UserMapper userMapper;
 
     @Before
     public void initMocks() {

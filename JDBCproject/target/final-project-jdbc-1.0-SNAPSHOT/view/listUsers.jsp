@@ -8,11 +8,12 @@
 <html lang="param.locale">
 <head>
     <title>Users</title>
+    <link rel="stylesheet" href="/view/css/lists_style.css">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
           integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
 
 </head>
-<body background="http://localhost:8081/view/css/images/Best-Appliance-Repair-Services-in-Canberra.jpg")>
+<body>
 <div class="locale">
     <form class="setlocale">
         <label for="locale"></label><select id="locale" name="locale" onchange="submit()">
@@ -24,7 +25,7 @@
 
 <input type="hidden" name="currentPage" value="1">
 
-<div class="row col-md-6">
+<div class="container">
     <table class="table table-striped table-bordered table-blue">
         <thead class="thead-dark">
         <tr>
@@ -35,12 +36,12 @@
         </tr>
         </thead>
         <tbody light>
-        <c:forEach items="${users}" var="user">
+        <c:forEach items="${users}" var="order">
             <tr>
-                <td>${user.getName()}</td>
-                <td>${user.getSurname()}</td>
-                <td>${user.getEmail()}</td>
-                <td>${user.getPhone()}</td>
+                <td>${order.getName()}</td>
+                <td>${order.getSurname()}</td>
+                <td>${order.getEmail()}</td>
+                <td>${order.getPhone()}</td>
             </tr>
         </c:forEach>
         </tbody>

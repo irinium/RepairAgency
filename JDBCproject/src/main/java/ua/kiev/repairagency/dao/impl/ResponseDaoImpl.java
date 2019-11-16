@@ -28,10 +28,8 @@ public class ResponseDaoImpl extends GenericDaoImpl {
         ResultSet resultSet = statement.executeQuery();
         while (resultSet.next()) {
             ResponseEntity responseEntity = new ResponseEntity(
-                    resultSet.getLong("response_id"),
                     resultSet.getString("text"),
-                    userDao.findById(resultSet.getLong("user_id")).get(),
-                    resultSet.getDate("date").toLocalDate());
+                    userDao.findById(resultSet.getLong("user_id")).get());
             responseEntityList.add(responseEntity);
         }
         return responseEntityList;

@@ -32,7 +32,17 @@ public class UserDaoImpl extends GenericDaoImpl<UserEntity, Long> implements Use
     private static final String INSERT_QUERY = "INSERT INTO `Users`" +
             "(`email`,`password`,`phone`,`role_id`, `user_name`,`surname`) VALUES (?,?,?,?,?,?);";
 
-    private static final String FIND_BY_ID_QUERY = "SELECT * FROM `Users` WHERE user_id = ?;";
+    private static final String FIND_BY_ID_QUERY = "SELECT\n" +
+            "    u.user_id user_id,\n" +
+            "    u.email email,\n" +
+            "    u.password password,\n" +
+            "    u.user_name user_name,\n" +
+            "    u.surname surname,\n" +
+            "    u.phone phone,\n" +
+            "    r.role_name role_name\n" +
+            " FROM `Users` u \n" +
+            " LEFT JOIN `Roles` r ON u.role_id = r.role_id" +
+            " WHERE u.user_id = ?;";
 
     private static final String FIND_BY_EMAIL_QUERY = "SELECT\n" +
             "    u.user_id user_id,\n" +
@@ -95,7 +105,7 @@ public class UserDaoImpl extends GenericDaoImpl<UserEntity, Long> implements Use
         ResultSet resultSet = statement.executeQuery();
         List<UserEntity> list = new LinkedList<>();
         while (resultSet.next()) {
-            UserEntity userEntity = new UserEntity.UserBuilder()
+            UserEntity userEntity = UserEntity.builder()
                     .withId(resultSet.getLong("user_id"))
                     .withEmail(resultSet.getString("email"))
                     .withPassword(resultSet.getString("password"))

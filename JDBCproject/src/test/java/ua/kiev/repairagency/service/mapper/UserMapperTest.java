@@ -42,7 +42,7 @@ public class UserMapperTest {
 
     @Test
     public void mapUserEntityToUserShouldReturnUser() {
-        final UserEntity userEntity = new UserEntity.UserBuilder()
+        final UserEntity userEntity = UserEntity.builder()
                 .withId(ID)
                 .withName(NAME)
                 .withSurname(SURNAME)
@@ -62,7 +62,7 @@ public class UserMapperTest {
 
     @Test
     public void mapUserToUserEntityShouldReturnUserEntity(){
-        final User user = new User.UserBuilder()
+        final User user = User.builder()
                 .withId(ID)
                 .withName(NAME)
                 .withSurname(SURNAME)
@@ -78,5 +78,4 @@ public class UserMapperTest {
         assertThat("mapping password is failed", userEntity.getPassword(), is(PASSWORD));
         assertThat("mapping roles is failed", userEntity.getRoleEntity(), is(RoleEntity.CUSTOMER));
     }
-
 }

@@ -6,6 +6,7 @@ import ua.kiev.repairagency.service.OrderService;
 import ua.kiev.repairagency.service.exception.EmptyDataException;
 import ua.kiev.repairagency.service.mapper.OrderMapper;
 
+import java.sql.SQLException;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -29,6 +30,16 @@ public class OrderServiceImpl implements OrderService {
         return orderDao.findAll(currentPage, recordsPerPage).stream()
                 .map(orderMapper::mapOrderEntityToOrder)
                 .collect(Collectors.toList());
+    }
+
+    public int getNumberOfRows() {
+        int numberOfRows = 0;
+        try {
+            numberOfRows = orderDao.getNumberOfRows();
+        } catch (SQLException e) {
+            e.getMessage();
+        }
+        return numberOfRows;
     }
 
     @Override

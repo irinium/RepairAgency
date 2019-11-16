@@ -4,9 +4,6 @@ import ua.kiev.repairagency.dao.ApplianceDao;
 import ua.kiev.repairagency.dao.OrderDao;
 import ua.kiev.repairagency.dao.UserDao;
 import ua.kiev.repairagency.domain.order.Order;
-import ua.kiev.repairagency.domain.user.Customer;
-import ua.kiev.repairagency.domain.user.Manager;
-import ua.kiev.repairagency.domain.user.Master;
 import ua.kiev.repairagency.domain.user.User;
 import ua.kiev.repairagency.service.ManagerService;
 import ua.kiev.repairagency.service.PasswordEncoder;
@@ -17,7 +14,7 @@ import ua.kiev.repairagency.service.validator.Validator;
 import java.util.List;
 import java.util.Optional;
 
-public class ManagerServiceImpl extends UserGenericService<Manager> implements ManagerService {
+public class ManagerServiceImpl extends UserGenericService implements ManagerService {
     private final ApplianceDao applianceDao;
     private final OrderDao orderDao;
     private final OrderMapper orderMapper;
@@ -40,13 +37,12 @@ public class ManagerServiceImpl extends UserGenericService<Manager> implements M
         return findAll();
     }
 
-    public void register(Master master) {
-        super.register(master);
+    public User register(User master) {
+        return super.register(master);
     }
 
     @Override
-    @SuppressWarnings("unchecked")
-    public Manager login(String login, String password) {
+    public User login(String login, String password) {
         return super.login(login, password);
     }
 
@@ -89,7 +85,7 @@ public class ManagerServiceImpl extends UserGenericService<Manager> implements M
 
     }
 
-    private String acceptMessage(Customer customer, Manager manager, Order order) {
+    private String acceptMessage(User customer, User manager, Order order) {
         return "Dear, " + customer.getName() + ",\n" +
                 "I'm a manager of Repair Agency. Thank you for your interesting in our company. " +
                 "Your order is " + order + "\n" +
@@ -97,7 +93,7 @@ public class ManagerServiceImpl extends UserGenericService<Manager> implements M
                 "Sincerely, Repair Agency\n" + manager.getEmail() + " " + manager.getPhone();
     }
 
-    private String rejectMessage(Customer customer, Manager manager, String reason) {
+    private String rejectMessage(User customer, User manager, String reason) {
         return "Dear, " + customer.getName() + ",\n" +
                 "I'm a manager of Repair Agency. Thank you for your interesting in our company. " +
                 "Unfortunately, we won't be able to accommodate your request for repair yor appliance, because " + reason +

@@ -33,9 +33,11 @@ public class CommandServlet extends HttpServlet { //TODO rename
         }else {
             page = commandNameToCommand.get(defaultCommand).execute(req);
         }
-
         req.getRequestDispatcher(page).forward(req, resp);
     }
 
-
+    @Override
+    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        doPost(req,resp);
+    }
 }

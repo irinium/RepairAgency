@@ -9,7 +9,7 @@ public class UserEntity {
     private final String phoneNumber;
     private final RoleEntity roleEntity;
 
-    protected UserEntity(UserBuilder<? extends UserBuilder> userUserBuilder) {
+    private UserEntity(UserBuilder userUserBuilder) {
         this.id = userUserBuilder.id;
         this.password = userUserBuilder.password;
         this.email = userUserBuilder.email;
@@ -47,7 +47,11 @@ public class UserEntity {
         return roleEntity;
     }
 
-    public static class UserBuilder<SELF extends UserBuilder<SELF>> {
+    public static UserBuilder builder(){
+        return new UserBuilder();
+    }
+
+    public static class UserBuilder {
         private Long id;
         protected String password;
         private String email;
@@ -56,55 +60,46 @@ public class UserEntity {
         private RoleEntity roleEntity;
         private String phoneNumber;
 
-        public UserBuilder() {
-        }
-
-        public void setPassword(String password) {
-            this.password = password;
-        }
-
-        @SuppressWarnings("unchecked")
-        public SELF self() {
-            return (SELF) this;
+        private UserBuilder() {
         }
 
         public UserEntity build() {
-            return new UserEntity(self());
+            return new UserEntity(this);
         }
 
-        public SELF withId(Long id) {
+        public UserBuilder withId(Long id) {
             this.id = id;
-            return self();
+            return this;
         }
 
-        public SELF withPassword(String password) {
+        public UserBuilder withPassword(String password) {
             this.password = password;
-            return self();
+            return this;
         }
 
-        public SELF withEmail(String email) {
+        public UserBuilder withEmail(String email) {
             this.email = email;
-            return self();
+            return this;
         }
 
-        public SELF withName(String name) {
+        public UserBuilder withName(String name) {
             this.name = name;
-            return self();
+            return this;
         }
 
-        public SELF withSurname(String surname) {
+        public UserBuilder withSurname(String surname) {
             this.surname = surname;
-            return self();
+            return this;
         }
 
-        public SELF withPhoneNumber(String phoneNumber) {
+        public UserBuilder withPhoneNumber(String phoneNumber) {
             this.phoneNumber = phoneNumber;
-            return self();
+            return this;
         }
 
-        public SELF withRole(RoleEntity roleEntity) {
+        public UserBuilder withRole(RoleEntity roleEntity) {
             this.roleEntity = roleEntity;
-            return self();
+            return this;
         }
     }
 }

@@ -35,13 +35,13 @@
         </thead>
 
         <tbody>
-        <c:forEach var="user" items="${users}">
+        <c:forEach var="order" items="${users}">
             <tr>
-                <td>${user.id}</td>
-                <td>${user.name}</td>
-                <td>${user.surname}</td>
-                <td>${user.email}</td>
-                <td>${user.phone}</td>
+                <td>${order.id}</td>
+                <td>${order.name}</td>
+                <td>${order.surname}</td>
+                <td>${order.email}</td>
+                <td>${order.phone}</td>
             </tr>
         </c:forEach>
         </tbody>

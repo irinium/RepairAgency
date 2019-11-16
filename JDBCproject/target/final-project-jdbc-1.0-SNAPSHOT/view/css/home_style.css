@@ -14,7 +14,7 @@ body {
 }
 
 .navbar {
-    background-image: linear-gradient(to right, #f6ddcc, #d5a77e);
+    background-image: linear-gradient(to right, #dbe1e2, #4b60af);
     padding: 0;
 }
 
@@ -41,7 +41,7 @@ body {
 
 /*-------------BANNER---------------*/
 #banner {
-    background-image: linear-gradient(to right,   #fdf2e9, #d5a77e);
+    background-image: linear-gradient(to right,   #dbe1e2, #4b60af);
     padding-top: 5%;
     color: #000;
 }
@@ -95,7 +95,7 @@ body {
 .title::before
 {
     content: '';
-    background: #d5a77e;
+    background: #4b60af;
     height: 5px;
     width: 200px;
     margin-left: auto;
@@ -106,7 +106,7 @@ body {
 .title::after
 {
     content: '';
-    background: #d5a77e;
+    background: #4b60af;
     height: 10px;
     width: 50px;
     margin-left: auto;
@@ -121,7 +121,7 @@ body {
     padding: 8px 25px;
     border: none;
     border-radius: 20px;
-    background-image: linear-gradient(to right,  #f6ddcc, #d5a77e);
+    background-image: linear-gradient(to right,  #dbe1e2, #4b60af);
 }
 
 /*------------------------------About us--------------*/
@@ -144,13 +144,13 @@ body {
 }
 
 /*-------------TESTIMONIALS----------------*/
-#testimonials
+#account
 {
     margin: 100px 0;
 }
 .testimonials
 {
-    border-left: 4px solid  #d5a77e;
+    border-left: 4px solid  #4b60af;
     margin-top: 50px;
     margin-bottom: 50px;
 }
@@ -169,7 +169,7 @@ body {
 /*-------------SOCIAL------------*/
 #social-media
 {
-    background: #d5a77e;
+    background: #4b60af;
     padding: 100px 0;
 }
 #social-media p
@@ -192,7 +192,7 @@ body {
 
 #footer
 {
-    background-image: linear-gradient(to right,  #f6ddcc, #d5a77e);
+    background-image: linear-gradient(to right, #dbe1e2, #4b60af);
     color: #000;
 }
 .footer-img
@@ -217,7 +217,7 @@ body {
     text-align: center;
     padding-top: 7px;
     border-radius: 2px;
-    background-image: linear-gradient(to right,  #f6ddcc, #d5a77e);
+    background-image: linear-gradient(to right, #dbe1e2, #4b60af);
 }
 .footer-box .form-control
 {
@@ -234,11 +234,11 @@ body {
     border-radius: 0;
     margin-top: 30px;
     color: #000;
-    background-image: linear-gradient(to right,  #f6ddcc, #d5a77e);
+    background-image: linear-gradient(to right,  #dbe1e2, #4b60af);
 }
 .hr
 {
-    background-color: #d5a77e;
+    background-color: #4b60af;
 }
 .copyright
 {
@@ -246,3 +246,4 @@ body {
     padding-bottom: 20px;
     text-align: center;
 }
+

@@ -11,16 +11,13 @@ import static ua.kiev.repairagency.dao.helper.SqlHelper.prepareStatement;
 public abstract class GenericDaoImpl<E, ID> {
     private static final String NUMBER_OF_ROWS_FROM_USERS = "SELECT COUNT(user_id) FROM `Users`";
 
-    public List<E> findAll(String query,int currentPage, int recordsPerPage) {
+
+    public List<E> findAll(String query, int currentPage, int recordsPerPage) {
         int start = currentPage * 5 - recordsPerPage;
 
         return prepareStatement(query, statement -> {
             statement.setInt(1, start);
-            if (getNumberOfRows() <= recordsPerPage) {
-                statement.setInt(2, getNumberOfRows());
-            } else {
-                statement.setInt(2, recordsPerPage);
-            }
+            statement.setInt(2, Math.min(getNumberOfRows(), recordsPerPage));
             return mapResultSetToEntity(statement);
         });
     }
@@ -38,7 +35,8 @@ public abstract class GenericDaoImpl<E, ID> {
     public Optional<E> findById(Long id, String query) {
         return prepareStatement(query, statement -> {
             statement.setLong(1, id);
-            return Optional.ofNullable(mapResultSetToEntity(statement).get(0));
+            return Optional.ofNullable(mapResultSetToEntity(statement).size() == 0 ?
+                    null : mapResultSetToEntity(statement).get(0));
         });
     }
 

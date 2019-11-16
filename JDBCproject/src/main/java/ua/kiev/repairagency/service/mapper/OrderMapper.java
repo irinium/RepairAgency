@@ -1,10 +1,7 @@
 package ua.kiev.repairagency.service.mapper;
 
 import ua.kiev.repairagency.domain.order.Order;
-import ua.kiev.repairagency.domain.user.Customer;
-import ua.kiev.repairagency.domain.user.Master;
 import ua.kiev.repairagency.entity.order.OrderEntity;
-import ua.kiev.repairagency.entity.user.CustomerEntity;
 
 public class OrderMapper {
     private final ApplianceMapper applianceMapper;
@@ -21,8 +18,7 @@ public class OrderMapper {
                 .withTitle(orderEntity.getTitle())
                 .withPrice(orderEntity.getPrice())
                 .withAppliance(applianceMapper.mapApplianceEntityToAppliance(orderEntity.getApplianceEntity()))
-                .withCustomer((Customer) userMapper.mapUserEntityToUser(orderEntity.getCustomerEntity()))
-                .withMaster((Master) userMapper.mapUserEntityToUser(orderEntity.getMasterEntity()))
+                .withCustomer(userMapper.mapUserEntityToUser(orderEntity.getCustomerEntity()))
                 .withState(orderEntity.getState())
                 .build();
     }
@@ -32,7 +28,7 @@ public class OrderMapper {
                 .withTitle(order.getTitle())
                 .withPrice(order.getPrice())
                 .withApplianceEntity(applianceMapper.mapApplianceToApplianceEntity(order.getAppliance()))
-                .withCustomerEntity((CustomerEntity) userMapper.mapUserToUserEntity(order.getCustomer()))
+                .withCustomerEntity(userMapper.mapUserToUserEntity(order.getCustomer()))
                 .build();
     }
 }

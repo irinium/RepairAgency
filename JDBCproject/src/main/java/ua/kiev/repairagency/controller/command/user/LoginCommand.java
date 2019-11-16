@@ -2,6 +2,7 @@ package ua.kiev.repairagency.controller.command.user;
 
 import org.apache.log4j.Logger;
 import ua.kiev.repairagency.controller.command.Command;
+import ua.kiev.repairagency.domain.user.Role;
 import ua.kiev.repairagency.domain.user.User;
 import ua.kiev.repairagency.service.impl.UserGenericService;
 
@@ -22,17 +23,24 @@ public class LoginCommand implements Command {
         final String password = request.getParameter("password");
 
         final HttpSession session = request.getSession();
+        final String page;
 
         User user = userService.login(email, password);
 
         if (user != null) {
+            if (user.getRole() == Role.CUSTOMER) {
+                page = "/view/customerHome.jsp";
+            } else if (user.getRole() == Role.MASTER) {
+                page = "/view/masterHome.jsp";
+            } else {
+                page = "/view/managerHome.jsp";
+            }
             session.setAttribute("user", user);
-            session.setAttribute("command","register");
-            return "/view/customerHome.jsp";
+            session.setAttribute("page", page);
         } else {
             LOGGER.info("User hasn't been authenticated");
-            session.setAttribute("messageLoginException", "message.login.error");
             return "view/login_register.jsp";
         }
+        return page;
     }
 }
