@@ -63,7 +63,7 @@ public class CustomerServiceImpl extends UserGenericService implements CustomerS
     }
 
     @Override
-    public Integer createResponse(Response response) {
-        return responseDao.save(responseMapper.mapResponseToResponseEntity(response));
+    public void createResponse(Response response) {
+        responseDao.save(responseMapper.mapResponseToResponseEntity(response));
     }
 }

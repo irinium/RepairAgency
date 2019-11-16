@@ -5,6 +5,7 @@ import ua.kiev.repairagency.controller.command.manager.GetAllCustomers;
 import ua.kiev.repairagency.controller.command.manager.RegisterMasterCommand;
 import ua.kiev.repairagency.controller.command.user.*;
 import ua.kiev.repairagency.dao.ApplianceDao;
+import ua.kiev.repairagency.dao.DataBaseConnector;
 import ua.kiev.repairagency.dao.OrderDao;
 import ua.kiev.repairagency.dao.UserDao;
 import ua.kiev.repairagency.dao.impl.ApplianceDaoImpl;
@@ -24,6 +25,8 @@ import java.util.HashMap;
 import java.util.Map;
 
 public final class ApplicationContextInjector {
+    private static final DataBaseConnector CONNECTOR = new DataBaseConnector("database");
+
     private static final PasswordEncoder PASSWORD_ENCODER = new PasswordEncoder();
     private static final Validator VALIDATOR = new Validator();
 
@@ -32,10 +35,10 @@ public final class ApplicationContextInjector {
     private static final OrderMapper ORDER_MAPPER = new OrderMapper(APPLIANCE_MAPPER, USER_MAPPER);
     private static final ResponseMapper RESPONSE_MAPPER = new ResponseMapper(USER_MAPPER);
 
-    private static final UserDao USER_DAO = new UserDaoImpl();
-    private static final ApplianceDao APPLIANCE_DAO = new ApplianceDaoImpl(USER_DAO);
-    private static final OrderDao ORDER_DAO = new OrderDaoImpl(USER_DAO, APPLIANCE_DAO);
-    private static final ResponseDaoImpl RESPONSE_DAO = new ResponseDaoImpl(USER_DAO);
+    private static final UserDao USER_DAO = new UserDaoImpl(CONNECTOR);
+    private static final ApplianceDao APPLIANCE_DAO = new ApplianceDaoImpl(CONNECTOR,USER_DAO);
+    private static final OrderDao ORDER_DAO = new OrderDaoImpl(USER_DAO, APPLIANCE_DAO, CONNECTOR);
+    private static final ResponseDaoImpl RESPONSE_DAO = new ResponseDaoImpl(USER_DAO, CONNECTOR);
 
     private static final UserGenericService USER_GENERIC_SERVICE = new UserGenericService(PASSWORD_ENCODER, USER_DAO, VALIDATOR, USER_MAPPER);
     private static final ManagerService MANAGER_SERVICE = new ManagerServiceImpl(USER_DAO, APPLIANCE_DAO, ORDER_DAO, PASSWORD_ENCODER, VALIDATOR, USER_MAPPER, ORDER_MAPPER);

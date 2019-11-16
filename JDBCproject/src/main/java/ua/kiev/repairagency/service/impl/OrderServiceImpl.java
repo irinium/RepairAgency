@@ -44,11 +44,11 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public void update(Order order, Boolean state) {
-        orderDao.update(orderMapper.mapOrderToOrderEntity(order), state);
+        orderDao.updateByState(orderMapper.mapOrderToOrderEntity(order), state);
     }
 
     @Override
     public void update(Order order, Long price) {
-        orderDao.update(orderMapper.mapOrderToOrderEntity(order), price);
+        orderDao.updateByPrice(orderMapper.mapOrderToOrderEntity(order), price);
     }
 }

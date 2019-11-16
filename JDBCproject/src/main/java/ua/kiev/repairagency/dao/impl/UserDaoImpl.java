@@ -1,5 +1,6 @@
 package ua.kiev.repairagency.dao.impl;
 
+import ua.kiev.repairagency.dao.DataBaseConnector;
 import ua.kiev.repairagency.dao.UserDao;
 import ua.kiev.repairagency.entity.user.RoleEntity;
 import ua.kiev.repairagency.entity.user.UserEntity;
@@ -7,29 +8,27 @@ import ua.kiev.repairagency.entity.user.UserEntity;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Optional;
 
-import static ua.kiev.repairagency.dao.helper.SqlHelper.prepareStatement;
 
-public class UserDaoImpl extends GenericDaoImpl<UserEntity, Long> implements UserDao {
-    private static final String GET_USERS_LIST_QUERY =
-            "SELECT\n" +
-                    "    u.user_id user_id,\n" +
-                    "    u.email email,\n" +
-                    "    u.password password,\n" +
-                    "    u.user_name user_name,\n" +
-                    "    u.surname surname,\n" +
-                    "    u.phone phone,\n" +
-                    "    r.role_name role_name\n" +
-                    " FROM `Users` u \n" +
+public class UserDaoImpl extends GenericDaoImpl<UserEntity> implements UserDao {
+    private static final String FIND_ALL_QUERY =
+            "SELECT " +
+                    "    u.user_id user_id," +
+                    "    u.email email," +
+                    "    u.password password," +
+                    "    u.user_name user_name," +
+                    "    u.surname surname," +
+                    "    u.phone phone," +
+                    "    r.role_name role_name" +
+                    " FROM `Users` u " +
                     " LEFT JOIN `Roles` r ON u.role_id = r.role_id" +
                     " WHERE u.role_id = 1 " +
                     " GROUP BY u.user_id " +
                     " LIMIT ?,?;";
 
-    private static final String INSERT_QUERY = "INSERT INTO `Users`" +
+    private static final String SAVE_QUERY = "INSERT INTO `Users`" +
             "(`email`,`password`,`phone`,`role_id`, `user_name`,`surname`) VALUES (?,?,?,?,?,?);";
 
     private static final String FIND_BY_ID_QUERY = "SELECT\n" +
@@ -57,65 +56,68 @@ public class UserDaoImpl extends GenericDaoImpl<UserEntity, Long> implements Use
 
     private static final String UPDATE_QUERY = "UPDATE `Users` SET password = ? WHERE user_id = ?;";
 
-    @Override
-    public List<UserEntity> findAll(int currentPage, int recordsPerPage) {
-        return findAll(GET_USERS_LIST_QUERY, currentPage,recordsPerPage);
+    private static final String NUMBER_OF_ROWS = "SELECT COUNT(user_id) FROM `Users`";
+
+    public UserDaoImpl(DataBaseConnector connector) {
+        super(connector, SAVE_QUERY, FIND_BY_ID_QUERY, FIND_ALL_QUERY, UPDATE_QUERY, NUMBER_OF_ROWS);
     }
 
-    public int getNumberOfRows() throws SQLException {
-        return super.getNumberOfRows();
+
+    @Override
+    public void insert(PreparedStatement preparedStatement, UserEntity user) throws SQLException {
+        preparedStatement.setString(1, user.getEmail());
+        preparedStatement.setString(2, user.getPassword());
+        preparedStatement.setString(3, user.getPhoneNumber());
+        preparedStatement.setString(5, user.getName());
+        preparedStatement.setString(6, user.getSurname());
+        preparedStatement.setInt(4, user.getRoleEntity().ordinal() + 1);
     }
 
     @Override
-    public Integer save(UserEntity user) {
-        return prepareStatement(INSERT_QUERY, statement -> {
-            statement.setString(1, user.getEmail());
-            statement.setString(2, user.getPassword());
-            statement.setString(3, user.getPhoneNumber());
-            statement.setString(5, user.getName());
-            statement.setString(6, user.getSurname());
-            statement.setInt(4, user.getRoleEntity().ordinal()+1);
-            return statement.executeUpdate();
-        });
+    protected void updateValues(PreparedStatement preparedStatement, UserEntity entity, String password) throws SQLException {
+        preparedStatement.setString(1, password);
+        preparedStatement.setLong(2, entity.getId());
     }
 
     @Override
     public Optional<UserEntity> findById(Long id) {
-        return findById(id, FIND_BY_ID_QUERY);
+        return findByLongParam(id, FIND_BY_ID_QUERY);
+    }
+
+    @Override
+    public int getNumberOfRows() throws SQLException {
+        return super.getNumberOfRows();
     }
 
     public Optional<UserEntity> findByEmail(String email) {
-        return prepareStatement(FIND_BY_EMAIL_QUERY, statement -> {
-            statement.setString(1, email);
-            return Optional.ofNullable(mapResultSetToEntity(statement).isEmpty()? null: mapResultSetToEntity(statement).get(0));
-        });
+        return findByStringParam(email, FIND_BY_EMAIL_QUERY);
     }
 
     @Override
-    public void update(UserEntity userEntity, String password) {
-        prepareStatement(UPDATE_QUERY, statement -> {
-            statement.setString(1, password);
-            statement.setLong(2, userEntity.getId());
-            return statement.executeUpdate();
-        });
+    public UserEntity mapResultSetToEntity(ResultSet resultSet) throws SQLException {
+        return UserEntity.builder()
+                .withId(resultSet.getLong("user_id"))
+                .withEmail(resultSet.getString("email"))
+                .withPassword(resultSet.getString("password"))
+                .withPhoneNumber(resultSet.getString("phone"))
+                .withName(resultSet.getString("user_name"))
+                .withSurname(resultSet.getString("surname"))
+                .withRole(RoleEntity.valueOf(resultSet.getString("role_name")))
+                .build();
     }
 
     @Override
-    public List<UserEntity> mapResultSetToEntity(PreparedStatement statement) throws SQLException {
-        ResultSet resultSet = statement.executeQuery();
-        List<UserEntity> list = new LinkedList<>();
-        while (resultSet.next()) {
-            UserEntity userEntity = UserEntity.builder()
-                    .withId(resultSet.getLong("user_id"))
-                    .withEmail(resultSet.getString("email"))
-                    .withPassword(resultSet.getString("password"))
-                    .withPhoneNumber(resultSet.getString("phone"))
-                    .withName(resultSet.getString("user_name"))
-                    .withSurname(resultSet.getString("surname"))
-                    .withRole(RoleEntity.valueOf(resultSet.getString("role_name")))
-                    .build();
-            list.add(userEntity);
-        }
-        return list;
+    public void save(UserEntity entity) {
+        super.save(entity);
+    }
+
+    @Override
+    public List<UserEntity> findAll(int currentPage, int recordsPerPage) {
+        return super.findAll(currentPage, recordsPerPage);
+    }
+
+    @Override
+    public void update(UserEntity entity, String param) {
+        super.update(entity, param);
     }
 }

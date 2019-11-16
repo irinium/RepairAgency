@@ -27,6 +27,6 @@ public class MasterServiceImpl extends UserGenericService implements MasterServi
 
     @Override
     public void acceptOrder(Order order, User master) {
-        orderDao.setMaster(orderMapper.mapOrderToOrderEntity(order), master.getId());
+        orderDao.updateByMaster(orderMapper.mapOrderToOrderEntity(order), master.getId());
     }
 }

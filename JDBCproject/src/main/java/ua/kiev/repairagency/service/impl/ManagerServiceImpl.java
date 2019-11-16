@@ -5,6 +5,7 @@ import ua.kiev.repairagency.dao.OrderDao;
 import ua.kiev.repairagency.dao.UserDao;
 import ua.kiev.repairagency.domain.order.Order;
 import ua.kiev.repairagency.domain.user.User;
+import ua.kiev.repairagency.entity.order.OrderEntity;
 import ua.kiev.repairagency.service.ManagerService;
 import ua.kiev.repairagency.service.PasswordEncoder;
 import ua.kiev.repairagency.service.mapper.OrderMapper;
@@ -67,40 +68,22 @@ public class ManagerServiceImpl extends UserGenericService implements ManagerSer
 
     @Override
     public void setPrice(Order order, Long price) {
-        orderDao.update(orderMapper.mapOrderToOrderEntity(order), price);
+        orderDao.updateByPrice(orderMapper.mapOrderToOrderEntity(order), price);
     }
 
     @Override
     public void acceptOrder(Order order) {
-        orderDao.update(orderMapper.mapOrderToOrderEntity(order),true);
+        orderDao.updateByState(orderMapper.mapOrderToOrderEntity(order),true);
     }
 
     @Override
     public void rejectOrder(Order order) {
-        orderDao.update(orderMapper.mapOrderToOrderEntity(order),false);
+        orderDao.updateByState(orderMapper.mapOrderToOrderEntity(order),false);
     }
 
     @Override
-    public void sendMessage(String message) {
-
-    }
-
-    private String acceptMessage(User customer, User manager, Order order) {
-        return "Dear, " + customer.getName() + ",\n" +
-                "I'm a manager of Repair Agency. Thank you for your interesting in our company. " +
-                "Your order is " + order + "\n" +
-                "We appreciate your contacting us. Please write to us anytime if you need help.\n" +
-                "Sincerely, Repair Agency\n" + manager.getEmail() + " " + manager.getPhone();
-    }
-
-    private String rejectMessage(User customer, User manager, String reason) {
-        return "Dear, " + customer.getName() + ",\n" +
-                "I'm a manager of Repair Agency. Thank you for your interesting in our company. " +
-                "Unfortunately, we won't be able to accommodate your request for repair yor appliance, because " + reason +
-                "\n" +
-                "We appreciate your contacting us. We value your business and look forward to serving you." +
-                " Please write to us anytime if you need help with another request in the future.\n" +
-                "Sincerely, Repair Agency\n" + manager.getEmail() + " " + manager.getPhone();
+    public void setCommentsToRejectedOrder(OrderEntity entity, String message) {
+        orderDao.update(entity, message);
     }
 }
 

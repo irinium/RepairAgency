@@ -8,19 +8,19 @@ import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.ResourceBundle;
 
-public class PoolConnections {
-    private static final Logger LOGGER = Logger.getLogger(PoolConnections.class);
+public class DataBaseConnector {
+    private static final Logger LOGGER = Logger.getLogger(DataBaseConnector.class);
 
     private static final BasicDataSource dataSource = new BasicDataSource();
 
-    public PoolConnections(String fileConfigName) {
+    public DataBaseConnector(String fileConfigName) {
         ResourceBundle resourceBundle = ResourceBundle.getBundle(fileConfigName);
-        dataSource.setDriverClassName(resourceBundle.getString("driverClassName"));
-        dataSource.setUrl(resourceBundle.getString("url"));
-        dataSource.setUsername(resourceBundle.getString("username"));
-        dataSource.setPassword(resourceBundle.getString("password"));
-        dataSource.setMaxIdle(Integer.parseInt(resourceBundle.getString("maximumPoolSize")));
-        dataSource.setMaxWaitMillis(Integer.parseInt(resourceBundle.getString("maxWait")));
+        dataSource.setDriverClassName(resourceBundle.getString("db.driver"));
+        dataSource.setUrl(resourceBundle.getString("db.url"));
+        dataSource.setUsername(resourceBundle.getString("db.user"));
+        dataSource.setPassword(resourceBundle.getString("db.password"));
+        dataSource.setMaxIdle(Integer.parseInt(resourceBundle.getString("db.maximumPoolSize")));
+        dataSource.setMaxWaitMillis(Integer.parseInt(resourceBundle.getString("db.maxWait")));
     }
 
     public Connection getConnection(){

@@ -2,7 +2,6 @@ package ua.kiev.repairagency.service.impl;
 
 import org.junit.Before;
 import org.junit.Rule;
-import org.junit.Test;
 import org.junit.rules.ExpectedException;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
@@ -11,17 +10,11 @@ import org.mockito.junit.MockitoJUnitRunner;
 import ua.kiev.repairagency.dao.UserDao;
 import ua.kiev.repairagency.domain.user.Role;
 import ua.kiev.repairagency.domain.user.User;
-import ua.kiev.repairagency.entity.user.UserEntity;
 import ua.kiev.repairagency.service.PasswordEncoder;
-import ua.kiev.repairagency.service.exception.EntityNotFoundException;
 import ua.kiev.repairagency.service.mapper.UserMapper;
 import ua.kiev.repairagency.service.validator.Validator;
 
-import java.util.Optional;
-
-import static org.junit.Assert.assertNotNull;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.reset;
 
 @RunWith(MockitoJUnitRunner.class)
 public class UserGenericServiceTest {
@@ -54,7 +47,7 @@ public class UserGenericServiceTest {
         reset(validator, userMapper, userDao, passwordEncoder);
     }
 
-    @Test
+   /* @Test
     public void registrationShouldNotReturnNull() {
         when(userDao.save(any(UserEntity.class))).thenReturn(1);
         User user = userGenericService.register(USER);
@@ -79,5 +72,5 @@ public class UserGenericServiceTest {
 
     @Test
     public void getNumberOfRows() {
-    }
+    }*/
 }
