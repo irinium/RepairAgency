@@ -89,7 +89,7 @@
                             <p>${climatictext}</p>
                         </div>
                     </div>
-                    <a class="btn-primary" href="${pageContext.request.contextPath}/master">
+                    <a href="${pageContext.request.contextPath}/master">
                         <button class="btn btn-primary" <fmt:message key="master.button.allOrders" var="application"/>
                         >${application}</button>
                     </a>

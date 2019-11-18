@@ -30,10 +30,12 @@ public class SecurityFilter implements Filter {//TODO complete the security filt
             if (user != null && user.getRole().equals(Role.CUSTOMER)) {
                 if (page.equals("/view/managerHome.jsp") || page.equals("/view/masterHome.jsp")) {
                     response.sendRedirect("/view/accessDenied.jsp");
+                    return;
                 }
             } else if (user != null && user.getRole().equals(Role.MASTER)) {
-                if (page.equals("/view/masterHome.jsp") || page.equals("view/customerHome.jsp")) {
+                if (page.equals("/view/managerHome.jsp") || page.equals("view/customerHome.jsp")) {
                     response.sendRedirect("/view/accessDenied.jsp");
+                    return;
                 }
             }
             filterChain.doFilter(request, response);
