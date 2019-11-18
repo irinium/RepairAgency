@@ -19,18 +19,18 @@ public abstract class GenericDaoImpl<E> implements GenericDao<E, Long> {
     private static final Logger LOGGER = Logger.getLogger(GenericDaoImpl.class);
 
     private static final BiConsumer<PreparedStatement, String> STING_CONSUMER
-            = (PreparedStatement pr, String param) -> {
+            = (PreparedStatement preparedStatement, String param) -> {
         try {
-            pr.setString(1, param);
+            preparedStatement.setString(1, param);
         } catch (SQLException e) {
             throw new DataBaseRuntimeException(e);
         }
     };
 
     private static final BiConsumer<PreparedStatement, Long> LONG_CONSUMER
-            = (PreparedStatement pr, Long param) -> {
+            = (PreparedStatement preparedStatement, Long param) -> {
         try {
-            pr.setLong(1, param);
+            preparedStatement.setLong(1, param);
         } catch (SQLException e) {
             throw new DataBaseRuntimeException(e);
         }
@@ -55,11 +55,11 @@ public abstract class GenericDaoImpl<E> implements GenericDao<E, Long> {
 
 
     @Override
-    public void save(E entity) {
+    public int save(E entity) {
         try (Connection connection = connector.getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(saveQuery)) {
             insert(preparedStatement, entity);
-            preparedStatement.executeUpdate();
+            return preparedStatement.executeUpdate();
         } catch (SQLException e) {
             LOGGER.error("Insertion is failed", e);
             throw new DataBaseRuntimeException("Insertion is failed", e);

@@ -20,8 +20,8 @@ public class OrderServiceImpl implements OrderService {
         this.orderMapper = orderMapper;
     }
 
-    public void save(Order order) {
-        orderDao.save(Optional.ofNullable(orderMapper
+    public int save(Order order) {
+      return orderDao.save(Optional.ofNullable(orderMapper
                 .mapOrderToOrderEntity(order))
                 .orElseThrow(() -> new EmptyDataException("Empty data set!")));
     }
@@ -48,7 +48,7 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
-    public void update(Order order, Long price) {
+    public void update(Order order, Double price) {
         orderDao.updateByPrice(orderMapper.mapOrderToOrderEntity(order), price);
     }
 }

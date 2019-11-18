@@ -8,4 +8,6 @@ public interface MasterService {
     User login(String email, String password);
 
     void acceptOrder(Order order, User master);
+
+    void updatePassword(User user, String password);
 }

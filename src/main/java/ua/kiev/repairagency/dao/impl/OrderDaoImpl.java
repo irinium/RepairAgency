@@ -65,11 +65,11 @@ public class OrderDaoImpl extends GenericDaoImpl<OrderEntity> implements OrderDa
                     " LIMIT ?,?;";
 
     private static final String SAVE_QUERY = "INSERT INTO `Orders`(`title`,`user_id`,`appliance_id`) VALUES (?,?,?);";
-    private static final String FIND_BY_ID_QUERY = "SELECT * FROM `Orders WHERE order_id = ?";
-    private static final String UPDATE_BY_PRICE_QUERY = "UPDATE `Orders` SET prise = ? WHERE order_id = ?";
-    private static final String UPDATE_BY_STATE_QUERY = "UPDATE `Orders` SET state = ? WHERE order_id = ?";
-    private static final String UPDATE_BY_MASTER_QUERY = "UPDATE `Orders` SET master_id = ? WHERE order_id = ?";
-    private static final String UPDATE_BY_TITLE_QUERY = "UPDATE `Orders` SET title = ? WHERE order_id = ?";
+    private static final String FIND_BY_ID_QUERY = "SELECT * FROM `Orders` WHERE order_id = ?;";
+    private static final String UPDATE_BY_PRICE_QUERY = "UPDATE `Orders` SET price = ? WHERE order_id = ?;";
+    private static final String UPDATE_BY_STATE_QUERY = "UPDATE `Orders` SET state = ? WHERE order_id = ?;";
+    private static final String UPDATE_BY_MASTER_QUERY = "UPDATE `Orders` SET master_id = ? WHERE order_id = ?;";
+    private static final String UPDATE_BY_TITLE_QUERY = "UPDATE `Orders` SET title = ? WHERE order_id = ?;";
     private static final String NUMBER_OF_ROWS = "SELECT COUNT(order_id) FROM `Orders`";
 
     public OrderDaoImpl(UserDao userDao, ApplianceDao applianceDao, DataBaseConnector connector) {
@@ -95,8 +95,7 @@ public class OrderDaoImpl extends GenericDaoImpl<OrderEntity> implements OrderDa
     private void saveToOrders(OrderEntity orderEntity, PreparedStatement statement) throws SQLException {
         statement.setString(1, orderEntity.getTitle());
         statement.setLong(2, orderEntity.getCustomerEntity().getId());
-        statement.setLong(3, orderEntity.getApplianceEntity().getId());
-        statement.executeUpdate();
+        statement.setLong(3, applianceDao.getLastInsertedId());
     }
 
     @Override
@@ -111,6 +110,7 @@ public class OrderDaoImpl extends GenericDaoImpl<OrderEntity> implements OrderDa
              PreparedStatement preparedStatement = connection.prepareStatement(UPDATE_BY_MASTER_QUERY)) {
             preparedStatement.setLong(1, masterId);
             preparedStatement.setLong(2, entity.getId());
+            preparedStatement.executeUpdate();
         } catch (SQLException e) {
             LOGGER.error("Set master to order is failed", e);
             throw new DataBaseRuntimeException("Set master to order is failed", e);
@@ -118,11 +118,12 @@ public class OrderDaoImpl extends GenericDaoImpl<OrderEntity> implements OrderDa
     }
 
     @Override
-    public void updateByPrice(OrderEntity entity, Long price) {
+    public void updateByPrice(OrderEntity entity, Double price) {
         try (Connection connection = connector.getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(UPDATE_BY_PRICE_QUERY)) {
-            preparedStatement.setLong(1, price);
+            preparedStatement.setDouble(1, price);
             preparedStatement.setLong(2, entity.getId());
+            preparedStatement.executeUpdate();
         } catch (SQLException e) {
             LOGGER.error("Set price to order is failed", e);
             throw new DataBaseRuntimeException("Set price to order is failed", e);
@@ -135,9 +136,10 @@ public class OrderDaoImpl extends GenericDaoImpl<OrderEntity> implements OrderDa
              PreparedStatement preparedStatement = connection.prepareStatement(UPDATE_BY_STATE_QUERY)) {
             preparedStatement.setBoolean(1, state);
             preparedStatement.setLong(2, entity.getId());
+            preparedStatement.executeUpdate();
         } catch (SQLException e) {
-            LOGGER.error("Set master to order is failed", e);
-            throw new DataBaseRuntimeException("Set master to order is failed", e);
+            LOGGER.error("Set state to order is failed", e);
+            throw new DataBaseRuntimeException("Set state to order is failed", e);
         }
     }
 
@@ -172,7 +174,7 @@ public class OrderDaoImpl extends GenericDaoImpl<OrderEntity> implements OrderDa
     protected OrderEntity mapResultSetToEntity(ResultSet resultSet) throws SQLException {
         return new OrderEntity.OrderBuilder()
                 .withId(resultSet.getLong("order_id"))
-                .withPrice(resultSet.getLong("price"))
+                .withPrice(resultSet.getDouble("price"))
                 .withTitle(resultSet.getString("title"))
                 .withState(resultSet.getBoolean("state"))
                 .withApplianceEntity(applianceDao.findById(resultSet.getLong("appliance_id")).get())
@@ -181,13 +183,13 @@ public class OrderDaoImpl extends GenericDaoImpl<OrderEntity> implements OrderDa
     }
 
     @Override
-    public void save(OrderEntity entity) {
-        super.save(entity);
+    public int save(OrderEntity entity) {
+        return super.save(entity);
     }
 
     @Override
     public Optional<OrderEntity> findById(Long id) {
-        return super.findByLongParam(id,FIND_BY_ID_QUERY);
+        return super.findByLongParam(id, FIND_BY_ID_QUERY);
     }
 
     @Override

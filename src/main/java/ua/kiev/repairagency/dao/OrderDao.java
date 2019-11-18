@@ -8,7 +8,7 @@ import java.util.List;
 import java.util.Optional;
 
 public interface OrderDao extends GenericDao<OrderEntity, Long> {
-    void save(OrderEntity entity);
+    int save(OrderEntity entity);
 
     Optional<OrderEntity> findById(Long id);
 
@@ -20,7 +20,7 @@ public interface OrderDao extends GenericDao<OrderEntity, Long> {
 
     void update(OrderEntity entity, String param);
     
-    void updateByPrice(OrderEntity orderEntity, Long price);
+    void updateByPrice(OrderEntity orderEntity, Double price);
 
     void updateByState(OrderEntity orderEntity, Boolean state);
 

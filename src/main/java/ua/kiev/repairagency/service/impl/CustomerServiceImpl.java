@@ -49,8 +49,8 @@ public class CustomerServiceImpl extends UserGenericService implements CustomerS
     }
 
     @Override
-    public void makeOrder(ElectricAppliance appliance, User customer, String title) {
-        orderDao.save(orderMapper.mapOrderToOrderEntity(new Order.OrderBuilder()
+    public int makeOrder(ElectricAppliance appliance, User customer, String title) {
+       return orderDao.save(orderMapper.mapOrderToOrderEntity(new Order.OrderBuilder()
                 .withAppliance(appliance)
                 .withCustomer(customer)
                 .withTitle(title)
@@ -63,7 +63,7 @@ public class CustomerServiceImpl extends UserGenericService implements CustomerS
     }
 
     @Override
-    public void createResponse(Response response) {
-        responseDao.save(responseMapper.mapResponseToResponseEntity(response));
+    public int createResponse(Response response) {
+        return responseDao.save(responseMapper.mapResponseToResponseEntity(response));
     }
 }

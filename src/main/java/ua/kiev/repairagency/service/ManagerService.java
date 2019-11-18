@@ -2,24 +2,30 @@ package ua.kiev.repairagency.service;
 
 import ua.kiev.repairagency.domain.order.Order;
 import ua.kiev.repairagency.domain.user.User;
-import ua.kiev.repairagency.entity.order.OrderEntity;
 
 import java.util.List;
 import java.util.Optional;
 
 public interface ManagerService {
+    User register(User master);
 
-     Optional<User> findById(Long id);
+    User login(String login, String password);
 
-     List<User> findAll();
+    Optional<User> findUserById(Long id);
+
+    Optional<Order> findOrderById(Long id);
+
+    List<User> findAll(int currentPage, int recordsPerPage);
 
     Optional findUserByEmail(String email);
+
+    void updatePassword(User user, String password);
 
     void acceptOrder(Order order);
 
     void rejectOrder(Order order);
 
-    void setCommentsToRejectedOrder(OrderEntity entity, String message);
+    void setCommentsToRejectedOrder(Order order, String message);
 
-    void setPrice(Order order, Long price);
+    void setPrice(Order order, Double price);
 }

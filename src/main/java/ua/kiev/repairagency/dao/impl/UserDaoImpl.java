@@ -107,8 +107,8 @@ public class UserDaoImpl extends GenericDaoImpl<UserEntity> implements UserDao {
     }
 
     @Override
-    public void save(UserEntity entity) {
-        super.save(entity);
+    public int save(UserEntity entity) {
+       return super.save(entity);
     }
 
     @Override

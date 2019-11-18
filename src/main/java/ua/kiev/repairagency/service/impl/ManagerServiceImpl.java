@@ -5,7 +5,6 @@ import ua.kiev.repairagency.dao.OrderDao;
 import ua.kiev.repairagency.dao.UserDao;
 import ua.kiev.repairagency.domain.order.Order;
 import ua.kiev.repairagency.domain.user.User;
-import ua.kiev.repairagency.entity.order.OrderEntity;
 import ua.kiev.repairagency.service.ManagerService;
 import ua.kiev.repairagency.service.PasswordEncoder;
 import ua.kiev.repairagency.service.mapper.OrderMapper;
@@ -21,21 +20,20 @@ public class ManagerServiceImpl extends UserGenericService implements ManagerSer
     private final OrderMapper orderMapper;
 
 
-
     public ManagerServiceImpl(UserDao userDao,
                               ApplianceDao applianceDao,
                               OrderDao orderDao,
                               PasswordEncoder passwordEncoder,
                               Validator validator, UserMapper userMapper, OrderMapper orderMapper) {
-        super(passwordEncoder,userDao, validator,userMapper);
+        super(passwordEncoder, userDao, validator, userMapper);
         this.applianceDao = applianceDao;
         this.orderDao = orderDao;
         this.orderMapper = orderMapper;
     }
 
     @Override
-    public List<User> findAll() {
-        return findAll();
+    public List<User> findAll(int currentPage, int recordsPerPage ) {
+        return super.findAll(currentPage, recordsPerPage);
     }
 
     public User register(User master) {
@@ -48,12 +46,12 @@ public class ManagerServiceImpl extends UserGenericService implements ManagerSer
     }
 
     @Override
-    public void update(User user, String password) {
-        update(user,password);
+    public void updatePassword(User user, String password) {
+        super.updatePassword(user, password);
     }
 
     @Override
-    public Optional<User> findById(Long id) {
+    public Optional<User> findUserById(Long id) {
         return userDao.findById(id).map(userMapper::mapUserEntityToUser);
     }
 
@@ -67,23 +65,23 @@ public class ManagerServiceImpl extends UserGenericService implements ManagerSer
     }
 
     @Override
-    public void setPrice(Order order, Long price) {
+    public void setPrice(Order order, Double price) {
         orderDao.updateByPrice(orderMapper.mapOrderToOrderEntity(order), price);
     }
 
     @Override
     public void acceptOrder(Order order) {
-        orderDao.updateByState(orderMapper.mapOrderToOrderEntity(order),true);
+        orderDao.updateByState(orderMapper.mapOrderToOrderEntity(order), true);
     }
 
     @Override
     public void rejectOrder(Order order) {
-        orderDao.updateByState(orderMapper.mapOrderToOrderEntity(order),false);
+        orderDao.updateByState(orderMapper.mapOrderToOrderEntity(order), false);
     }
 
     @Override
-    public void setCommentsToRejectedOrder(OrderEntity entity, String message) {
-        orderDao.update(entity, message);
+    public void setCommentsToRejectedOrder(Order order, String message) {
+        orderDao.update(orderMapper.mapOrderToOrderEntity(order), message);
     }
 }
 

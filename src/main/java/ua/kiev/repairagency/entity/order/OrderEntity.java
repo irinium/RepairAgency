@@ -6,7 +6,7 @@ import ua.kiev.repairagency.entity.user.UserEntity;
 public class OrderEntity {
     private final Long id;
     private final String title;
-    private final Long price;
+    private final Double price;
     private final UserEntity customerEntity;
     private final ElectricApplianceEntity applianceEntity;
     private final UserEntity masterEntity;
@@ -34,7 +34,7 @@ public class OrderEntity {
         return applianceEntity;
     }
 
-    public Long getPrice() {
+    public Double getPrice() {
         return price;
     }
 
@@ -57,7 +57,7 @@ public class OrderEntity {
     public static class OrderBuilder {
         private Long id;
         private String title;
-        private Long price;
+        private Double price;
         private UserEntity customerEntity;
         private ElectricApplianceEntity applianceEntity;
         private UserEntity masterEntity;
@@ -81,7 +81,7 @@ public class OrderEntity {
             return this;
         }
 
-        public OrderBuilder withPrice(Long price) {
+        public OrderBuilder withPrice(Double price) {
             this.price = price;
             return this;
         }

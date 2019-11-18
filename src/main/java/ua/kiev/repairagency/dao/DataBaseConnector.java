@@ -2,7 +2,7 @@ package ua.kiev.repairagency.dao;
 
 import org.apache.commons.dbcp2.BasicDataSource;
 import org.apache.log4j.Logger;
-import ua.kiev.repairagency.service.exception.DataBaseConnectionException;
+import ua.kiev.repairagency.service.exception.DataBaseRuntimeException;
 
 import java.sql.Connection;
 import java.sql.SQLException;
@@ -30,7 +30,7 @@ public class DataBaseConnector {
             return dataSource.getConnection();
         }catch (SQLException e){
             LOGGER.error("Database connection failed");
-            throw new DataBaseConnectionException( e.getMessage());
+            throw new DataBaseRuntimeException(e);
         }
     }
 }

@@ -7,10 +7,13 @@ import ua.kiev.repairagency.domain.user.User;
 import java.util.List;
 
 public interface CustomerService {
+    User register(User customer);
 
-    void makeOrder(ElectricAppliance appliance, User user, String title);
+    User login(String email, String password);
+
+    int makeOrder(ElectricAppliance appliance, User user, String title);
 
     List findAllOrders(User user, int currentPage, int recordsPerPage);
 
-    public void createResponse(Response response);
+    public int createResponse(Response response);
 }

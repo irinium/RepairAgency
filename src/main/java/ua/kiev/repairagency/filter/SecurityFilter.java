@@ -42,6 +42,5 @@ public class SecurityFilter implements Filter {//TODO complete the security filt
 
     @Override
     public void destroy() {
-
     }
 }

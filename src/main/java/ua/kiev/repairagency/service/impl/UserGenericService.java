@@ -52,7 +52,7 @@ public class UserGenericService {
                 .orElse(null);
     }
 
-    public void update(User entity, String password) {
+    public void updatePassword(User entity, String password) {
         userDao.update(userMapper.mapUserToUserEntity(entity), password);
     }
 

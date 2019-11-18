@@ -33,7 +33,6 @@ public class MakeOrderCommand implements Command {
         final User user = (User) session.getAttribute("user");
 
         customerService.makeOrder(ElectricAppliance.builder()
-                        .withId(user.getId())
                         .withName(applianceName)
                         .withType(Type.valueOf(type))
                         .withManufacturer(Manufacturer.valueOf(manufacturer))

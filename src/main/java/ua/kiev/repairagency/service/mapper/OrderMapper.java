@@ -25,6 +25,7 @@ public class OrderMapper {
 
     public OrderEntity mapOrderToOrderEntity(Order order) {
         return new OrderEntity.OrderBuilder()
+                .withId(order.getId())
                 .withTitle(order.getTitle())
                 .withPrice(order.getPrice())
                 .withApplianceEntity(applianceMapper.mapApplianceToApplianceEntity(order.getAppliance()))

@@ -28,12 +28,12 @@ public class LoginCommand implements Command {
         User user = userService.login(email, password);
 
         if (user != null) {
-            if (user.getRole() == Role.CUSTOMER) {
-                page = "/view/customerHome.jsp";
+            if (user.getRole() == Role.MANAGER) {
+                page = "/view/managerHome.jsp";
             } else if (user.getRole() == Role.MASTER) {
                 page = "/view/masterHome.jsp";
             } else {
-                page = "/view/managerHome.jsp";
+                page = "/view/customerHome.jsp";
             }
             session.setAttribute("user", user);
             session.setAttribute("page", page);

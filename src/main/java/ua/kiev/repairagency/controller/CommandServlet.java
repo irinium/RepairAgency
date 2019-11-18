@@ -24,21 +24,19 @@ public class CommandServlet extends HttpServlet { //TODO rename
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        String page = getPageByCommand(req);
-        req.getRequestDispatcher(page).forward(req, resp);
+        doProcess(req, resp);
     }
-
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        String page = getPageByCommand(req);
-        req.getRequestDispatcher(page).forward(req, resp);
+        doProcess(req, resp);
     }
 
-    private String getPageByCommand(HttpServletRequest req) {
+    private void doProcess(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         final String commandName = req.getParameter("command");
         LOGGER.info(commandName);
 
-        return commandNameToCommand.getOrDefault(commandName, defaultCommand).execute(req);
+        String page = commandNameToCommand.getOrDefault(commandName, defaultCommand).execute(req);
+        req.getRequestDispatcher(page).forward(req, resp);
     }
 }

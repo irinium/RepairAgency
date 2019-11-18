@@ -6,7 +6,7 @@ import ua.kiev.repairagency.domain.user.User;
 public class Order {
     private final Long id;
     private final String title;
-    private final Long price;
+    private final Double price;
     private final User customer;
     private final ElectricAppliance appliance;
     private final User master;
@@ -34,7 +34,7 @@ public class Order {
         return appliance;
     }
 
-    public Long getPrice() {
+    public Double getPrice() {
         return price;
     }
 
@@ -50,14 +50,14 @@ public class Order {
         return state;
     }
 
-    public OrderBuilder builder(){
+    public static OrderBuilder builder(){
         return new OrderBuilder();
     }
 
     public static class OrderBuilder {
         private Long id;
         private String title;
-        private Long price;
+        private Double price;
         private User customer;
         private ElectricAppliance appliance;
         private User master;
@@ -81,7 +81,7 @@ public class Order {
             return this;
         }
 
-        public OrderBuilder withPrice(Long price) {
+        public OrderBuilder withPrice(Double price) {
             this.price = price;
             return this;
         }

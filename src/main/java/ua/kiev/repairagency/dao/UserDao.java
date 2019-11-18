@@ -7,7 +7,7 @@ import java.util.List;
 import java.util.Optional;
 
 public interface UserDao extends GenericDao<UserEntity, Long> {
-    void save(UserEntity entity);
+    int save(UserEntity entity);
 
     List<UserEntity> findAll(int currentPage, int recordsPerPage);
 
