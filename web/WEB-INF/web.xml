@@ -33,7 +33,7 @@
 
     <servlet>
         <servlet-name>userOrders</servlet-name>
-        <servlet-class>ua.kiev.repairagency.controller.UserOrderListServlet</servlet-class>
+        <servlet-class>ua.kiev.repairagency.controller.UserOrdersListServlet</servlet-class>
     </servlet>
 
     <servlet-mapping>
@@ -85,6 +85,10 @@
     <error-page>
         <error-code>404</error-code>
         <location>/view/errors/error404.jsp</location>
+    </error-page>
+    <error-page>
+        <error-code>403</error-code>
+        <location>/view/errors/error403.jsp</location>
     </error-page>
     <error-page>
         <error-code>500</error-code>

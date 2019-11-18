@@ -87,6 +87,10 @@
         <location>/view/errors/error404.jsp</location>
     </error-page>
     <error-page>
+        <error-code>403</error-code>
+        <location>/view/errors/error403.jsp</location>
+    </error-page>
+    <error-page>
         <error-code>500</error-code>
         <location>/view/errors/error_runtime.jsp</location>
     </error-page>

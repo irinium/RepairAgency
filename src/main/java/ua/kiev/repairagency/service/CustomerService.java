@@ -15,5 +15,5 @@ public interface CustomerService {
 
     List findAllOrders(User user, int currentPage, int recordsPerPage);
 
-    public int createResponse(Response response);
+    int createResponse(Response response);
 }

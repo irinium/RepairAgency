@@ -29,12 +29,12 @@ public class SecurityFilter implements Filter {//TODO complete the security filt
             String page = requestedPage.toString();
             if (user != null && user.getRole().equals(Role.CUSTOMER)) {
                 if (page.equals("/view/managerHome.jsp") || page.equals("/view/masterHome.jsp")) {
-                    response.sendRedirect("/view/accessDenied.jsp");
+                    response.sendRedirect("/view/error403.jsp");
                     return;
                 }
             } else if (user != null && user.getRole().equals(Role.MASTER)) {
                 if (page.equals("/view/managerHome.jsp") || page.equals("view/customerHome.jsp")) {
-                    response.sendRedirect("/view/accessDenied.jsp");
+                    response.sendRedirect("/view/error403.jsp");
                     return;
                 }
             }

@@ -14,14 +14,14 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.List;
 
-public class UserOrderListServlet extends HttpServlet {
+public class UserOrdersListServlet extends HttpServlet {
     private final CustomerService customerService;
     private final OrderService orderService;
     private static final int RECORDS_PER_PAGE = 5;
     private final Pagination pagination;
 
 
-    public UserOrderListServlet() {
+    public UserOrdersListServlet() {
         this.customerService = ApplicationContextInjector.getCustomerService();
         this.orderService = ApplicationContextInjector.getOrderService();
         this.pagination = ApplicationContextInjector.getPAGINATION();
