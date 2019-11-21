@@ -1,6 +1,6 @@
 package ua.kiev.repairagency.entity.order;
 
-import ua.kiev.repairagency.entity.appliance.ElectricApplianceEntity;
+import ua.kiev.repairagency.entity.appliance.ApplianceEntity;
 import ua.kiev.repairagency.entity.user.UserEntity;
 
 public class OrderEntity {
@@ -8,18 +8,20 @@ public class OrderEntity {
     private final String title;
     private final Double price;
     private final UserEntity customerEntity;
-    private final ElectricApplianceEntity applianceEntity;
+    private final ApplianceEntity applianceEntity;
     private final UserEntity masterEntity;
     private final Boolean state; //access -true, denied - false
+    private final Boolean status; //active -true, complete - false
 
-    public OrderEntity(OrderBuilder orderBuilder) {
-        this.id = orderBuilder.id;
-        this.applianceEntity = orderBuilder.applianceEntity;
-        this.price = orderBuilder.price;
-        this.customerEntity = orderBuilder.customerEntity;
-        this.masterEntity = orderBuilder.masterEntity;
-        this.title = orderBuilder.title;
-        this.state = orderBuilder.state;
+    private OrderEntity(Builder builder) {
+        this.id = builder.id;
+        this.applianceEntity = builder.applianceEntity;
+        this.price = builder.price;
+        this.customerEntity = builder.customerEntity;
+        this.masterEntity = builder.masterEntity;
+        this.title = builder.title;
+        this.state = builder.state;
+        this.status = builder.status;
     }
 
     public Long getId() {
@@ -30,7 +32,7 @@ public class OrderEntity {
         return title;
     }
 
-    public ElectricApplianceEntity getApplianceEntity() {
+    public ApplianceEntity getApplianceEntity() {
         return applianceEntity;
     }
 
@@ -50,53 +52,62 @@ public class OrderEntity {
         return state;
     }
 
-    public OrderBuilder builder(){
-        return new OrderBuilder();
+    public Boolean getStatus() {
+        return status;
     }
 
-    public static class OrderBuilder {
+    public static Builder builder(){
+        return new Builder();
+    }
+
+    public static class Builder {
         private Long id;
         private String title;
         private Double price;
         private UserEntity customerEntity;
-        private ElectricApplianceEntity applianceEntity;
+        private ApplianceEntity applianceEntity;
         private UserEntity masterEntity;
         private Boolean state; //access -true, denied - false
+        private Boolean status; //active -true, complete - false
 
-        public OrderBuilder() {
+        private Builder() {
         }
 
-        public OrderBuilder withId(Long id) {
+        public Builder withId(Long id) {
             this.id = id;
             return this;
         }
 
-        public OrderBuilder withTitle(String title) {
+        public Builder withTitle(String title) {
             this.title = title;
             return this;
         }
 
-        public OrderBuilder withApplianceEntity(ElectricApplianceEntity appliance) {
+        public Builder withApplianceEntity(ApplianceEntity appliance) {
             this.applianceEntity = appliance;
             return this;
         }
 
-        public OrderBuilder withPrice(Double price) {
+        public Builder withPrice(Double price) {
             this.price = price;
             return this;
         }
 
-        public OrderBuilder withCustomerEntity(UserEntity customerEntity) {
+        public Builder withCustomerEntity(UserEntity customerEntity) {
             this.customerEntity = customerEntity;
             return this;
         }
 
-        public OrderBuilder withMasterEntity(UserEntity masterEntity) {
+        public Builder withMasterEntity(UserEntity masterEntity) {
             this.masterEntity = masterEntity;
             return this;
         }
-        public OrderBuilder withState(Boolean state) {
+        public Builder withState(Boolean state) {
             this.state = state;
+            return this;
+
+        }public Builder withStatus(Boolean status) {
+            this.status = status;
             return this;
         }
 

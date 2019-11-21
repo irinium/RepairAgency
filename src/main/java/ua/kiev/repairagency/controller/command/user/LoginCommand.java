@@ -4,7 +4,7 @@ import org.apache.log4j.Logger;
 import ua.kiev.repairagency.controller.command.Command;
 import ua.kiev.repairagency.domain.user.Role;
 import ua.kiev.repairagency.domain.user.User;
-import ua.kiev.repairagency.service.impl.UserGenericService;
+import ua.kiev.repairagency.service.UserGenericService;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;

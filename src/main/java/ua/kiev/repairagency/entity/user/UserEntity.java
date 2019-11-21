@@ -9,14 +9,14 @@ public class UserEntity {
     private final String phoneNumber;
     private final RoleEntity roleEntity;
 
-    private UserEntity(UserBuilder userUserBuilder) {
-        this.id = userUserBuilder.id;
-        this.password = userUserBuilder.password;
-        this.email = userUserBuilder.email;
-        this.name = userUserBuilder.name;
-        this.surname = userUserBuilder.surname;
-        this.phoneNumber = userUserBuilder.phoneNumber;
-        this.roleEntity = userUserBuilder.roleEntity;
+    private UserEntity(Builder userBuilder) {
+        this.id = userBuilder.id;
+        this.password = userBuilder.password;
+        this.email = userBuilder.email;
+        this.name = userBuilder.name;
+        this.surname = userBuilder.surname;
+        this.phoneNumber = userBuilder.phoneNumber;
+        this.roleEntity = userBuilder.roleEntity;
     }
 
     public Long getId() {
@@ -47,11 +47,11 @@ public class UserEntity {
         return roleEntity;
     }
 
-    public static UserBuilder builder(){
-        return new UserBuilder();
+    public static Builder builder(){
+        return new Builder();
     }
 
-    public static class UserBuilder {
+    public static class Builder {
         private Long id;
         protected String password;
         private String email;
@@ -60,44 +60,44 @@ public class UserEntity {
         private RoleEntity roleEntity;
         private String phoneNumber;
 
-        private UserBuilder() {
+        private Builder() {
         }
 
         public UserEntity build() {
             return new UserEntity(this);
         }
 
-        public UserBuilder withId(Long id) {
+        public Builder withId(Long id) {
             this.id = id;
             return this;
         }
 
-        public UserBuilder withPassword(String password) {
+        public Builder withPassword(String password) {
             this.password = password;
             return this;
         }
 
-        public UserBuilder withEmail(String email) {
+        public Builder withEmail(String email) {
             this.email = email;
             return this;
         }
 
-        public UserBuilder withName(String name) {
+        public Builder withName(String name) {
             this.name = name;
             return this;
         }
 
-        public UserBuilder withSurname(String surname) {
+        public Builder withSurname(String surname) {
             this.surname = surname;
             return this;
         }
 
-        public UserBuilder withPhoneNumber(String phoneNumber) {
+        public Builder withPhoneNumber(String phoneNumber) {
             this.phoneNumber = phoneNumber;
             return this;
         }
 
-        public UserBuilder withRole(RoleEntity roleEntity) {
+        public Builder withRole(RoleEntity roleEntity) {
             this.roleEntity = roleEntity;
             return this;
         }

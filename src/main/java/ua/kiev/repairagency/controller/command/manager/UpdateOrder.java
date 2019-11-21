@@ -20,7 +20,7 @@ public class UpdateOrder implements Command {
         final String price = request.getParameter("price");
         final String orderId = request.getParameter("orderId");
 
-        Order order = managerService.findOrderById(Long.decode(orderId)).get();
+        Order order = managerService.findOrderById(Long.parseLong(orderId));
 
         if (!Boolean.parseBoolean(state)) {
             managerService.rejectOrder(order);

@@ -1,9 +1,6 @@
 package ua.kiev.repairagency.service.mapper;
 
 import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.mockito.InjectMocks;
-import org.mockito.junit.MockitoJUnitRunner;
 import ua.kiev.repairagency.domain.user.Role;
 import ua.kiev.repairagency.domain.user.User;
 import ua.kiev.repairagency.entity.user.RoleEntity;
@@ -12,20 +9,13 @@ import ua.kiev.repairagency.entity.user.UserEntity;
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
 
-@RunWith(MockitoJUnitRunner.class)
 public class UserMapperTest {
+    private static final UserMapper userMapper = new UserMapper();
     private static final String PASSWORD = "password";
-
     private static final Long ID = 1L;
-
     private static final String NAME = "Name";
-
     private static final String SURNAME = "Surname";
-
     private static final String EMAIL = "email@gmail.com";
-
-    @InjectMocks
-    private UserMapper userMapper;
 
     @Test
     public void mapUserEntityToUserShouldReturnUser() {

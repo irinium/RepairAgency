@@ -1,67 +1,46 @@
 package ua.kiev.repairagency.service.impl;
 
-import ua.kiev.repairagency.dao.ApplianceDao;
 import ua.kiev.repairagency.dao.OrderDao;
 import ua.kiev.repairagency.dao.UserDao;
 import ua.kiev.repairagency.domain.order.Order;
 import ua.kiev.repairagency.domain.user.User;
 import ua.kiev.repairagency.service.ManagerService;
-import ua.kiev.repairagency.service.PasswordEncoder;
+import ua.kiev.repairagency.service.encoder.PasswordEncoder;
+import ua.kiev.repairagency.service.exception.EntityNotFoundException;
 import ua.kiev.repairagency.service.mapper.OrderMapper;
 import ua.kiev.repairagency.service.mapper.UserMapper;
-import ua.kiev.repairagency.service.validator.Validator;
+import ua.kiev.repairagency.service.validator.UserValidator;
 
-import java.util.List;
-import java.util.Optional;
-
-public class ManagerServiceImpl extends UserGenericService implements ManagerService {
-    private final ApplianceDao applianceDao;
+public class ManagerServiceImpl extends UserGenericServiceImpl implements ManagerService {
     private final OrderDao orderDao;
     private final OrderMapper orderMapper;
 
-
     public ManagerServiceImpl(UserDao userDao,
-                              ApplianceDao applianceDao,
                               OrderDao orderDao,
                               PasswordEncoder passwordEncoder,
-                              Validator validator, UserMapper userMapper, OrderMapper orderMapper) {
-        super(passwordEncoder, userDao, validator, userMapper);
-        this.applianceDao = applianceDao;
+                              UserValidator userValidator,
+                              UserMapper userMapper,
+                              OrderMapper orderMapper) {
+        super(passwordEncoder, userDao, userValidator, userMapper);
         this.orderDao = orderDao;
         this.orderMapper = orderMapper;
     }
 
     @Override
-    public List<User> findAll(int currentPage, int recordsPerPage ) {
-        return super.findAll(currentPage, recordsPerPage);
+    public User findUserById(Long id) {
+        return userDao.findById(id).map(userMapper::mapUserEntityToUser)
+                .orElseThrow(EntityNotFoundException::new);
     }
 
-    public User register(User master) {
-        return super.register(master);
-    }
-
-    @Override
-    public User login(String login, String password) {
-        return super.login(login, password);
+    public Order findOrderById(Long id) {
+        return orderDao.findById(id).map(orderMapper::mapOrderEntityToOrder)
+                .orElseThrow(EntityNotFoundException::new);
     }
 
     @Override
-    public void updatePassword(User user, String password) {
-        super.updatePassword(user, password);
-    }
-
-    @Override
-    public Optional<User> findUserById(Long id) {
-        return userDao.findById(id).map(userMapper::mapUserEntityToUser);
-    }
-
-    public Optional<Order> findOrderById(Long id) {
-        return orderDao.findById(id).map(orderMapper::mapOrderEntityToOrder);
-    }
-
-    @Override
-    public Optional<User> findUserByEmail(String email) {
-        return userDao.findByEmail(email).map(userMapper::mapUserEntityToUser);
+    public User findUserByEmail(String email) {
+        return userDao.findByEmail(email).map(userMapper::mapUserEntityToUser)
+                .orElseThrow(EntityNotFoundException::new);
     }
 
     @Override

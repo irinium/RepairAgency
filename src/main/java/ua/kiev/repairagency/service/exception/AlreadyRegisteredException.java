@@ -1,11 +1,9 @@
 package ua.kiev.repairagency.service.exception;
 
 public class AlreadyRegisteredException extends RuntimeException {
+    private static final String MESSAGE = "User with this login is already registered";
 
     public AlreadyRegisteredException() {
-    }
-
-    public AlreadyRegisteredException(String s) {
-        super("User with this login is already registered");
+        super(MESSAGE);
     }
 }

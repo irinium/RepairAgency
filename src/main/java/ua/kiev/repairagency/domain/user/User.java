@@ -9,14 +9,14 @@ public class User {
     private final String phoneNumber;
     private final Role role;
 
-    private User(UserBuilder userUserBuilder) {
-        this.id = userUserBuilder.id;
-        this.password = userUserBuilder.password;
-        this.email = userUserBuilder.email;
-        this.surname = userUserBuilder.surname;
-        this.name = userUserBuilder.name;
-        this.phoneNumber = userUserBuilder.phoneNumber;
-        this.role = userUserBuilder.role;
+    private User(Builder builder) {
+        this.id = builder.id;
+        this.password = builder.password;
+        this.email = builder.email;
+        this.surname = builder.surname;
+        this.name = builder.name;
+        this.phoneNumber = builder.phoneNumber;
+        this.role = builder.role;
     }
 
     public Long getId() {
@@ -25,6 +25,10 @@ public class User {
 
     public String getPassword() {
         return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
     }
 
     public String getEmail() {
@@ -47,15 +51,11 @@ public class User {
         return role;
     }
 
-    public void setPassword(String password) {
-        this.password = password;
+    public static Builder builder(){
+        return new Builder();
     }
 
-    public static UserBuilder builder(){
-        return new UserBuilder();
-    }
-
-    public static class UserBuilder {
+    public static class Builder {
         private Long id;
         private String password;
         private String email;
@@ -64,44 +64,44 @@ public class User {
         private Role role;
         private String phoneNumber;
 
-        private UserBuilder() {
+        private Builder() {
         }
 
         public User build() {
             return new User(this);
         }
 
-        public UserBuilder withId(Long id) {
+        public Builder withId(Long id) {
             this.id = id;
             return this;
         }
 
-        public UserBuilder withPassword(String password) {
+        public Builder withPassword(String password) {
             this.password = password;
             return this;
         }
 
-        public UserBuilder withEmail(String email) {
+        public Builder withEmail(String email) {
             this.email = email;
             return this;
         }
 
-        public UserBuilder withName(String name) {
+        public Builder withName(String name) {
             this.name = name;
             return this;
         }
 
-        public UserBuilder withSurname(String surname) {
+        public Builder withSurname(String surname) {
             this.surname = surname;
             return this;
         }
 
-        public UserBuilder withPhoneNumber(String phoneNumber) {
+        public Builder withPhoneNumber(String phoneNumber) {
             this.phoneNumber = phoneNumber;
             return this;
         }
 
-        public UserBuilder withRole(Role role) {
+        public Builder withRole(Role role) {
             this.role = role;
             return this;
         }

@@ -3,33 +3,35 @@ package ua.kiev.repairagency.service.impl;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
-import ua.kiev.repairagency.dao.ApplianceDao;
 import ua.kiev.repairagency.dao.OrderDao;
 import ua.kiev.repairagency.dao.UserDao;
 import ua.kiev.repairagency.domain.order.Order;
 import ua.kiev.repairagency.domain.user.User;
+import ua.kiev.repairagency.entity.order.OrderEntity;
 import ua.kiev.repairagency.entity.user.UserEntity;
-import ua.kiev.repairagency.service.ManagerService;
-import ua.kiev.repairagency.service.PasswordEncoder;
+import ua.kiev.repairagency.service.encoder.PasswordEncoder;
 import ua.kiev.repairagency.service.mapper.OrderMapper;
 import ua.kiev.repairagency.service.mapper.UserMapper;
-import ua.kiev.repairagency.service.validator.Validator;
+import ua.kiev.repairagency.service.validator.UserValidator;
 
 import java.util.Optional;
 
-import static java.util.Collections.emptyList;
-import static org.junit.Assert.*;
-import static org.mockito.ArgumentMatchers.any;
+import static org.hamcrest.CoreMatchers.is;
+import static org.junit.Assert.assertThat;
 import static org.mockito.Mockito.*;
 
 @RunWith(MockitoJUnitRunner.class)
 public class ManagerServiceImplTest {
-    private ManagerService managerService;
+    private static final User USER = User.builder().build();
+    private static final UserEntity USER_ENTITY = UserEntity.builder().build();
+    private static final Order ORDER = Order.builder().build();
+    private static final OrderEntity ORDER_ENTITY = OrderEntity.builder().build();
 
-    @Mock
-    private ApplianceDao applianceDao;
+    @InjectMocks
+    private ManagerServiceImpl managerService;
 
     @Mock
     private OrderDao orderDao;
@@ -47,86 +49,80 @@ public class ManagerServiceImplTest {
     private PasswordEncoder passwordEncoder;
 
     @Mock
-    private Validator validator;
+    private UserValidator userValidator;
 
     @Before
     public void init() {
-        managerService = new ManagerServiceImpl(userDao, applianceDao, orderDao,
-                passwordEncoder, validator, userMapper, orderMapper);
+        managerService = new ManagerServiceImpl(userDao, orderDao,
+                passwordEncoder, userValidator, userMapper, orderMapper);
     }
 
-    @Test
-    public void whenDaoReturnedEmptyListServiseReturnedToo() {
-        when(userDao.findAll(1, 5)).thenReturn(emptyList());
-        assertEquals(emptyList(), managerService.findAll(1, 5));
-    }
-
-    @Test
-    public void registrationShouldNotReturnNull() {
-        User user = User.builder().build();
-        when(userDao.save(any(UserEntity.class))).thenReturn(1);
-        User user1 = managerService.register(user);
-        assertNotNull(user);
-    }
-
-    @Test(expected = Exception.class)
-    public void loginShouldThrownExceptionWithIllegalArguments() {
-        when(userDao.findByEmail("null")).thenThrow(NullPointerException.class);
-        assertThat(managerService.login("null", "null"), null);
-    }
-
-    @Test
-    public void updateShouldCallUpdateMethodInDao() {
-        User user = User.builder().build();
-        String password = "password";
-        managerService.updatePassword(user, password);
-        verify(userDao, times(1)).update(userMapper.mapUserToUserEntity(user), password);
-    }
 
     @Test
     public void findUserByIdShouldReturnEmptyWhenUserIsAbsent() {
-        when(userDao.findById(anyLong()).map(userMapper::mapUserEntityToUser)).thenReturn(Optional.empty());
-        assertEquals(managerService.findUserById(anyLong()), Optional.empty());
+        when(userDao.findById(anyLong())).thenReturn(Optional.empty());
+        assertThat("Finding user by id is failed",managerService.findUserById(anyLong()), is(Optional.empty()));
+    }
+
+    @Test
+    public void findUserByIdShouldReturnUser() {
+        when(userDao.findById(USER_ENTITY.getId())).thenReturn(Optional.of(USER_ENTITY));
+        when(userMapper.mapUserEntityToUser(USER_ENTITY)).thenReturn(USER);
+        assertThat("Finding user by id is failed",managerService.findUserById(USER.getId()), is(Optional.of(USER)));
     }
 
     @Test
     public void findOrderByIdShouldReturnEmptyWhenOrderIsAbsent() {
-        when(orderDao.findById(anyLong()).map(orderMapper::mapOrderEntityToOrder)).thenReturn(Optional.empty());
-        assertEquals(managerService.findOrderById(anyLong()), Optional.empty());
+        when(orderDao.findById(anyLong())).thenReturn(Optional.empty());
+        assertThat("Finding order by id is failed",managerService.findOrderById(anyLong()), is(Optional.empty()));
+    }
+
+    @Test
+    public void findOrderByIdShouldReturnOrder() {
+        when(orderDao.findById(ORDER_ENTITY.getId())).thenReturn(Optional.of(ORDER_ENTITY));
+        when(orderMapper.mapOrderEntityToOrder(ORDER_ENTITY)).thenReturn(ORDER);
+        assertThat("Finding order by id is failed",managerService.findOrderById(ORDER.getId()), is(Optional.of(ORDER)));
     }
 
     @Test
     public void findUserByEmailShouldReturnEmptyWhenUserIsAbsent() {
-        when(userDao.findByEmail(anyString()).map(userMapper::mapUserEntityToUser)).thenReturn(Optional.empty());
-        assertEquals(managerService.findUserByEmail(anyString()), Optional.empty());
+        when(userDao.findByEmail(anyString())).thenReturn(Optional.empty());
+        assertThat("Finding user by email is failed",managerService.findUserByEmail(anyString()), is(Optional.empty()));
     }
 
     @Test
+    public void findUserByEmailShouldReturnUser() {
+        when(userDao.findByEmail(USER_ENTITY.getEmail())).thenReturn(Optional.of(USER_ENTITY));
+        when(userMapper.mapUserEntityToUser(USER_ENTITY)).thenReturn(USER);
+        assertThat("Finding user by id is failed",managerService.findUserByEmail(USER.getEmail()), is(Optional.of(USER)));
+    }
+
+
+    @Test
     public void setPriceHaveBeenCalledAtLeastOneTime() {
-        Double price = 0D;
-        Order order = Order.builder().build();
-        managerService.setPrice(order,price);
-        verify(orderDao, times(1)).updateByPrice(orderMapper.mapOrderToOrderEntity(order), price);
+        when(orderMapper.mapOrderToOrderEntity(ORDER)).thenReturn(ORDER_ENTITY);
+        managerService.setPrice(ORDER,0.00);
+        verify(orderDao).updateByPrice(ORDER_ENTITY, 0.00);
     }
 
     @Test
     public void acceptOrderHaveBeenCalledAtLeastOneTime() {
-        Order order = Order.builder().build();
-        managerService.acceptOrder(order);
-        verify(orderDao, times(1)).updateByState(orderMapper.mapOrderToOrderEntity(order), true);
+        when(orderMapper.mapOrderToOrderEntity(ORDER)).thenReturn(ORDER_ENTITY);
+        managerService.acceptOrder(ORDER);
+        verify(orderDao).updateByState(ORDER_ENTITY, true);
     }
 
     @Test
     public void rejectOrderHaveBeenCalledAtLeastOneTime() {
-        Order order = Order.builder().build();
-        managerService.rejectOrder(order);
-        verify(orderDao, times(1)).updateByState(orderMapper.mapOrderToOrderEntity(order), false);
+        when(orderMapper.mapOrderToOrderEntity(ORDER)).thenReturn(ORDER_ENTITY);
+        managerService.rejectOrder(ORDER);
+        verify(orderDao).updateByState(ORDER_ENTITY, false);
     }
 
     @Test
     public void setCommentsToRejectedOrderHaveBeenCalledAtLeastOneTime() {
-        Order order = Order.builder().build();
-        managerService.setCommentsToRejectedOrder(order,"");
-        verify(orderDao, times(1)).update(orderMapper.mapOrderToOrderEntity(order), "");
+        when(orderMapper.mapOrderToOrderEntity(ORDER)).thenReturn(ORDER_ENTITY);
+        managerService.setCommentsToRejectedOrder(ORDER,"");
+        verify(orderDao).update(ORDER_ENTITY, "");
     }
 }

@@ -24,7 +24,7 @@ public class AcceptOrderCommand implements Command {
         final HttpSession session = request.getSession();
         final User master = (User) session.getAttribute("user");
 
-        Order order = managerService.findOrderById(Long.parseLong(orderId)).get();
+        Order order = managerService.findOrderById(Long.parseLong(orderId));
 
         masterService.acceptOrder(order, master);
         session.setAttribute("page","/view/ordersForMaster.jsp");

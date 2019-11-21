@@ -1,29 +1,27 @@
 package ua.kiev.repairagency.service.impl;
 
 import ua.kiev.repairagency.dao.OrderDao;
+import ua.kiev.repairagency.dao.ResponseDao;
 import ua.kiev.repairagency.domain.order.Order;
+import ua.kiev.repairagency.domain.order.Response;
 import ua.kiev.repairagency.service.OrderService;
-import ua.kiev.repairagency.service.exception.EmptyDataException;
 import ua.kiev.repairagency.service.mapper.OrderMapper;
+import ua.kiev.repairagency.service.mapper.ResponseMapper;
 
-import java.sql.SQLException;
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 public class OrderServiceImpl implements OrderService {
     private final OrderDao orderDao;
     private final OrderMapper orderMapper;
+    private final ResponseDao responseDao;
+    private final ResponseMapper responseMapper;
 
-    public OrderServiceImpl(OrderDao orderDao, OrderMapper orderMapper) {
+    public OrderServiceImpl(OrderDao orderDao, OrderMapper orderMapper, ResponseDao responseDao, ResponseMapper responseMapper) {
         this.orderDao = orderDao;
         this.orderMapper = orderMapper;
-    }
-
-    public int save(Order order) {
-      return orderDao.save(Optional.ofNullable(orderMapper
-                .mapOrderToOrderEntity(order))
-                .orElseThrow(() -> new EmptyDataException("Empty data set!")));
+        this.responseDao = responseDao;
+        this.responseMapper = responseMapper;
     }
 
     public List<Order> getAll(int currentPage, int recordsPerPage) {
@@ -32,14 +30,25 @@ public class OrderServiceImpl implements OrderService {
                 .collect(Collectors.toList());
     }
 
-    public int getNumberOfRows() {
-        int numberOfRows = 0;
-        try {
-            numberOfRows = orderDao.getNumberOfRows();
-        } catch (SQLException e) {
-            e.getMessage();
-        }
-        return numberOfRows;
+    @Override
+    public List<Order> getOrdersWithoutMaster(int currentPage, int recordsPerPage) {
+        return orderDao.findOrdersWithoutMaster(currentPage, recordsPerPage).stream()
+                .map(orderMapper::mapOrderEntityToOrder)
+                .collect(Collectors.toList());
+    }
+
+    public int getNumberOfOrdersRows() {
+       return orderDao.getNumberOfRows();
+    }
+
+    public int getNumberOfResponsesRows() {
+        return responseDao.getNumberOfRows();
+    }
+
+    public List<Response> getAllResponses(int currentPage, int recordsPerPage) {
+        return responseDao.findAll(currentPage, recordsPerPage).stream()
+                .map(responseMapper::mapResponseEntityToResponse)
+                .collect(Collectors.toList());
     }
 
     @Override

@@ -13,18 +13,20 @@ public class OrderMapper {
     }
 
     public Order mapOrderEntityToOrder(OrderEntity orderEntity) {
-        return new Order.OrderBuilder()
+        return Order.builder()
                 .withId(orderEntity.getId())
                 .withTitle(orderEntity.getTitle())
                 .withPrice(orderEntity.getPrice())
                 .withAppliance(applianceMapper.mapApplianceEntityToAppliance(orderEntity.getApplianceEntity()))
                 .withCustomer(userMapper.mapUserEntityToUser(orderEntity.getCustomerEntity()))
+                .withMaster(userMapper.mapUserEntityToUser(orderEntity.getMasterEntity()))
                 .withState(orderEntity.getState())
+                .withStatus(orderEntity.getStatus())
                 .build();
     }
 
     public OrderEntity mapOrderToOrderEntity(Order order) {
-        return new OrderEntity.OrderBuilder()
+        return OrderEntity.builder()
                 .withId(order.getId())
                 .withTitle(order.getTitle())
                 .withPrice(order.getPrice())

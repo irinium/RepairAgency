@@ -2,7 +2,7 @@ package ua.kiev.repairagency.controller.command.user;
 
 import org.apache.log4j.Logger;
 import ua.kiev.repairagency.controller.command.Command;
-import ua.kiev.repairagency.domain.appliance.ElectricAppliance;
+import ua.kiev.repairagency.domain.appliance.Appliance;
 import ua.kiev.repairagency.domain.appliance.Manufacturer;
 import ua.kiev.repairagency.domain.appliance.Type;
 import ua.kiev.repairagency.domain.user.User;
@@ -32,7 +32,7 @@ public class MakeOrderCommand implements Command {
         final HttpSession session = request.getSession();
         final User user = (User) session.getAttribute("user");
 
-        customerService.makeOrder(ElectricAppliance.builder()
+        customerService.makeOrder(Appliance.builder()
                         .withName(applianceName)
                         .withType(Type.valueOf(type))
                         .withManufacturer(Manufacturer.valueOf(manufacturer))

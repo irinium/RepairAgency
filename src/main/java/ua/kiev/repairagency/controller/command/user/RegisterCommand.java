@@ -4,10 +4,11 @@ import ua.kiev.repairagency.controller.command.Command;
 import ua.kiev.repairagency.domain.user.Role;
 import ua.kiev.repairagency.domain.user.User;
 import ua.kiev.repairagency.service.ManagerService;
-import ua.kiev.repairagency.service.impl.UserGenericService;
+import ua.kiev.repairagency.service.UserGenericService;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import java.util.Objects;
 
 public class RegisterCommand implements Command {
 
@@ -31,7 +32,7 @@ public class RegisterCommand implements Command {
 
         final HttpSession session = request.getSession();
 
-        if (password1.equals(password2)) {
+        if (Objects.equals(password1, password2)) {
             User user = User.builder()
                     .withEmail(email)
                     .withName(name)

@@ -1,6 +1,6 @@
 package ua.kiev.repairagency.domain.order;
 
-import ua.kiev.repairagency.domain.appliance.ElectricAppliance;
+import ua.kiev.repairagency.domain.appliance.Appliance;
 import ua.kiev.repairagency.domain.user.User;
 
 public class Order {
@@ -8,18 +8,20 @@ public class Order {
     private final String title;
     private final Double price;
     private final User customer;
-    private final ElectricAppliance appliance;
+    private final Appliance appliance;
     private final User master;
     private final Boolean state; //access -true, denied - false
+    private  Boolean status; //active -true, complete - false
 
-    public Order(OrderBuilder orderBuilder) {
-        this.id = orderBuilder.id;
-        this.appliance = orderBuilder.appliance;
-        this.price = orderBuilder.price;
-        this.customer = orderBuilder.customer;
-        this.master = orderBuilder.master;
-        this.title = orderBuilder.title;
-        this.state = orderBuilder.state;
+    private Order(Builder builder) {
+        this.id = builder.id;
+        this.appliance = builder.appliance;
+        this.price = builder.price;
+        this.customer = builder.customer;
+        this.master = builder.master;
+        this.title = builder.title;
+        this.state = builder.state;
+        this.status = builder.status;
     }
 
     public Long getId() {
@@ -30,7 +32,7 @@ public class Order {
         return title;
     }
 
-    public ElectricAppliance getAppliance() {
+    public Appliance getAppliance() {
         return appliance;
     }
 
@@ -50,54 +52,67 @@ public class Order {
         return state;
     }
 
-    public static OrderBuilder builder(){
-        return new OrderBuilder();
+    public Boolean getStatus() {
+        return status;
     }
 
-    public static class OrderBuilder {
+    public void setStatus(Boolean status) {
+        this.status = status;
+    }
+
+    public static Builder builder(){
+        return new Builder();
+    }
+
+    public static class Builder {
         private Long id;
         private String title;
         private Double price;
         private User customer;
-        private ElectricAppliance appliance;
+        private Appliance appliance;
         private User master;
         private Boolean state; //access -true, denied - false
+        private Boolean status; //active -true, complete - false
 
-        public OrderBuilder() {
+        private Builder() {
         }
 
-        public OrderBuilder withId(Long id) {
+        public Builder withId(Long id) {
             this.id = id;
             return this;
         }
 
-        public OrderBuilder withTitle(String title) {
+        public Builder withTitle(String title) {
             this.title = title;
             return this;
         }
 
-        public OrderBuilder withAppliance(ElectricAppliance appliance) {
+        public Builder withAppliance(Appliance appliance) {
             this.appliance = appliance;
             return this;
         }
 
-        public OrderBuilder withPrice(Double price) {
+        public Builder withPrice(Double price) {
             this.price = price;
             return this;
         }
 
-        public OrderBuilder withCustomer(User customer) {
+        public Builder withCustomer(User customer) {
             this.customer = customer;
             return this;
         }
 
-        public OrderBuilder withMaster(User master) {
+        public Builder withMaster(User master) {
             this.master = master;
             return this;
         }
 
-        public OrderBuilder withState(Boolean state) {
+        public Builder withState(Boolean state) {
             this.state = state;
+            return this;
+        }
+        public Builder withStatus(Boolean status) {
+            this.status = status;
             return this;
         }
 

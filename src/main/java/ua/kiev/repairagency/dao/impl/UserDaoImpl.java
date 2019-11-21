@@ -8,7 +8,6 @@ import ua.kiev.repairagency.entity.user.UserEntity;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.List;
 import java.util.Optional;
 
 
@@ -27,10 +26,8 @@ public class UserDaoImpl extends GenericDaoImpl<UserEntity> implements UserDao {
                     " WHERE u.role_id = 1 " +
                     " GROUP BY u.user_id " +
                     " LIMIT ?,?;";
-
     private static final String SAVE_QUERY = "INSERT INTO `Users`" +
             "(`email`,`password`,`phone`,`role_id`, `user_name`,`surname`) VALUES (?,?,?,?,?,?);";
-
     private static final String FIND_BY_ID_QUERY = "SELECT\n" +
             "    u.user_id user_id,\n" +
             "    u.email email,\n" +
@@ -42,7 +39,6 @@ public class UserDaoImpl extends GenericDaoImpl<UserEntity> implements UserDao {
             " FROM `Users` u \n" +
             " LEFT JOIN `Roles` r ON u.role_id = r.role_id" +
             " WHERE u.user_id = ?;";
-
     private static final String FIND_BY_EMAIL_QUERY = "SELECT\n" +
             "    u.user_id user_id,\n" +
             "    u.email email,\n" +
@@ -53,15 +49,12 @@ public class UserDaoImpl extends GenericDaoImpl<UserEntity> implements UserDao {
             "    r.role_name role_name\n" +
             " FROM `Users` u \n" +
             " JOIN `Roles` r ON u.role_id = r.role_id WHERE email = ?;";
-
     private static final String UPDATE_QUERY = "UPDATE `Users` SET password = ? WHERE user_id = ?;";
-
     private static final String NUMBER_OF_ROWS = "SELECT COUNT(user_id) FROM `Users`";
 
     public UserDaoImpl(DataBaseConnector connector) {
         super(connector, SAVE_QUERY, FIND_BY_ID_QUERY, FIND_ALL_QUERY, UPDATE_QUERY, NUMBER_OF_ROWS);
     }
-
 
     @Override
     public void insert(PreparedStatement preparedStatement, UserEntity user) throws SQLException {
@@ -74,19 +67,8 @@ public class UserDaoImpl extends GenericDaoImpl<UserEntity> implements UserDao {
     }
 
     @Override
-    protected void updateValues(PreparedStatement preparedStatement, UserEntity entity, String password) throws SQLException {
-        preparedStatement.setString(1, password);
-        preparedStatement.setLong(2, entity.getId());
-    }
-
-    @Override
     public Optional<UserEntity> findById(Long id) {
         return findByLongParam(id, FIND_BY_ID_QUERY);
-    }
-
-    @Override
-    public int getNumberOfRows() throws SQLException {
-        return super.getNumberOfRows();
     }
 
     public Optional<UserEntity> findByEmail(String email) {
@@ -107,17 +89,8 @@ public class UserDaoImpl extends GenericDaoImpl<UserEntity> implements UserDao {
     }
 
     @Override
-    public int save(UserEntity entity) {
-       return super.save(entity);
-    }
-
-    @Override
-    public List<UserEntity> findAll(int currentPage, int recordsPerPage) {
-        return super.findAll(currentPage, recordsPerPage);
-    }
-
-    @Override
-    public void update(UserEntity entity, String param) {
-        super.update(entity, param);
+    protected void updateValues(PreparedStatement preparedStatement, UserEntity entity, String password) throws SQLException {
+        preparedStatement.setString(1, password);
+        preparedStatement.setLong(2, entity.getId());
     }
 }

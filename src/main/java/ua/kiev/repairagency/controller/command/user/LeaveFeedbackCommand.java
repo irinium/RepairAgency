@@ -1,6 +1,5 @@
 package ua.kiev.repairagency.controller.command.user;
 
-import org.apache.log4j.Logger;
 import ua.kiev.repairagency.controller.command.Command;
 import ua.kiev.repairagency.domain.order.Response;
 import ua.kiev.repairagency.domain.user.User;
@@ -10,7 +9,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 public class LeaveFeedbackCommand implements Command {
-    private static final Logger LOGGER = Logger.getLogger(LoginCommand.class);
     private final CustomerService customerService;
 
     public LeaveFeedbackCommand(CustomerService customerService) {

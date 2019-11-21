@@ -43,7 +43,7 @@ public abstract class GenericDaoImpl<E> implements GenericDao<E, Long> {
     private final String updateQuery;
     private final String numberOfRows;
 
-    public GenericDaoImpl(DataBaseConnector connector, String saveQuery, String findByIdQuery,
+    protected GenericDaoImpl(DataBaseConnector connector, String saveQuery, String findByIdQuery,
                           String findAllQuery, String updateQuery, String numberOfRows) {
         this.connector = connector;
         this.saveQuery = saveQuery;
@@ -55,11 +55,11 @@ public abstract class GenericDaoImpl<E> implements GenericDao<E, Long> {
 
 
     @Override
-    public int save(E entity) {
+    public void save(E entity) {
         try (Connection connection = connector.getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(saveQuery)) {
             insert(preparedStatement, entity);
-            return preparedStatement.executeUpdate();
+            preparedStatement.executeUpdate();
         } catch (SQLException e) {
             LOGGER.error("Insertion is failed", e);
             throw new DataBaseRuntimeException("Insertion is failed", e);
@@ -129,7 +129,7 @@ public abstract class GenericDaoImpl<E> implements GenericDao<E, Long> {
         }
     }
 
-    public int getNumberOfRows() throws SQLException {
+    public int getNumberOfRows() {
         try (Connection connection = connector.getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(numberOfRows)) {
             return mapResultSetToNumber(preparedStatement);
@@ -139,7 +139,7 @@ public abstract class GenericDaoImpl<E> implements GenericDao<E, Long> {
         }
     }
 
-    public int mapResultSetToNumber(PreparedStatement statement) throws SQLException {
+    protected int mapResultSetToNumber(PreparedStatement statement) throws SQLException {
         ResultSet resultSet = statement.executeQuery();
         return resultSet.next() ? resultSet.getInt(1) : 0;
     }

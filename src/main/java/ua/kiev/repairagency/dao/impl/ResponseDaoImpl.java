@@ -1,6 +1,7 @@
 package ua.kiev.repairagency.dao.impl;
 
 import ua.kiev.repairagency.dao.DataBaseConnector;
+import ua.kiev.repairagency.dao.ResponseDao;
 import ua.kiev.repairagency.dao.UserDao;
 import ua.kiev.repairagency.entity.order.ResponseEntity;
 
@@ -8,14 +9,14 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-public class ResponseDaoImpl extends GenericDaoImpl<ResponseEntity> {
+public class ResponseDaoImpl extends GenericDaoImpl<ResponseEntity> implements ResponseDao {
     private final UserDao userDao;
 
     private static final String FIND_ALL_RESPONSES_QUERY = "SELECT * FROM `Responses`;";
     private static final String FIND_BY_ID_QUERY = "SELECT * FROM `Responses` WHERE response_id = ?;";
     private static final String SAVE_QUERY = "INSERT INTO `Responses` (`text`,`user_id`) VALUES(?,?);";
     private static final String UPDATE_RESPONSE_QUERY = "UPDATE `Responses` SET text = ? WHERE response_id = ?;";
-    private static final String NUMBER_OF_ROWS = "SELECT COUNT(order_id) FROM `Orders`";
+    private static final String NUMBER_OF_ROWS = "SELECT COUNT(order_id) FROM `Responses`";
 
 
     public ResponseDaoImpl(UserDao userDao, DataBaseConnector connector) {
@@ -27,7 +28,9 @@ public class ResponseDaoImpl extends GenericDaoImpl<ResponseEntity> {
     protected ResponseEntity mapResultSetToEntity(ResultSet resultSet) throws SQLException {
         return new ResponseEntity(
                 resultSet.getString("text"),
-                userDao.findById(resultSet.getLong("user_id")).get());
+                userDao.findById(resultSet.getLong("user_id")).isPresent()?
+                userDao.findById(resultSet.getLong("user_id")).get():
+                null);
     }
 
     @Override

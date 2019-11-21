@@ -1,69 +1,61 @@
 package ua.kiev.repairagency.service.impl;
 
-import ua.kiev.repairagency.dao.ApplianceDao;
 import ua.kiev.repairagency.dao.OrderDao;
 import ua.kiev.repairagency.dao.UserDao;
 import ua.kiev.repairagency.dao.impl.ResponseDaoImpl;
-import ua.kiev.repairagency.domain.appliance.ElectricAppliance;
+import ua.kiev.repairagency.domain.appliance.Appliance;
 import ua.kiev.repairagency.domain.order.Order;
 import ua.kiev.repairagency.domain.order.Response;
 import ua.kiev.repairagency.domain.user.User;
 import ua.kiev.repairagency.service.CustomerService;
-import ua.kiev.repairagency.service.PasswordEncoder;
+import ua.kiev.repairagency.service.encoder.PasswordEncoder;
 import ua.kiev.repairagency.service.mapper.OrderMapper;
 import ua.kiev.repairagency.service.mapper.ResponseMapper;
 import ua.kiev.repairagency.service.mapper.UserMapper;
-import ua.kiev.repairagency.service.validator.Validator;
+import ua.kiev.repairagency.service.validator.UserValidator;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 
-public class CustomerServiceImpl extends UserGenericService implements CustomerService {
+public class CustomerServiceImpl extends UserGenericServiceImpl implements CustomerService {
     private final OrderDao orderDao;
-    private final ApplianceDao applianceDao;
     private final OrderMapper orderMapper;
     private final ResponseDaoImpl responseDao;
     private final ResponseMapper responseMapper;
 
     public CustomerServiceImpl(UserDao userDao,
                                OrderDao orderDao,
-                               ApplianceDao applianceDao,
                                PasswordEncoder passwordEncoder,
-                               Validator validator,
+                               UserValidator userValidator,
                                UserMapper userMapper, OrderMapper orderMapper, ResponseDaoImpl responseDao, ResponseMapper responseMapper) {
-        super(passwordEncoder, userDao, validator, userMapper);
+        super(passwordEncoder, userDao, userValidator, userMapper);
         this.orderDao = orderDao;
-        this.applianceDao = applianceDao;
         this.orderMapper = orderMapper;
         this.responseDao = responseDao;
         this.responseMapper = responseMapper;
     }
 
-    public User register(User customer) {
-        return super.register(customer);
-    }
-
     @Override
-    public User login(String email, String password) {
-        return super.login(email, password);
-    }
-
-    @Override
-    public int makeOrder(ElectricAppliance appliance, User customer, String title) {
-       return orderDao.save(orderMapper.mapOrderToOrderEntity(new Order.OrderBuilder()
+    public void makeOrder(Appliance appliance, User customer, String title) {
+        Order order = Order.builder()
                 .withAppliance(appliance)
                 .withCustomer(customer)
                 .withTitle(title)
-                .build()));
+                .build();
+        order.setStatus(true);
+        orderDao.save(orderMapper.mapOrderToOrderEntity(order));
     }
 
     @Override
-    public List findAllOrders(User user,int currentPage, int recordsPerPage) {
-        return orderDao.findUserOrders(userMapper.mapUserToUserEntity(user),currentPage,recordsPerPage);
+    public List<Order> findAllOrders(User user, int currentPage, int recordsPerPage) {
+        return orderDao.findUserOrders(userMapper.mapUserToUserEntity(user), currentPage, recordsPerPage).stream()
+                .map(orderMapper::mapOrderEntityToOrder)
+                .collect(Collectors.toList());
     }
 
     @Override
-    public int createResponse(Response response) {
-        return responseDao.save(responseMapper.mapResponseToResponseEntity(response));
+    public void createResponse(Response response) {
+        responseDao.save(responseMapper.mapResponseToResponseEntity(response));
     }
 }

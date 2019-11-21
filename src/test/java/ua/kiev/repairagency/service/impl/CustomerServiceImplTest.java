@@ -5,43 +5,54 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
 import org.junit.runner.RunWith;
+import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
-import ua.kiev.repairagency.dao.ApplianceDao;
 import ua.kiev.repairagency.dao.OrderDao;
 import ua.kiev.repairagency.dao.UserDao;
 import ua.kiev.repairagency.dao.impl.ResponseDaoImpl;
+import ua.kiev.repairagency.domain.appliance.Appliance;
 import ua.kiev.repairagency.domain.order.Order;
 import ua.kiev.repairagency.domain.order.Response;
 import ua.kiev.repairagency.domain.user.User;
+import ua.kiev.repairagency.entity.appliance.ApplianceEntity;
+import ua.kiev.repairagency.entity.order.OrderEntity;
+import ua.kiev.repairagency.entity.order.ResponseEntity;
 import ua.kiev.repairagency.entity.user.UserEntity;
-import ua.kiev.repairagency.service.CustomerService;
-import ua.kiev.repairagency.service.PasswordEncoder;
+import ua.kiev.repairagency.service.encoder.PasswordEncoder;
+import ua.kiev.repairagency.service.mapper.ApplianceMapper;
 import ua.kiev.repairagency.service.mapper.OrderMapper;
 import ua.kiev.repairagency.service.mapper.ResponseMapper;
 import ua.kiev.repairagency.service.mapper.UserMapper;
-import ua.kiev.repairagency.service.validator.Validator;
+import ua.kiev.repairagency.service.validator.UserValidator;
 
-import static java.util.Collections.emptyList;
-import static org.junit.Assert.*;
-import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 @RunWith(MockitoJUnitRunner.class)
 public class CustomerServiceImplTest {
+    private static final Appliance APPLIANCE = Appliance.builder().build();
+    private static final ApplianceEntity APPLIANCE_ENTITY = ApplianceEntity.builder().build();
+    private static final User USER = User.builder().build();
+    private static final UserEntity USER_ENTITY = UserEntity.builder().build();
+    private static final Order ORDER = Order.builder().withAppliance(APPLIANCE).withCustomer(USER).withTitle("").build();
+    private static final OrderEntity ORDER_ENTITY = OrderEntity.builder().withApplianceEntity(APPLIANCE_ENTITY)
+            .withCustomerEntity(USER_ENTITY).withTitle("").build();
 
     @Rule
     public final ExpectedException exception = ExpectedException.none();
-    private CustomerService customerService;
+
+    @InjectMocks
+    private CustomerServiceImpl customerService;
 
     @Mock
     private OrderDao orderDao;
     @Mock
     private UserDao userDao;
     @Mock
-    private ApplianceDao applianceDao;
-    @Mock
     private OrderMapper orderMapper;
+    @Mock
+    private ApplianceMapper applianceMapper;
     @Mock
     private UserMapper userMapper;
     @Mock
@@ -51,46 +62,32 @@ public class CustomerServiceImplTest {
     @Mock
     private PasswordEncoder passwordEncoder;
     @Mock
-    private Validator validator;
+    private UserValidator userValidator;
 
     @Before
-    public void init(){
-        customerService = new CustomerServiceImpl(userDao,orderDao,applianceDao,passwordEncoder,
-                validator,userMapper,orderMapper,responseDao,responseMapper);
+    public void init() {
+        customerService = new CustomerServiceImpl(userDao, orderDao, passwordEncoder,
+                userValidator, userMapper, orderMapper, responseDao, responseMapper);
     }
 
 
     @Test
-    public void registrationShouldNotReturnNull() {
-        User user = User.builder().build();
-        when(userDao.save(any(UserEntity.class))).thenReturn(1);
-        User user1 = customerService.register(user);
-        assertNotNull(user);
+    public void makeOrderShouldSaveOrder() {
+        when(userMapper.mapUserToUserEntity(USER)).thenReturn(null);
+        when(applianceMapper.mapApplianceToApplianceEntity(APPLIANCE)).thenReturn(null);
+        when(orderMapper.mapOrderToOrderEntity(ORDER)).thenReturn(ORDER_ENTITY);
+
+        customerService.makeOrder(APPLIANCE, USER, "");
+        verify(orderDao).save(null);
     }
 
-    @Test(expected = Exception.class)
-    public void loginShouldThrownExceptionWithIllegalArguments() {
-        when(userDao.findByEmail("null")).thenThrow(NullPointerException.class);
-        assertThat(customerService.login("null", "null"),null);
-    }
 
     @Test
-    public void makeOrderShouldReturnInt() {
-        Order order = Order.builder().build();
-        when(orderDao.save(orderMapper.mapOrderToOrderEntity(order))).thenReturn(1);
-        assertEquals(customerService.makeOrder(order.getAppliance(), order.getCustomer(), order.getTitle()), 1);
-    }
-
-    @Test
-    public void whenDaoReturnedEmptyListServiseReturnedToo() {
-        when(orderDao.findAll(1,5)).thenReturn(emptyList());
-        assertEquals(emptyList(),customerService.findAllOrders(null,1,5));
-    }
-
-    @Test
-    public void createResponseShouldReturnSameValAsDaoMethodSave() {
-        Response response = new Response("",null);
-        when(responseDao.save(responseMapper.mapResponseToResponseEntity(response))).thenReturn(1);
-        assertEquals(1,customerService.createResponse(response));
+    public void createResponseShouldSaveResponse() {
+        Response response = new Response("", null);
+        ResponseEntity responseEntity = new ResponseEntity("", null);
+        when(responseMapper.mapResponseToResponseEntity(response)).thenReturn(responseEntity);
+        customerService.createResponse(response);
+        verify(responseDao).save(responseEntity);
     }
 }

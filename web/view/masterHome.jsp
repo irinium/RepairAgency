@@ -42,7 +42,7 @@
         <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav ml-auto">
                 <li class="nav-item">
-                    <a class="nav-link" href=${pageContext.request.contextPath}/userOrders <fmt:message
+                    <a class="nav-link" href="command?command=masterOrders&currentPage=1&recordsPerPage=5" <fmt:message
                             key="navbar.my.applications"
                             var="my"/>> ${my}</a>
                 </li>
@@ -89,7 +89,7 @@
                             <p>${climatictext}</p>
                         </div>
                     </div>
-                    <a href="${pageContext.request.contextPath}/master">
+                    <a href="command?command=masterAllOrders&currentPage=1&recordsPerPage=5">
                         <button class="btn btn-primary" <fmt:message key="master.button.allOrders" var="application"/>
                         >${application}</button>
                     </a>
@@ -116,12 +116,12 @@
             </tr>
             </thead>
             <tbody light>
-            <c:catch var="user">
+            <c:catch var="order">
                 <tr>
-                    <td>${user.getName()}</td>
-                    <td>${user.getSurname()}</td>
-                    <td>${user.getEmail()}</td>
-                    <td>${user.getPhone()}</td>
+                    <td>${order.getName()}</td>
+                    <td>${order.getSurname()}</td>
+                    <td>${order.getEmail()}</td>
+                    <td>${order.getPhone()}</td>
                 </tr>
             </c:catch>
             </tbody>

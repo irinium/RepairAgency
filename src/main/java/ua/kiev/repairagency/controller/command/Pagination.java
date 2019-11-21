@@ -8,8 +8,8 @@ public class Pagination {
     public void setPagination(HttpServletRequest request, int currentPage, int rows) {
         int nOfPages = rows / RECORDS_PER_PAGE;
 
-        if (nOfPages % RECORDS_PER_PAGE > 0) {
-            nOfPages++;
+        if (nOfPages % RECORDS_PER_PAGE > 0 && rows % RECORDS_PER_PAGE != 0) {
+            nOfPages += 1;
         }
 
         request.setAttribute("noOfPages", nOfPages);

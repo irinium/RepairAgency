@@ -11,15 +11,15 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.Map;
 
-public class CommandServlet extends HttpServlet { //TODO rename
-    private final static Logger LOGGER = Logger.getLogger(CommandServlet.class);
+public class CommandServlet extends HttpServlet {
+    private static final Logger LOGGER = Logger.getLogger(CommandServlet.class);
     private final Map<String, Command> commandNameToCommand;
     private final Command defaultCommand;
 
     public CommandServlet() {
         final ApplicationContextInjector injector = ApplicationContextInjector.getInstance();
         this.commandNameToCommand = injector.getUserCommands();
-        this.defaultCommand = request -> "view/problem.jsp";
+        this.defaultCommand = request -> "/view/errors/error404.jsp";
     }
 
     @Override

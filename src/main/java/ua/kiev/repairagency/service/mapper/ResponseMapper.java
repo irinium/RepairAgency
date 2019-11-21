@@ -11,9 +11,11 @@ public class ResponseMapper {
     }
 
     public Response mapResponseEntityToResponse(ResponseEntity responseEntity) {
-        return new Response(
+        Response response = new Response(
                 responseEntity.getText(),
                 userMapper.mapUserEntityToUser(responseEntity.getUser()));
+        response.setId(responseEntity.getId());
+        return response;
     }
 
     public ResponseEntity mapResponseToResponseEntity(Response response) {

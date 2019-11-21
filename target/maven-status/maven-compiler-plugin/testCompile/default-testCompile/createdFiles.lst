@@ -1,3 +1,11 @@
+ua/kiev/repairagency/service/impl/OrderServiceImplTest.class
+ua/kiev/repairagency/service/mapper/ResponseMapperTest.class
+ua/kiev/repairagency/service/impl/CustomerServiceImplTest.class
+ua/kiev/repairagency/service/mapper/ApplianceMapperTest.class
+ua/kiev/repairagency/service/mapper/OrderMapperTest.class
+ua/kiev/repairagency/service/validator/UserValidatorTest.class
 ua/kiev/repairagency/service/PasswordEncoderTest.class
 ua/kiev/repairagency/service/mapper/UserMapperTest.class
-ua/kiev/repairagency/service/validator/ValidatorTest.class
+ua/kiev/repairagency/service/impl/UserGenericServiceImplTest.class
+ua/kiev/repairagency/service/impl/ManagerServiceImplTest.class
+ua/kiev/repairagency/service/impl/MasterServiceImplTest.class
