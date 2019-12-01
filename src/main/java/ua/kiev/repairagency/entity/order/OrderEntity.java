@@ -1,7 +1,10 @@
 package ua.kiev.repairagency.entity.order;
 
+import ua.kiev.repairagency.domain.order.Order;
 import ua.kiev.repairagency.entity.appliance.ApplianceEntity;
 import ua.kiev.repairagency.entity.user.UserEntity;
+
+import java.util.Objects;
 
 public class OrderEntity {
     private final Long id;
@@ -114,5 +117,35 @@ public class OrderEntity {
         public OrderEntity build(){
             return new OrderEntity(this);
         }
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || o.getClass() != this.getClass()) return false;
+        Order order = (Order) o;
+        return Objects.equals(getId(), order.getId()) &&
+                Objects.equals(getTitle(), order.getTitle()) &&
+                Objects.equals(getPrice(), order.getPrice()) &&
+                Objects.equals(getCustomerEntity(), order.getCustomer()) &&
+                Objects.equals(getApplianceEntity(), order.getAppliance()) &&
+                Objects.equals(getMasterEntity(), order.getMaster()) &&
+                Objects.equals(getState(), order.getState()) &&
+                Objects.equals(getStatus(), order.getStatus());
+    }
+
+    @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + ((getApplianceEntity() == null) ? 0 : getApplianceEntity().hashCode());
+        result = prime * result + ((getCustomerEntity() == null) ? 0 : getCustomerEntity().hashCode());
+        result = prime * result + ((getMasterEntity() == null) ? 0 : getMasterEntity().hashCode());
+        result = prime * result + ((getTitle() == null) ? 0 : getTitle().hashCode());
+        result = prime * result + ((getState() == null) ? 0 : getState().hashCode());
+        result = prime * result + ((getStatus() == null) ? 0 : getStatus().hashCode());
+        result = (int) (prime * result + (getId() == null ? 0: getId()));
+        result = (int) (prime * result + (getPrice() == null ? 0 : getPrice()));
+        return result;
     }
 }

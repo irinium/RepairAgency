@@ -22,8 +22,8 @@ public class ChangePasswordCommand implements Command {
 
         if (password != null) {
             masterService.updatePassword(master, password);
-            session.setAttribute("page","/view/masterHome.jsp");
         }
+
         return "/view/masterHome.jsp";
     }
 }

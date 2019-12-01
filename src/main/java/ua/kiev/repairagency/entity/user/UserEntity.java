@@ -1,5 +1,7 @@
 package ua.kiev.repairagency.entity.user;
 
+import java.util.Objects;
+
 public class UserEntity {
     private final Long id;
     private final String password;
@@ -101,5 +103,33 @@ public class UserEntity {
             this.roleEntity = roleEntity;
             return this;
         }
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        UserEntity user = (UserEntity) o;
+        return Objects.equals(getId(), user.getId()) &&
+                Objects.equals(getPassword(), user.getPassword()) &&
+                Objects.equals(getEmail(), user.getEmail()) &&
+                Objects.equals(getName(), user.getName()) &&
+                Objects.equals(getSurname(), user.getSurname()) &&
+                Objects.equals(phoneNumber, user.getPhoneNumber()) &&
+                getRoleEntity() == user.getRoleEntity();
+    }
+
+    @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + ((getEmail() == null) ? 0 : getEmail().hashCode());
+        result = prime * result + ((getName() == null) ? 0 : getName().hashCode());
+        result = prime * result + ((getSurname() == null) ? 0 : getSurname().hashCode());
+        result = prime * result + ((getPassword() == null) ? 0 : getPassword().hashCode());
+        result = prime * result + ((getPhoneNumber() == null) ? 0 : getPhoneNumber().hashCode());
+        result = prime * result + ((getRoleEntity() == null) ? 0 : getRoleEntity().hashCode());
+        result = (int) (prime * result + (getId()==null ? 0: getId()));
+        return result;
     }
 }

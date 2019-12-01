@@ -12,11 +12,11 @@ import java.sql.SQLException;
 public class ResponseDaoImpl extends GenericDaoImpl<ResponseEntity> implements ResponseDao {
     private final UserDao userDao;
 
-    private static final String FIND_ALL_RESPONSES_QUERY = "SELECT * FROM `Responses`;";
+    private static final String FIND_ALL_RESPONSES_QUERY = "SELECT * FROM `Responses` LIMIT ?,?;";
     private static final String FIND_BY_ID_QUERY = "SELECT * FROM `Responses` WHERE response_id = ?;";
     private static final String SAVE_QUERY = "INSERT INTO `Responses` (`text`,`user_id`) VALUES(?,?);";
     private static final String UPDATE_RESPONSE_QUERY = "UPDATE `Responses` SET text = ? WHERE response_id = ?;";
-    private static final String NUMBER_OF_ROWS = "SELECT COUNT(order_id) FROM `Responses`";
+    private static final String NUMBER_OF_ROWS = "SELECT COUNT(response_id) FROM `Responses`";
 
 
     public ResponseDaoImpl(UserDao userDao, DataBaseConnector connector) {

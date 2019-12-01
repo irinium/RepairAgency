@@ -2,6 +2,8 @@ package ua.kiev.repairagency.domain.appliance;
 
 import ua.kiev.repairagency.domain.user.User;
 
+import java.util.Objects;
+
 public class Appliance {
     private final Long id;
     private final String name;
@@ -102,5 +104,33 @@ public class Appliance {
             this.user = user;
             return this;
         }
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || o.getClass() != this.getClass()) return false;
+        Appliance appliance = (Appliance) o;
+        return Objects.equals(getId(), appliance.getId()) &&
+                Objects.equals(getName(), appliance.getName()) &&
+                Objects.equals(getModel(), appliance.getModel()) &&
+                Objects.equals(getDisrepair(), appliance.getDisrepair()) &&
+                getManufacturer() == appliance.getManufacturer() &&
+                getType() == appliance.getType() &&
+                getUser().equals(appliance.getUser());
+    }
+
+    @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + ((getManufacturer() == null) ? 0 : getManufacturer().hashCode());
+        result = prime * result + ((getDisrepair() == null) ? 0 : getDisrepair().hashCode());
+        result = prime * result + ((getModel() == null) ? 0 : getModel().hashCode());
+        result = prime * result + ((getName() == null) ? 0 : getName().hashCode());
+        result = prime * result + ((getType() == null) ? 0 : getType().hashCode());
+        result = prime * result + ((getUser() == null) ? 0 : getUser().hashCode());
+        result = (int) (prime * result + (getId()==null ? 0 : getId()));
+        return result;
     }
 }

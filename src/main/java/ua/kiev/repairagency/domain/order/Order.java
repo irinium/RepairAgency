@@ -3,6 +3,8 @@ package ua.kiev.repairagency.domain.order;
 import ua.kiev.repairagency.domain.appliance.Appliance;
 import ua.kiev.repairagency.domain.user.User;
 
+import java.util.Objects;
+
 public class Order {
     private final Long id;
     private final String title;
@@ -11,7 +13,7 @@ public class Order {
     private final Appliance appliance;
     private final User master;
     private final Boolean state; //access -true, denied - false
-    private  Boolean status; //active -true, complete - false
+    private Boolean status; //active -true, complete - false
 
     private Order(Builder builder) {
         this.id = builder.id;
@@ -60,7 +62,7 @@ public class Order {
         this.status = status;
     }
 
-    public static Builder builder(){
+    public static Builder builder() {
         return new Builder();
     }
 
@@ -111,13 +113,44 @@ public class Order {
             this.state = state;
             return this;
         }
+
         public Builder withStatus(Boolean status) {
             this.status = status;
             return this;
         }
 
-        public Order build(){
+        public Order build() {
             return new Order(this);
         }
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || o.getClass() != this.getClass()) return false;
+        Order order = (Order) o;
+        return Objects.equals(getId(), order.getId()) &&
+                Objects.equals(getTitle(), order.getTitle()) &&
+                Objects.equals(getPrice(), order.getPrice()) &&
+                Objects.equals(getCustomer(), order.getCustomer()) &&
+                Objects.equals(getAppliance(), order.getAppliance()) &&
+                Objects.equals(getMaster(), order.getMaster()) &&
+                Objects.equals(getState(), order.getState()) &&
+                Objects.equals(getStatus(), order.getStatus());
+    }
+
+    @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + ((getAppliance() == null) ? 0 : getAppliance().hashCode());
+        result = prime * result + ((getCustomer() == null) ? 0 : getCustomer().hashCode());
+        result = prime * result + ((getMaster() == null) ? 0 : getMaster().hashCode());
+        result = prime * result + ((getTitle() == null) ? 0 : getTitle().hashCode());
+        result = prime * result + ((getState() == null) ? 0 : getState().hashCode());
+        result = prime * result + ((getStatus() == null) ? 0 : getStatus().hashCode());
+        result = (int) (prime * result + (getId() == null ? 0: getId()));
+        result = (int) (prime * result + (getPrice() == null ? 0 : getPrice()));
+        return result;
     }
 }

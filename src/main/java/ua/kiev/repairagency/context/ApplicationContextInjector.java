@@ -2,6 +2,10 @@ package ua.kiev.repairagency.context;
 
 import ua.kiev.repairagency.controller.command.Command;
 import ua.kiev.repairagency.controller.command.Pagination;
+import ua.kiev.repairagency.controller.command.authentification.LoginCommand;
+import ua.kiev.repairagency.controller.command.authentification.LogoutCommand;
+import ua.kiev.repairagency.controller.command.authentification.RegisterCommand;
+import ua.kiev.repairagency.controller.command.authentification.ShowResponsesCommand;
 import ua.kiev.repairagency.controller.command.manager.OrderListCommand;
 import ua.kiev.repairagency.controller.command.manager.RegisterMasterCommand;
 import ua.kiev.repairagency.controller.command.manager.UpdateOrder;
@@ -12,11 +16,8 @@ import ua.kiev.repairagency.controller.command.master.CompleteOrderCommand;
 import ua.kiev.repairagency.controller.command.master.MasterAcceptedOrdersCommand;
 import ua.kiev.repairagency.controller.command.master.MasterSelectOrdersCommand;
 import ua.kiev.repairagency.controller.command.user.LeaveFeedbackCommand;
-import ua.kiev.repairagency.controller.command.user.LoginCommand;
-import ua.kiev.repairagency.controller.command.user.LogoutCommand;
 import ua.kiev.repairagency.controller.command.user.MakeOrderCommand;
 import ua.kiev.repairagency.controller.command.user.OrdersOfUserCommand;
-import ua.kiev.repairagency.controller.command.user.RegisterCommand;
 import ua.kiev.repairagency.dao.ApplianceDao;
 import ua.kiev.repairagency.dao.DataBaseConnector;
 import ua.kiev.repairagency.dao.OrderDao;
@@ -89,7 +90,12 @@ public final class ApplicationContextInjector {
     private static final Command MASTER_SELECT_ORDERS = new MasterSelectOrdersCommand(ORDER_SERVICE,PAGINATION);
     private static final Command MASTER_ACCEPTED_ORDERS = new MasterAcceptedOrdersCommand(ORDER_SERVICE,MASTER_SERVICE,PAGINATION);
     private static final Command COMPLETE_ORDER = new CompleteOrderCommand(MASTER_SERVICE,MANAGER_SERVICE);
-    private static final Map<String, Command> USER_COMMAND_NAME_TO_COMMAND = initUserCommand();
+    private static final Command SHOW_RESPONSES = new ShowResponsesCommand(ORDER_SERVICE,PAGINATION);
+
+    private static final Map<String, Command> CUSTOMER_COMMAND_NAME_TO_COMMAND = initCustomerCommand();
+    private static final Map<String, Command> MANAGER_COMMAND_NAME_TO_COMMAND = initManagerCommand();
+    private static final Map<String, Command> MASTER_COMMAND_NAME_TO_COMMAND = initMasterCommand();
+    private static final Map<String, Command> AUTHENTICATION_COMMAND_NAME_TO_COMMAND = initAuthorisationCommand();
 
     private static ApplicationContextInjector applicationContextInjector;
 
@@ -108,44 +114,51 @@ public final class ApplicationContextInjector {
         return applicationContextInjector;
     }
 
-    public Map<String, Command> getUserCommands() {
-        return USER_COMMAND_NAME_TO_COMMAND;
+    public Map<String, Command> getCustomerCommands() {
+        return CUSTOMER_COMMAND_NAME_TO_COMMAND;
+    }
+    public Map<String, Command> getManagerCommands() { return MANAGER_COMMAND_NAME_TO_COMMAND; }
+    public Map<String, Command> getMasterCommands() { return MASTER_COMMAND_NAME_TO_COMMAND; }
+    public Map<String, Command> getAuthenticationCommands() { return AUTHENTICATION_COMMAND_NAME_TO_COMMAND; }
+
+
+    private static Map<String, Command> initCustomerCommand() {
+        Map<String, Command> commandNameToCommand = new HashMap<>();
+        commandNameToCommand.put("makeOrder", MAKE_ORDER);
+        commandNameToCommand.put("feedback", LEAVE_FEEDBACK);
+        commandNameToCommand.put("userOrderList", ORDERS_OF_USER);
+
+        return Collections.unmodifiableMap(commandNameToCommand);
     }
 
-    public static UserGenericService getUserGenericService() {
-        return USER_GENERIC_SERVICE;
+    private static Map<String, Command> initManagerCommand() {
+        Map<String, Command> commandNameToCommand = new HashMap<>();
+        commandNameToCommand.put("registerMaster", REGISTER_MASTER);
+        commandNameToCommand.put("updateOrder", UPDATE_ORDER);
+        commandNameToCommand.put("orderList", ORDERS_LIST);
+        commandNameToCommand.put("userList", USERS_LIST);
+
+        return Collections.unmodifiableMap(commandNameToCommand);
     }
 
-    public static OrderService getOrderService() {
-        return ORDER_SERVICE;
+    private static Map<String, Command> initMasterCommand() {
+        Map<String, Command> commandNameToCommand = new HashMap<>();
+        commandNameToCommand.put("changePassword", CHANGE_PASSWORD);
+        commandNameToCommand.put("masterAllOrders", MASTER_SELECT_ORDERS);
+        commandNameToCommand.put("acceptOrder", ACCEPT_ORDER);
+        commandNameToCommand.put("masterOrders", MASTER_ACCEPTED_ORDERS);
+        commandNameToCommand.put("completeOrder", COMPLETE_ORDER);
+
+        return Collections.unmodifiableMap(commandNameToCommand);
     }
 
-    public static CustomerService getCustomerService() {
-        return CUSTOMER_SERVICE;
-    }
+    private static Map<String, Command> initAuthorisationCommand() {
+        Map<String, Command> commandNameToCommand = new HashMap<>();
+        commandNameToCommand.put("login", LOGIN_COMMAND);
+        commandNameToCommand.put("logout", LOGOUT_COMMAND);
+        commandNameToCommand.put("register", REGISTER_COMMAND);
+        commandNameToCommand.put("responses", SHOW_RESPONSES);
 
-    public static Pagination getPAGINATION() {
-        return PAGINATION;
-    }
-
-    private static Map<String, Command> initUserCommand() {
-        Map<String, Command> userCommandNameToCommand = new HashMap<>();
-        userCommandNameToCommand.put("login", LOGIN_COMMAND);
-        userCommandNameToCommand.put("logout", LOGOUT_COMMAND);
-        userCommandNameToCommand.put("register", REGISTER_COMMAND);
-        userCommandNameToCommand.put("makeOrder", MAKE_ORDER);
-        userCommandNameToCommand.put("feedback", LEAVE_FEEDBACK);
-        userCommandNameToCommand.put("registerMaster", REGISTER_MASTER);
-        userCommandNameToCommand.put("updateOrder", UPDATE_ORDER);
-        userCommandNameToCommand.put("changePassword", CHANGE_PASSWORD);
-        userCommandNameToCommand.put("acceptOrder", ACCEPT_ORDER);
-        userCommandNameToCommand.put("orderList", ORDERS_LIST);
-        userCommandNameToCommand.put("userList", USERS_LIST);
-        userCommandNameToCommand.put("userOrderList", ORDERS_OF_USER);
-        userCommandNameToCommand.put("masterAllOrders", MASTER_SELECT_ORDERS);
-        userCommandNameToCommand.put("masterOrders", MASTER_ACCEPTED_ORDERS);
-        userCommandNameToCommand.put("completeOrder", COMPLETE_ORDER);
-
-        return Collections.unmodifiableMap(userCommandNameToCommand);
+        return Collections.unmodifiableMap(commandNameToCommand);
     }
 }

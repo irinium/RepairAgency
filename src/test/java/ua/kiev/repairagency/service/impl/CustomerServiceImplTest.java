@@ -1,6 +1,5 @@
 package ua.kiev.repairagency.service.impl;
 
-import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
@@ -26,15 +25,21 @@ import ua.kiev.repairagency.service.mapper.ResponseMapper;
 import ua.kiev.repairagency.service.mapper.UserMapper;
 import ua.kiev.repairagency.service.validator.UserValidator;
 
+import java.util.List;
+
+import static java.util.Collections.emptyList;
+import static java.util.Collections.singletonList;
+import static org.junit.Assert.assertEquals;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 @RunWith(MockitoJUnitRunner.class)
 public class CustomerServiceImplTest {
-    private static final Appliance APPLIANCE = Appliance.builder().build();
-    private static final ApplianceEntity APPLIANCE_ENTITY = ApplianceEntity.builder().build();
-    private static final User USER = User.builder().build();
-    private static final UserEntity USER_ENTITY = UserEntity.builder().build();
+    private static final Appliance APPLIANCE = Appliance.builder().withDisrepair("broken").build();
+    private static final ApplianceEntity APPLIANCE_ENTITY = ApplianceEntity.builder().withDisrepair("broken").build();
+    private static final User USER = User.builder().withEmail("user@gmail.com").build();
+    private static final UserEntity USER_ENTITY = UserEntity.builder().withEmail("user@gmail.com").build();
     private static final Order ORDER = Order.builder().withAppliance(APPLIANCE).withCustomer(USER).withTitle("").build();
     private static final OrderEntity ORDER_ENTITY = OrderEntity.builder().withApplianceEntity(APPLIANCE_ENTITY)
             .withCustomerEntity(USER_ENTITY).withTitle("").build();
@@ -64,20 +69,11 @@ public class CustomerServiceImplTest {
     @Mock
     private UserValidator userValidator;
 
-    @Before
-    public void init() {
-        customerService = new CustomerServiceImpl(userDao, orderDao, passwordEncoder,
-                userValidator, userMapper, orderMapper, responseDao, responseMapper);
-    }
-
 
     @Test
     public void makeOrderShouldSaveOrder() {
-        when(userMapper.mapUserToUserEntity(USER)).thenReturn(null);
-        when(applianceMapper.mapApplianceToApplianceEntity(APPLIANCE)).thenReturn(null);
-        when(orderMapper.mapOrderToOrderEntity(ORDER)).thenReturn(ORDER_ENTITY);
-
         customerService.makeOrder(APPLIANCE, USER, "");
+
         verify(orderDao).save(null);
     }
 
@@ -88,6 +84,31 @@ public class CustomerServiceImplTest {
         ResponseEntity responseEntity = new ResponseEntity("", null);
         when(responseMapper.mapResponseToResponseEntity(response)).thenReturn(responseEntity);
         customerService.createResponse(response);
+
         verify(responseDao).save(responseEntity);
+    }
+
+    @Test
+    public void findAllOrdersShouldReturnEmptyListWhenThereIsNoOrders(){
+        List<Order> expected = emptyList();
+
+        when(orderDao.findAll(any(Integer.class) , any(Integer.class))).thenReturn(emptyList());
+        when(userMapper.mapUserToUserEntity(USER)).thenReturn(USER_ENTITY);
+
+        List<Order> actual = customerService.findAllOrders(USER,1 , 10);
+
+        assertEquals(expected, actual);
+    }
+
+    @Test
+    public void findAllOrdersShouldReturnAllOrders() {
+        List<OrderEntity> entities = singletonList(ORDER_ENTITY);
+
+        when(userMapper.mapUserToUserEntity(USER)).thenReturn(USER_ENTITY);
+        when(orderDao.findUserOrders(USER_ENTITY,1 , 5)).thenReturn(entities);
+        when(orderMapper.mapOrderToOrderEntity(ORDER)).thenReturn(ORDER_ENTITY);
+
+        customerService.findAllOrders(USER,1 , 5);
+        verify(orderDao).findUserOrders(USER_ENTITY,1,5);
     }
 }

@@ -27,7 +27,7 @@ public class AcceptOrderCommand implements Command {
         Order order = managerService.findOrderById(Long.parseLong(orderId));
 
         masterService.acceptOrder(order, master);
-        session.setAttribute("page","/view/ordersForMaster.jsp");
+
         return "/view/ordersForMaster.jsp";
     }
 }

@@ -2,6 +2,8 @@ package ua.kiev.repairagency.entity.appliance;
 
 import ua.kiev.repairagency.entity.user.UserEntity;
 
+import java.util.Objects;
+
 public class ApplianceEntity {
     private final Long id;
     private final String name;
@@ -103,6 +105,33 @@ public class ApplianceEntity {
             this.userEntity = userEntity;
             return this;
         }
+    }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || o.getClass() != this.getClass()) return false;
+        ApplianceEntity appliance = (ApplianceEntity) o;
+        return Objects.equals(getId(), appliance.getId()) &&
+                Objects.equals(getName(), appliance.getName()) &&
+                Objects.equals(getModel(), appliance.getModel()) &&
+                Objects.equals(getDisrepair(), appliance.getDisrepair()) &&
+                getManufacturerEntity() == appliance.getManufacturerEntity() &&
+                getTypeEntity() == appliance.getTypeEntity() &&
+                getUserEntity().equals(appliance.getUserEntity());
+    }
+
+    @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + ((getManufacturerEntity() == null) ? 0 : getManufacturerEntity().hashCode());
+        result = prime * result + ((getDisrepair() == null) ? 0 : getDisrepair().hashCode());
+        result = prime * result + ((getModel() == null) ? 0 : getModel().hashCode());
+        result = prime * result + ((getName() == null) ? 0 : getName().hashCode());
+        result = prime * result + ((getTypeEntity() == null) ? 0 : getTypeEntity().hashCode());
+        result = prime * result + ((getUserEntity() == null) ? 0 : getUserEntity().hashCode());
+        result = (int) (prime * result + (getId()==null ? 0 : getId()));
+        return result;
     }
 }

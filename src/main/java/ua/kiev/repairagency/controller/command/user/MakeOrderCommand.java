@@ -2,6 +2,7 @@ package ua.kiev.repairagency.controller.command.user;
 
 import org.apache.log4j.Logger;
 import ua.kiev.repairagency.controller.command.Command;
+import ua.kiev.repairagency.controller.command.authentification.LoginCommand;
 import ua.kiev.repairagency.domain.appliance.Appliance;
 import ua.kiev.repairagency.domain.appliance.Manufacturer;
 import ua.kiev.repairagency.domain.appliance.Type;

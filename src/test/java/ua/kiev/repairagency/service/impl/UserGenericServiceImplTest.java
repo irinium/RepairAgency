@@ -1,6 +1,5 @@
 package ua.kiev.repairagency.service.impl;
 
-import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
@@ -22,7 +21,10 @@ import java.util.Optional;
 import static java.util.Collections.singletonList;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.anyInt;
+import static org.mockito.Mockito.doNothing;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
 @RunWith(MockitoJUnitRunner.class)
 public class UserGenericServiceImplTest {
@@ -30,7 +32,6 @@ public class UserGenericServiceImplTest {
     private static final String EMAIL = "email";
     private static final User USER = User.builder().withId(1L).withEmail(EMAIL).build();
     private static final UserEntity USER_ENTITY = UserEntity.builder().withEmail(EMAIL).build();
-
 
     @Rule
     public final ExpectedException exception = ExpectedException.none();
@@ -45,11 +46,6 @@ public class UserGenericServiceImplTest {
     private UserValidator userValidator;
     @Mock
     private UserMapper userMapper;
-
-    @Before
-    public void initMocks() {
-        reset(userValidator, userMapper, userDao, passwordEncoder);
-    }
 
     @Test
     public void registrationShouldBeSuccessful() {

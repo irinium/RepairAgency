@@ -36,8 +36,6 @@ public class RegisterMasterCommand implements Command {
                     .withRole(Role.MASTER)
                     .build();
             userGenericService.register(user);
-
-            session.setAttribute("page", "view/managerHome.jsp");
         }
         return "view/managerHome.jsp";
     }

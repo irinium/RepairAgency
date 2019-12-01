@@ -1,5 +1,7 @@
 package ua.kiev.repairagency.domain.user;
 
+import java.util.Objects;
+
 public class User {
     private final Long id;
     protected String password;
@@ -105,5 +107,33 @@ public class User {
             this.role = role;
             return this;
         }
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        User user = (User) o;
+        return Objects.equals(getId(), user.getId()) &&
+                Objects.equals(getPassword(), user.getPassword()) &&
+                Objects.equals(getEmail(), user.getEmail()) &&
+                Objects.equals(getName(), user.getName()) &&
+                Objects.equals(getSurname(), user.getSurname()) &&
+                Objects.equals(phoneNumber, user.phoneNumber) &&
+                getRole() == user.getRole();
+    }
+
+    @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + ((getEmail() == null) ? 0 : getEmail().hashCode());
+        result = prime * result + ((getName() == null) ? 0 : getName().hashCode());
+        result = prime * result + ((getSurname() == null) ? 0 : getSurname().hashCode());
+        result = prime * result + ((getPassword() == null) ? 0 : getPassword().hashCode());
+        result = prime * result + ((getPhone() == null) ? 0 : getPhone().hashCode());
+        result = prime * result + ((getRole() == null) ? 0 : getRole().hashCode());
+        result = (int) (prime * result + (getId()==null ? 0: getId()));
+        return result;
     }
 }
