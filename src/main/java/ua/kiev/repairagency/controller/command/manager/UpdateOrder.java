@@ -32,6 +32,6 @@ public class UpdateOrder implements Command {
                 managerService.setPrice(order, Double.parseDouble(price));
             }
         }
-        return "/view/orders.jsp";
+        return "/orders.jsp";
     }
 }

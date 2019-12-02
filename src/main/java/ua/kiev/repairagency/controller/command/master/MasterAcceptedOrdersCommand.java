@@ -1,7 +1,6 @@
 package ua.kiev.repairagency.controller.command.master;
 
 import ua.kiev.repairagency.controller.command.Command;
-import ua.kiev.repairagency.controller.command.Pagination;
 import ua.kiev.repairagency.domain.order.Order;
 import ua.kiev.repairagency.domain.user.User;
 import ua.kiev.repairagency.service.MasterService;
@@ -10,17 +9,17 @@ import ua.kiev.repairagency.service.OrderService;
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
+import static ua.kiev.repairagency.controller.command.CommandHelper.setPagination;
+
 public class MasterAcceptedOrdersCommand implements Command {
     private static final int RECORDS_PER_PAGE = 5;
     private final OrderService orderService;
     private final MasterService masterService;
-    private final Pagination pagination;
 
 
-    public MasterAcceptedOrdersCommand(OrderService orderService, MasterService masterService, Pagination pagination) {
+    public MasterAcceptedOrdersCommand(OrderService orderService, MasterService masterService) {
         this.orderService = orderService;
         this.masterService = masterService;
-        this.pagination = pagination;
     }
 
     @Override
@@ -35,8 +34,8 @@ public class MasterAcceptedOrdersCommand implements Command {
 
         request.setAttribute("orders", orders);
 
-        pagination.setPagination(request, currentPage, rows);
+        setPagination(request, currentPage, rows);
 
-        return "/view/ordersAcceptedByMaster.jsp";
+        return "/ordersAcceptedByMaster.jsp";
     }
 }

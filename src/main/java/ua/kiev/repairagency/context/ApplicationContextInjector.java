@@ -1,7 +1,6 @@
 package ua.kiev.repairagency.context;
 
 import ua.kiev.repairagency.controller.command.Command;
-import ua.kiev.repairagency.controller.command.Pagination;
 import ua.kiev.repairagency.controller.command.authentification.LoginCommand;
 import ua.kiev.repairagency.controller.command.authentification.LogoutCommand;
 import ua.kiev.repairagency.controller.command.authentification.RegisterCommand;
@@ -15,9 +14,9 @@ import ua.kiev.repairagency.controller.command.master.ChangePasswordCommand;
 import ua.kiev.repairagency.controller.command.master.CompleteOrderCommand;
 import ua.kiev.repairagency.controller.command.master.MasterAcceptedOrdersCommand;
 import ua.kiev.repairagency.controller.command.master.MasterSelectOrdersCommand;
-import ua.kiev.repairagency.controller.command.user.LeaveFeedbackCommand;
-import ua.kiev.repairagency.controller.command.user.MakeOrderCommand;
-import ua.kiev.repairagency.controller.command.user.OrdersOfUserCommand;
+import ua.kiev.repairagency.controller.command.customer.LeaveFeedbackCommand;
+import ua.kiev.repairagency.controller.command.customer.MakeOrderCommand;
+import ua.kiev.repairagency.controller.command.customer.OrdersOfUserCommand;
 import ua.kiev.repairagency.dao.ApplianceDao;
 import ua.kiev.repairagency.dao.DataBaseConnector;
 import ua.kiev.repairagency.dao.OrderDao;
@@ -52,7 +51,6 @@ public final class ApplicationContextInjector {
 
     private static final PasswordEncoder PASSWORD_ENCODER = new PasswordEncoder();
     private static final UserValidator USER_VALIDATOR = new UserValidator();
-    private static final Pagination PAGINATION = new Pagination();
 
     private static final UserMapper USER_MAPPER = new UserMapper();
     private static final ApplianceMapper APPLIANCE_MAPPER = new ApplianceMapper(USER_MAPPER);
@@ -84,13 +82,13 @@ public final class ApplicationContextInjector {
     private static final Command UPDATE_ORDER = new UpdateOrder(MANAGER_SERVICE);
     private static final Command CHANGE_PASSWORD = new ChangePasswordCommand(MASTER_SERVICE);
     private static final Command ACCEPT_ORDER = new AcceptOrderCommand(MASTER_SERVICE, MANAGER_SERVICE);
-    private static final Command ORDERS_LIST = new OrderListCommand(ORDER_SERVICE, PAGINATION);
-    private static final Command USERS_LIST = new UserListCommand(USER_GENERIC_SERVICE,PAGINATION);
-    private static final Command ORDERS_OF_USER = new OrdersOfUserCommand(CUSTOMER_SERVICE,ORDER_SERVICE,PAGINATION);
-    private static final Command MASTER_SELECT_ORDERS = new MasterSelectOrdersCommand(ORDER_SERVICE,PAGINATION);
-    private static final Command MASTER_ACCEPTED_ORDERS = new MasterAcceptedOrdersCommand(ORDER_SERVICE,MASTER_SERVICE,PAGINATION);
-    private static final Command COMPLETE_ORDER = new CompleteOrderCommand(MASTER_SERVICE,MANAGER_SERVICE);
-    private static final Command SHOW_RESPONSES = new ShowResponsesCommand(ORDER_SERVICE,PAGINATION);
+    private static final Command ORDERS_LIST = new OrderListCommand(ORDER_SERVICE);
+    private static final Command USERS_LIST = new UserListCommand(USER_GENERIC_SERVICE);
+    private static final Command ORDERS_OF_USER = new OrdersOfUserCommand(CUSTOMER_SERVICE, ORDER_SERVICE);
+    private static final Command MASTER_SELECT_ORDERS = new MasterSelectOrdersCommand(ORDER_SERVICE);
+    private static final Command MASTER_ACCEPTED_ORDERS = new MasterAcceptedOrdersCommand(ORDER_SERVICE, MASTER_SERVICE);
+    private static final Command COMPLETE_ORDER = new CompleteOrderCommand(MASTER_SERVICE, MANAGER_SERVICE);
+    private static final Command SHOW_RESPONSES = new ShowResponsesCommand(ORDER_SERVICE);
 
     private static final Map<String, Command> CUSTOMER_COMMAND_NAME_TO_COMMAND = initCustomerCommand();
     private static final Map<String, Command> MANAGER_COMMAND_NAME_TO_COMMAND = initManagerCommand();
@@ -117,9 +115,18 @@ public final class ApplicationContextInjector {
     public Map<String, Command> getCustomerCommands() {
         return CUSTOMER_COMMAND_NAME_TO_COMMAND;
     }
-    public Map<String, Command> getManagerCommands() { return MANAGER_COMMAND_NAME_TO_COMMAND; }
-    public Map<String, Command> getMasterCommands() { return MASTER_COMMAND_NAME_TO_COMMAND; }
-    public Map<String, Command> getAuthenticationCommands() { return AUTHENTICATION_COMMAND_NAME_TO_COMMAND; }
+
+    public Map<String, Command> getManagerCommands() {
+        return MANAGER_COMMAND_NAME_TO_COMMAND;
+    }
+
+    public Map<String, Command> getMasterCommands() {
+        return MASTER_COMMAND_NAME_TO_COMMAND;
+    }
+
+    public Map<String, Command> getAuthenticationCommands() {
+        return AUTHENTICATION_COMMAND_NAME_TO_COMMAND;
+    }
 
 
     private static Map<String, Command> initCustomerCommand() {

@@ -8,7 +8,7 @@
 <html lang="param.locale">
 <head>
     <title>Orders</title>
-    <link rel="stylesheet" href="/view/css/lists_style.css">
+    <link rel="stylesheet" href="/css/lists_style.css">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
           integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
 
@@ -34,16 +34,16 @@
             <th scope="col"><fmt:message key="customer.select.manufacturer.title"/></th>
             <th scope="col"><fmt:message key="customer.select.appl.model"/></th>
             <th scope="col"><fmt:message key="customer.select.appl.disrepair"/></th>
-            <th scope="col"><fmt:message key="customer.select.appl.master"/></th>
             <th scope="col"><fmt:message key="customer.select.appl.title"/></th>
             <th scope="col"><fmt:message key="customer.allorders.price"/></th>
+            <th scope="col"><fmt:message key="customer.allorders.status"/></th>
             <th scope="col"><fmt:message key="button.edit"/></th>
         </tr>
         </thead>
         <tbody light>
         <c:forEach items="${orders}" var="user">
             <form method="post" action="${pageContext.request.contextPath}/master">
-                <input class="hidden" name="command" value="acceptOrder">
+                <input class="hidden" name="command" value="completeOrder">
                 <div class="form-group">
                     <input type="hidden" name="orderId" value="${user.getId()}">
                     <tr>
@@ -52,17 +52,12 @@
                         <td>${user.getAppliance().getManufacturer()}</td>
                         <td>${user.getAppliance().getModel()}</td>
                         <td>${user.getAppliance().getDisrepair()}</td>
-                        <td>${user.getMaster()}
-                            <select id="state" name="state">
-                                <option value="false" <fmt:message key="select.state1" var="notacc"/>>${notacc}</option>
-                                <option value="true" <fmt:message key="select.state2" var="accep"/>>${accep}</option>
-                            </select>
-                        </td>
                         <td>${user.getTitle()}</td>
                         <td>${user.getPrice()}</td>
+                        <td>${user.getStatus()== false ? "archive" : "active"}</td>
                         <td>
                             <button class="btn btn-primary" value="button"
-                                    <fmt:message key="button.accept" var="accept"/>>${accept}</button>
+                                    <fmt:message key="button.complete" var="accept"/>>${accept}</button>
                         </td>
                     </tr>
                 </div>
@@ -70,13 +65,16 @@
         </c:forEach>
         </tbody>
     </table>
+    <a href="masterHome.jsp">
+        <button class="btn btn-primary"  <fmt:message key="navbar.home" var="mesreg"/>>${mesreg}</button>
+    </a>
 </div>
 
 <nav aria-label="Navigation for orders">
     <ul class="pagination">
         <c:if test="${currentPage != 1}">
             <li class="page-item"><a class="page-link"
-                                     href="masterAllOrders?recordsPerPage=${recordsPerPage}&currentPage=${currentPage-1}">Previous</a>
+                                     href="master?command=masterOrders&currentPage=${currentPage-1}&recordsPerPage=${recordsPerPage}">Previous</a>
             </li>
         </c:if>
 
@@ -89,7 +87,7 @@
                 </c:when>
                 <c:otherwise>
                     <li class="page-item"><a class="page-link"
-                                             href="masterAllOrders?recordsPerPage=${recordsPerPage}&currentPage=${i}">${i}</a>
+                                             href="master?command=masterOrders&currentPage=${i}&recordsPerPage=${recordsPerPage}">${i}</a>
                     </li>
                 </c:otherwise>
             </c:choose>
@@ -97,7 +95,7 @@
 
         <c:if test="${currentPage lt noOfPages}">
             <li class="page-item"><a class="page-link"
-                                     href="masterAllOrders?recordsPerPage=${recordsPerPage}&currentPage=${currentPage+1}">Next</a>
+                                     href="master?command=masterOrders&currentPage=${currentPage+1}&recordsPerPage=${recordsPerPage}">Next</a>
             </li>
         </c:if>
     </ul>

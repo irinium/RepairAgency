@@ -1,4 +1,4 @@
-package ua.kiev.repairagency.controller.command.user;
+package ua.kiev.repairagency.controller.command.customer;
 
 import ua.kiev.repairagency.controller.command.Command;
 import ua.kiev.repairagency.domain.order.Response;
@@ -22,7 +22,7 @@ public class LeaveFeedbackCommand implements Command {
         final User user = (User) session.getAttribute("user");
 
         customerService.createResponse(new Response( feedback, user));
-        session.setAttribute("page", "/view/customerHome.jsp");
-        return "/view/customerHome.jsp";
+
+        return "/customerHome.jsp";
     }
 }

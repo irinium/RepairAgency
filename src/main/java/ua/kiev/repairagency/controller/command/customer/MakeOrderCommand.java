@@ -1,8 +1,6 @@
-package ua.kiev.repairagency.controller.command.user;
+package ua.kiev.repairagency.controller.command.customer;
 
-import org.apache.log4j.Logger;
 import ua.kiev.repairagency.controller.command.Command;
-import ua.kiev.repairagency.controller.command.authentification.LoginCommand;
 import ua.kiev.repairagency.domain.appliance.Appliance;
 import ua.kiev.repairagency.domain.appliance.Manufacturer;
 import ua.kiev.repairagency.domain.appliance.Type;
@@ -13,7 +11,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 public class MakeOrderCommand implements Command {
-    private static final Logger LOGGER = Logger.getLogger(LoginCommand.class);
     private final CustomerService customerService;
 
 
@@ -43,8 +40,6 @@ public class MakeOrderCommand implements Command {
                         .build()
                 , user, title);
 
-        session.setAttribute("page", "/view/customerHome.jsp");
-
-        return "/view/customerHome.jsp";
+        return "/customerHome.jsp";
     }
 }

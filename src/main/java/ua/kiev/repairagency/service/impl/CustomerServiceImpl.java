@@ -41,8 +41,8 @@ public class CustomerServiceImpl extends UserGenericServiceImpl implements Custo
         Order order = Order.builder()
                 .withAppliance(appliance)
                 .withCustomer(customer)
-                .withStatus(true)
                 .withTitle(title)
+                .withStatus(true)
                 .build();
         orderDao.save(orderMapper.mapOrderToOrderEntity(order));
     }

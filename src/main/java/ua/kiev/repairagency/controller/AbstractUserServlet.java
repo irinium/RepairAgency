@@ -45,10 +45,11 @@ public class AbstractUserServlet extends HttpServlet {
 
     public static void doProcess(HttpServletRequest req, HttpServletResponse resp, Map<String, Command> commandNameToCommand) throws ServletException, IOException {
         final String commandName = req.getParameter("command");
-        final Command defaultCommand = request -> "/view/errors/error404.jsp";
+        final Command defaultCommand = request -> "errors/error404.jsp";
 
         String page = commandNameToCommand.getOrDefault(commandName, defaultCommand).execute(req);
-        if (commandName.equals("login") || (commandName.equals("register"))) {
+
+        if ("login".equals(commandName) || "register".equals(commandName) || "logout".equals(commandName)) {
             resp.sendRedirect(page);
         } else {
             req.getRequestDispatcher(page).forward(req, resp);

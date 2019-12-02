@@ -166,6 +166,14 @@ body {
     display: inline-block;
     font-size: 12px;
 }
+.btn-primary
+{
+    box-shadow: none;
+    padding: 8px 25px;
+    border: none;
+    border-radius: 20px;
+    background-image: linear-gradient(to right,  #dbe1e2, #4b60af);
+}
 /*-------------SOCIAL------------*/
 #social-media
 {

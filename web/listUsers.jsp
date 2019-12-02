@@ -7,8 +7,8 @@
 
 <html lang="param.locale">
 <head>
-    <title>Orders</title>
-    <link rel="stylesheet" href="/view/css/lists_style.css">
+    <title>Users</title>
+    <link rel="stylesheet" href="/css/lists_style.css">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
           integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
 
@@ -29,26 +29,33 @@
     <table class="table table-striped table-bordered table-blue">
         <thead class="thead-dark">
         <tr>
-            <th scope="col" <fmt:message key="label.name" var="name"/>>${name}</th>
-            <th scope="col" <fmt:message key="label.testimonials" var="testimon"/>>${testimon}</th>
+            <th scope="col"><fmt:message key="label.name"/></th>
+            <th scope="col"><fmt:message key="label.surname"/></th>
+            <th scope="col"><fmt:message key="label.email"/></th>
+            <th scope="col"><fmt:message key="label.phone"/></th>
         </tr>
         </thead>
         <tbody light>
-        <c:forEach items="${responses}" var="response">
-        <tr>
-            <td>${response.getUser().getName()}></td>
-            <td>${response.getText()}></td>
-        </tr>
+        <c:forEach items="${users}" var="user">
+            <tr>
+                <td>${user.getName()}</td>
+                <td>${user.getSurname()}</td>
+                <td>${user.getEmail()}</td>
+                <td>${user.getPhone()}</td>
+            </tr>
         </c:forEach>
         </tbody>
     </table>
+    <a href="managerHome.jsp">
+        <button class="btn btn-primary"  <fmt:message key="navbar.home" var="mesreg"/>>${mesreg}</button>
+    </a>
 </div>
 
-<nav aria-label="Navigation for responses">
+<nav aria-label="Navigation for users">
     <ul class="pagination">
         <c:if test="${currentPage != 1}">
             <li class="page-item"><a class="page-link"
-                                     href="orderList?recordsPerPage=${recordsPerPage}&currentPage=${currentPage-1}">Previous</a>
+                                     href="manager?command=userList&currentPage=${currentPage-1}&recordsPerPage=${recordsPerPage}">Previous</a>
             </li>
         </c:if>
 
@@ -61,7 +68,7 @@
                 </c:when>
                 <c:otherwise>
                     <li class="page-item"><a class="page-link"
-                                             href="orderList?recordsPerPage=${recordsPerPage}&currentPage=${i}">${i}</a>
+                                             href="manager?command=userList&currentPage=${i}&recordsPerPage=${recordsPerPage}">${i}</a>
                     </li>
                 </c:otherwise>
             </c:choose>
@@ -69,11 +76,10 @@
 
         <c:if test="${currentPage lt noOfPages}">
             <li class="page-item"><a class="page-link"
-                                     href="orderList?recordsPerPage=${recordsPerPage}&currentPage=${currentPage+1}">Next</a>
+                                     href="manager?command=userList&currentPage=${currentPage+1}&recordsPerPage=${recordsPerPage}">Next</a>
             </li>
         </c:if>
     </ul>
 </nav>
-
 </body>
 </html>

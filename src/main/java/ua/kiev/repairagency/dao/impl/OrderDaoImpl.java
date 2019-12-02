@@ -103,7 +103,7 @@ public class OrderDaoImpl extends GenericDaoImpl<OrderEntity> implements OrderDa
                     " JOIN `Manufacturers` mn on a.manufacturer_id = mn.manufacturer_id" +
                     " where o.master_id IS NULL and o.state = true" +
                     " LIMIT ?,?;";
-    private static final String SAVE_QUERY = "INSERT INTO `Orders`(`title`,`user_id`,`appliance_id`) VALUES (?,?,?);";
+    private static final String SAVE_QUERY = "INSERT INTO `Orders`(`title`,`user_id`,`appliance_id`,`status`) VALUES (?,?,?,?);";
     private static final String FIND_BY_ID_QUERY = "SELECT * FROM `Orders` WHERE order_id = ?;";
     private static final String UPDATE_BY_PRICE_QUERY = "UPDATE `Orders` SET price = ? WHERE order_id = ?;";
     private static final String UPDATE_BY_STATE_QUERY = "UPDATE `Orders` SET state = ? WHERE order_id = ?;";
@@ -273,6 +273,7 @@ public class OrderDaoImpl extends GenericDaoImpl<OrderEntity> implements OrderDa
             preparedStatement.getConnection().setAutoCommit(false);
             applianceDao.save(entity.getApplianceEntity());
             saveToOrders(entity, preparedStatement);
+            preparedStatement.getConnection().commit();//TODO
         } catch (SQLException exception) {
             preparedStatement.getConnection().rollback();
             throw new DataBaseRuntimeException(exception);
@@ -305,5 +306,6 @@ public class OrderDaoImpl extends GenericDaoImpl<OrderEntity> implements OrderDa
         statement.setString(1, orderEntity.getTitle());
         statement.setLong(2, orderEntity.getCustomerEntity().getId());
         statement.setLong(3, applianceDao.getLastInsertedId());
+        statement.setBoolean(4, orderEntity.getStatus());
     }
 }

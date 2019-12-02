@@ -43,8 +43,8 @@ public class RegisterCommand implements Command {
                     .build();
             userGenericService.register(user);
             session.setAttribute("user", user);
-            return "view/customerHome.jsp";
+            return "/customerHome.jsp";
         }
-        return "view/login_register.jsp";
+        return "/login_register.jsp";
     }
 }

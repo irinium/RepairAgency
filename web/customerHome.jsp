@@ -9,7 +9,7 @@
 
 <head>
     <title>Customer</title>
-    <link rel="stylesheet" href="/view/css/customerHome_style.css">
+    <link rel="stylesheet" href="/css/customerHome_style.css">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
             integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
@@ -24,7 +24,7 @@
 <body>
 <section id="nav-bar">
     <nav class="navbar navbar-expand-lg navbar-light">
-        <a class="navbar-brand" href="#"> <img src="/view/css/images/logo.png"></a>
+        <a class="navbar-brand" href="#"> <img src="/css/images/logo.png"></a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
                 aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
             <i class="fa fa-bars" aria-hidden="true"></i>
@@ -58,8 +58,10 @@
                                                                           var="account"/>>${account}</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="/view/home.jsp" <fmt:message key="button.logout"
-                                                                           var="logout"/>>${logout}</a>
+                    <form action="${pageContext.request.contextPath}/auth">
+                        <input class="hidden" name="command" value="logout">
+                        <button class="btn-primary" type="submit" <fmt:message key="button.logout" var="logout"/>>${logout}</button>
+                    </form>
                 </li>
             </ul>
         </div>
@@ -115,11 +117,11 @@
                 </form>
             </div>
             <div class="master col-md-6 text-center">
-                <img src="/view/css/images/broken.jpg" class="img-fluid">
+                <img src="/css/images/broken.jpg" class="img-fluid">
             </div>
         </div>
     </div>
-    <img src="/view/css/images/footer.png" class="bottom-img">
+    <img src="/css/images/footer.png" class="bottom-img">
 </section>
 
 <!-------------------Feedback------------------->
@@ -141,7 +143,7 @@
                 </form>
             </div>
             <div class="col-md-6">
-                <img src="/view/css/images/master2.png" class="img-fluid">
+                <img src="/css/images/master2.png" class="img-fluid">
             </div>
         </div>
     </div>
@@ -179,10 +181,10 @@
     <div class="container text-center" <fmt:message key="social.title" var="socialtitle"/>>
         <p>${socialtitle}</p>
         <div class="social-icons">
-            <a href="https://uk-ua.facebook.com"><img src="/view/css/images/fasebook.png"></a>
-            <a href="https://www.instagram.com/?hl=ru"><img src="/view/css/images/insta.png"></a>
-            <a href="https://www.linkedin.com"><img src="/view/css/images/linkedin.png"></a>
-            <a href="https://www.viber.com/ru/"><img src="/view/css/images/viber.png"></a>
+            <a href="https://uk-ua.facebook.com"><img src="/css/images/fasebook.png"></a>
+            <a href="https://www.instagram.com/?hl=ru"><img src="/css/images/insta.png"></a>
+            <a href="https://www.linkedin.com"><img src="/css/images/linkedin.png"></a>
+            <a href="https://www.viber.com/ru/"><img src="/css/images/viber.png"></a>
         </div>
     </div>
 
@@ -194,7 +196,7 @@
     <div class="container">
         <div class="row">
             <div class="col-md-4 footer-box">
-                <img src="/view/css/images/logo.png">
+                <img src="/css/images/logo.png">
                 <p>More than 250,000 happy customers</p>
             </div>
             <div class="col-md-4 footer-box" <fmt:message key="contact.title" var="contactus"/>
@@ -218,7 +220,7 @@
     </div>
 </section>
 <!----------Smooth Scroll------------>
-<script src="/view/js/smooth-scroll.js"></script>
+<script src="/js/smooth-scroll.js"></script>
 <script>
     var scroll = new SmoothScroll('a[href*="#"]');
 </script>

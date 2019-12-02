@@ -28,6 +28,6 @@ public class AcceptOrderCommand implements Command {
 
         masterService.acceptOrder(order, master);
 
-        return "/view/ordersForMaster.jsp";
+        return "/ordersForMaster.jsp";
     }
 }

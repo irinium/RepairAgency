@@ -1,7 +1,7 @@
 body,
 html {
     height: 100%;
-    background-image: url("/view/css/images/error.jpg");
+    background-image: url("/css/images/error.jpg");
     background-position: center;
     background-repeat: no-repeat;
     background-size: cover;

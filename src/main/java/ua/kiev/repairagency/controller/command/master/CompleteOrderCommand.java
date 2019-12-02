@@ -21,6 +21,6 @@ public class CompleteOrderCommand implements Command {
 
         masterService.completeOrder(managerService.findOrderById(Long.parseLong(orderId)));
 
-        return "/view/masterHome.jsp";
+        return "/masterHome.jsp";
     }
 }

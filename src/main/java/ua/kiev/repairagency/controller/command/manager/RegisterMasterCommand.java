@@ -37,6 +37,6 @@ public class RegisterMasterCommand implements Command {
                     .build();
             userGenericService.register(user);
         }
-        return "view/managerHome.jsp";
+        return "/managerHome.jsp";
     }
 }

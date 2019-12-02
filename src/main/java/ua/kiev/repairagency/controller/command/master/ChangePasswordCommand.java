@@ -24,6 +24,6 @@ public class ChangePasswordCommand implements Command {
             masterService.updatePassword(master, password);
         }
 
-        return "/view/masterHome.jsp";
+        return "/masterHome.jsp";
     }
 }

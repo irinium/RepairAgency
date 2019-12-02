@@ -8,8 +8,8 @@
 <html lang="param.locale">
 
 <head>
-    <title>Master</title>
-    <link rel="stylesheet" href="/view/css/customerHome_style.css">
+    <title>Manager</title>
+    <link rel="stylesheet" href="/css/customerHome_style.css">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
             integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
@@ -24,7 +24,7 @@
 <body>
 <section id="nav-bar">
     <nav class="navbar navbar-expand-lg navbar-light">
-        <a class="navbar-brand" href="#"> <img src="/view/css/images/logo.png"></a>
+        <a class="navbar-brand" href="#"> <img src="/css/images/logo.png"></a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
                 aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
             <i class="fa fa-bars" aria-hidden="true"></i>
@@ -42,17 +42,27 @@
         <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav ml-auto">
                 <li class="nav-item">
-                    <a class="nav-link" href="master?command=masterOrders&currentPage=1&recordsPerPage=5" <fmt:message
-                            key="navbar.my.applications"
-                            var="my"/>> ${my}</a>
+                    <a class="nav-link" href="#banner" <fmt:message key="manager.toolbar.addmaster"
+                                                                    var="add"/>> ${add} </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="manager?command=userList&currentPage=1&recordsPerPage=5" <fmt:message
+                            key="manager.toolbar.allUsers" var="users"/>> ${users}</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="manager?command=orderList&currentPage=1&recordsPerPage=5" <fmt:message
+                            key="manager.toolbar.allOrders"
+                            var="orders"/>> ${orders}</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="#account" <fmt:message key="customer.mydata"
                                                                      var="account"/>>${account}</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="/view/home.jsp" <fmt:message key="button.logout"
-                                                                           var="logout"/>>${logout}</a>
+                    <form action="${pageContext.request.contextPath}/auth">
+                        <input class="hidden" name="command" value="logout">
+                        <button class="btn-primary" type="submit" <fmt:message key="button.logout" var="logout"/>>${logout}</button>
+                    </form>
                 </li>
             </ul>
         </div>
@@ -62,44 +72,44 @@
 <section id="banner">
     <div class="container">
         <div class="row">
-            <div class="master text-center">
-                <a class="container text-center">
-                    <div class="row text-center">
-                        <div class="col-md-4 services">
-                            <img src="/view/css/images/dishwasher.png" class="service-img"
-                            <fmt:message key="services.major" var="major"/> <fmt:message
-                                    key="services.major.text"
-                                    var="majortext"/>>
-                            <h4>${major}</h4>
-                            <p>${majortext}</p>
-                        </div>
-                        <div class="col-md-4 services">
-                            <img src="/view/css/images/minor.png" class="service-img"
-                            <fmt:message key="services.minor" var="minor"/> <fmt:message
-                                    key="services.minor.text"
-                                    var="minortext"/>>
-                            <h4>${minor}</h4>
-                            <p>${minortext}</p>
-                        </div>
-                        <div class="col-md-4 services">
-                            <img src="/view/css/images/climatic.jpg" class="service-img"
-                            <fmt:message key="services.climatic" var="climatic"/> <fmt:message
-                                    key="services.climatic.text" var="climatictext"/>>
-                            <h4>${climatic}</h4>
-                            <p>${climatictext}</p>
-                        </div>
+            <div class="col-md-6">
+                <form class="appl-form" method="post" action="${pageContext.request.contextPath}/manager">
+                    <input class="hidden" name="command" value="registerMaster">
+                    <label for="banner" <fmt:message key="manager.title.register" var="reg"/>>${reg}</label>
+                    <div class="form-group">
+                        <input class="form-control" name="master_email" maxlength="64" type="email"
+                               pattern="^[a-zA-Z0-9_.]{1,49}+@[a-zA-Z]{2,10}+?\.[a-zA-Z]{2,3}$"
+                               onchange="this.setCustomValidity(this.validity.patternMismatch ? 'Email must content letters, @, ., 2 or 3 characters in the end. Example: email111@gmail.com' : '');"
+                                <fmt:message key="placeholder.enter.email" var="em"/> placeholder="${em}"/>
+                        <input class="form-control" name="password" type="password" pattern="^\S{8,}$"
+                               onchange="this.setCustomValidity(this.validity.patternMismatch ? 'Must have at least 8 characters' : ''); if(this.checkValidity()) form.password_two.pattern = this.value;"
+                                <fmt:message key="placeholder.enter.password" var="pas"/> placeholder="${pas}"
+                               required/>
+                        <input class="form-control" name="password_two" type="password" pattern="^\S{8,}$"
+                               onchange="this.setCustomValidity(this.validity.patternMismatch ? 'Please enter the same Password as above' : '');"
+                                <fmt:message key="placeholder.enter.password2" var="pas2"/> placeholder="${pas2}"
+                               required/>
+                        <input class="form-control" name="master_name" type="text" pattern="[A-Za-zА-Яа-я]+"
+                               onchange="this.setCustomValidity(this.validity.patternMismatch ? 'letters only, no  punctuation or special characters' : '');"
+                                <fmt:message key="placeholder.enter.name" var="name"/> placeholder="${name}"/>
+                        <input class="form-control" name="surname" type="text" pattern="[A-Za-zА-Яа-я]+"
+                               onchange="this.setCustomValidity(this.validity.patternMismatch ? 'letters only, no  punctuation or special characters' : '');"
+                                <fmt:message key="placeholder.enter.surname" var="surname"/> placeholder="${surname}"/>
+                        <input class="form-control" name="phone" type="tel" minlength="10" maxlength="10"
+                               pattern="[0-9]{10}"
+                               onchange="this.setCustomValidity(this.validity.patternMismatch ? 'format 0932352222' : '');"
+                                <fmt:message key="placeholder.enter.phone" var="phone"/> placeholder="${phone}"/>
                     </div>
-                    <a href="master?command=masterAllOrders&currentPage=1&recordsPerPage=5">
-                        <button class="btn btn-primary" <fmt:message key="master.button.allOrders" var="application"/>
-                        >${application}</button>
-                    </a>
-                </a>
+                    <button class="btn btn-primary" <fmt:message key="button.registration"
+                                                                 var="register"/>>${register}</button>
+                </form>
+            </div>
+            <div class="master col-md-6 text-center">
+                <img src="/css/images/master2.png" class="img-fluid">
             </div>
         </div>
     </div>
-    </div>
-    </div>
-    <img src="/view/css/images/footer.png" class="bottom-img">
+    <img src="/css/images/footer.png" class="bottom-img">
 </section>
 
 <!------------------My account---------------->
@@ -126,18 +136,7 @@
             </c:catch>
             </tbody>
         </table>
-        <form class="col-md-4 footer-box" method="post" action="${pageContext.request.contextPath}/master"
-                <fmt:message key="master.title.changePassword" var="changetitle"/>>
-            <input class="hidden" name="command" value="changePassword">
-            <p><b>${changetitle}</b></p>
-            <input type="password" name="password" pattern="^\S{8,}$"
-                   onchange="this.setCustomValidity(this.validity.patternMismatch ? 'Must have at least 8 characters' : '');" class="form-control "
-            <fmt:message key="label.password" var="pasw"/> placeholder=${pasw}>
-            <button class="btn btn-primary" <fmt:message key="master.button.changePassword"
-                                                         var="change"/>>${change}</button>
-        </form>
     </div>
-
 </section>
 
 <!-------------------Social media section------------->
@@ -145,10 +144,10 @@
     <div class="container text-center" <fmt:message key="social.title" var="socialtitle"/>>
         <p>${socialtitle}</p>
         <div class="social-icons">
-            <a href="https://uk-ua.facebook.com"><img src="/view/css/images/fasebook.png"></a>
-            <a href="https://www.instagram.com/?hl=ru"><img src="/view/css/images/insta.png"></a>
-            <a href="https://www.linkedin.com"><img src="/view/css/images/linkedin.png"></a>
-            <a href="https://www.viber.com/ru/"><img src="/view/css/images/viber.png"></a>
+            <a href="https://uk-ua.facebook.com"><img src="/css/images/fasebook.png"></a>
+            <a href="https://www.instagram.com/?hl=ru"><img src="/css/images/insta.png"></a>
+            <a href="https://www.linkedin.com"><img src="/css/images/linkedin.png"></a>
+            <a href="https://www.viber.com/ru/"><img src="/css/images/viber.png"></a>
         </div>
     </div>
 
@@ -160,7 +159,7 @@
     <div class="container">
         <div class="row">
             <div class="col-md-4 footer-box">
-                <img src="/view/css/images/logo.png">
+                <img src="/css/images/logo.png">
                 <p>More than 250,000 happy customers</p>
             </div>
             <div class="col-md-4 footer-box" <fmt:message key="contact.title" var="contactus"/>
@@ -184,7 +183,7 @@
     </div>
 </section>
 <!----------Smooth Scroll------------>
-<script src="/view/js/smooth-scroll.js"></script>
+<script src="/js/smooth-scroll.js"></script>
 <script>
     var scroll = new SmoothScroll('a[href*="#"]');
 </script>

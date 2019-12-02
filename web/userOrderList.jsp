@@ -8,7 +8,7 @@
 <html lang="param.locale">
 <head>
     <title>Orders</title>
-    <link rel="stylesheet" href="/view/css/lists_style.css">
+    <link rel="stylesheet" href="/css/lists_style.css">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
           integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
 
@@ -56,13 +56,17 @@
         </c:forEach>
         </tbody>
     </table>
+    <a href="customerHome.jsp">
+    <button class="btn btn-primary"  <fmt:message key="navbar.home" var="mesreg"/>>${mesreg}</button>
+    </a>
+
 </div>
 
 <nav aria-label="Navigation for orders">
     <ul class="pagination">
         <c:if test="${currentPage != 1}">
-            <li class="page-item"><a class="page-link"
-                                     href="userOrderList?recordsPerPage=${recordsPerPage}&currentPage=${currentPage-1}">Previous</a>
+            <li class="page-item"><a class="page-link" <fmt:message key="pagination.prev" var="prev"/>
+                                     href="customer?command=userOrderList&currentPage=${currentPage-1}&recordsPerPage=${recordsPerPage}">${prev}</a>
             </li>
         </c:if>
 
@@ -75,19 +79,18 @@
                 </c:when>
                 <c:otherwise>
                     <li class="page-item"><a class="page-link"
-                                             href="userOrderList?recordsPerPage=${recordsPerPage}&currentPage=${i}">${i}</a>
+                                             href="customer?command=userOrderList&currentPage=${i}&recordsPerPage=${recordsPerPage}">${i}</a>
                     </li>
                 </c:otherwise>
             </c:choose>
         </c:forEach>
 
         <c:if test="${currentPage lt noOfPages}">
-            <li class="page-item"><a class="page-link"
-                                     href="userOrderList?recordsPerPage=${recordsPerPage}&currentPage=${currentPage+1}">Next</a>
+            <li class="page-item"><a class="page-link" <fmt:message key="pagination.next" var="next"/>
+                                     href="customer?command=userOrderList&currentPage=${currentPage+1}&recordsPerPage=${recordsPerPage}">${next}</a>
             </li>
         </c:if>
     </ul>
 </nav>
-
 </body>
 </html>

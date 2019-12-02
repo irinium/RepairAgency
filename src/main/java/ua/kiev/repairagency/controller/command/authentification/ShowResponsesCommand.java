@@ -1,23 +1,23 @@
 package ua.kiev.repairagency.controller.command.authentification;
 
 import ua.kiev.repairagency.controller.command.Command;
-import ua.kiev.repairagency.controller.command.Pagination;
 import ua.kiev.repairagency.domain.order.Response;
 import ua.kiev.repairagency.service.OrderService;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
+import static ua.kiev.repairagency.controller.command.CommandHelper.getInt;
+import static ua.kiev.repairagency.controller.command.CommandHelper.setPagination;
+
 
 public class ShowResponsesCommand implements Command {
     private static final int RECORDS_PER_PAGE = 5;
     private final OrderService orderService;
-    private final Pagination pagination;
 
 
-    public ShowResponsesCommand(OrderService orderService, Pagination pagination) {
+    public ShowResponsesCommand(OrderService orderService) {
         this.orderService = orderService;
-        this.pagination = pagination;
     }
 
     @Override
@@ -30,18 +30,8 @@ public class ShowResponsesCommand implements Command {
 
         request.setAttribute("responses", responses);
 
-        pagination.setPagination(request, currentPage, rows);
+        setPagination(request, currentPage, rows);
 
-        return "/view/responses.jsp";
-    }
-
-    private int getInt(String currentPageParam) {
-        int current;
-        try {
-            current = Integer.parseInt(currentPageParam);
-        } catch (NumberFormatException e) {
-            current = -1;
-        }
-        return current;
+        return "/responses.jsp";
     }
 }

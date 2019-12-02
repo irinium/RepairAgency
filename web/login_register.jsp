@@ -11,7 +11,7 @@
     <title>Login</title>
     <link rel="stylesheet" href="css/login_style.css">
     <style>
-        <%@ include file="/view/css/login_style.css" %>
+        <%@ include file="/css/login_style.css" %>
     </style>
 
     <div class="locale">

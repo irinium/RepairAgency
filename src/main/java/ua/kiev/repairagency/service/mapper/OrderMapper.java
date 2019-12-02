@@ -32,6 +32,7 @@ public class OrderMapper {
                 .withPrice(order.getPrice())
                 .withApplianceEntity(applianceMapper.mapApplianceToApplianceEntity(order.getAppliance()))
                 .withCustomerEntity(userMapper.mapUserToUserEntity(order.getCustomer()))
+                .withStatus(order.getStatus())
                 .build();
     }
 }
