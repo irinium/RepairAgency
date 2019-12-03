@@ -103,8 +103,26 @@ public class OrderDaoImpl extends GenericDaoImpl<OrderEntity> implements OrderDa
                     " JOIN `Manufacturers` mn on a.manufacturer_id = mn.manufacturer_id" +
                     " where o.master_id IS NULL and o.state = true" +
                     " LIMIT ?,?;";
+    private static final String FIND_BY_ID_QUERY =  "SELECT " +
+            " o.order_id order_id," +
+            " o.price price," +
+            " o.state state," +
+            " o.status status," +
+            " u.user_id user_id," +
+            " u.user_name user_name," +
+            " u.surname user_surname," +
+            " a.appliance_id appliance_id," +
+            " mn.manufacturer_name manufacturer_name," +
+            " a.model model," +
+            " a.disrepair disrepair," +
+            " o.master_id master_id," +
+            " o.title title" +
+            " FROM `Orders` o" +
+            " JOIN `Users` u on o.user_id = u.user_id " +
+            " JOIN `Appliances` a on o.appliance_id = a.appliance_id " +
+            " JOIN `Manufacturers` mn on a.manufacturer_id = mn.manufacturer_id" +
+            " WHERE order_id = ?;";
     private static final String SAVE_QUERY = "INSERT INTO `Orders`(`title`,`user_id`,`appliance_id`,`status`) VALUES (?,?,?,?);";
-    private static final String FIND_BY_ID_QUERY = "SELECT * FROM `Orders` WHERE order_id = ?;";
     private static final String UPDATE_BY_PRICE_QUERY = "UPDATE `Orders` SET price = ? WHERE order_id = ?;";
     private static final String UPDATE_BY_STATE_QUERY = "UPDATE `Orders` SET state = ? WHERE order_id = ?;";
     private static final String UPDATE_BY_STATUS_QUERY = "UPDATE `Orders` SET status = ? WHERE order_id = ?;";
@@ -305,10 +323,13 @@ public class OrderDaoImpl extends GenericDaoImpl<OrderEntity> implements OrderDa
                 .withPrice(resultSet.getDouble("price"))
                 .withTitle(resultSet.getString("title"))
                 .withState(resultSet.getBoolean("state"))
+                .withStatus(resultSet.getBoolean("status"))
                 .withApplianceEntity(applianceDao.findById(resultSet.getLong("appliance_id")).isPresent() ?
                         applianceDao.findById(resultSet.getLong("appliance_id")).get() : null)
                 .withCustomerEntity(userDao.findById(resultSet.getLong("user_id")).isPresent() ?
                         userDao.findById(resultSet.getLong("user_id")).get() : null)
+                .withMasterEntity(userDao.findById(resultSet.getLong("master_id")).isPresent() ?
+                        userDao.findById(resultSet.getLong("master_id")).get() : null)
                 .build();
     }
 

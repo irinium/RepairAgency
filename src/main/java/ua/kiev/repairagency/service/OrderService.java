@@ -6,7 +6,7 @@ import ua.kiev.repairagency.domain.user.User;
 
 import java.util.List;
 
-public interface OrderService  {
+public interface OrderService {
 
     List<Order> getAll(int currentPage, int recordsPerPage);
 

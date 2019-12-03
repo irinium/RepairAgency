@@ -34,7 +34,6 @@
             <th scope="col"><fmt:message key="customer.select.manufacturer.title"/></th>
             <th scope="col"><fmt:message key="customer.select.appl.model"/></th>
             <th scope="col"><fmt:message key="customer.select.appl.disrepair"/></th>
-            <th scope="col"><fmt:message key="customer.select.appl.master"/></th>
             <th scope="col"><fmt:message key="customer.select.appl.title"/></th>
             <th scope="col"><fmt:message key="customer.allorders.price"/></th>
             <th scope="col"><fmt:message key="button.edit"/></th>
@@ -52,12 +51,6 @@
                         <td>${user.getAppliance().getManufacturer()}</td>
                         <td>${user.getAppliance().getModel()}</td>
                         <td>${user.getAppliance().getDisrepair()}</td>
-                        <td>${user.getMaster()}
-                            <select id="state" name="state">
-                                <option value="false" <fmt:message key="select.state1" var="notacc"/>>${notacc}</option>
-                                <option value="true" <fmt:message key="select.state2" var="accep"/>>${accep}</option>
-                            </select>
-                        </td>
                         <td>${user.getTitle()}</td>
                         <td>${user.getPrice()}</td>
                         <td>

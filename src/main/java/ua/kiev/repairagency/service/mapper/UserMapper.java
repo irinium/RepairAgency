@@ -5,8 +5,6 @@ import ua.kiev.repairagency.domain.user.User;
 import ua.kiev.repairagency.entity.user.RoleEntity;
 import ua.kiev.repairagency.entity.user.UserEntity;
 
-import java.util.Optional;
-
 public class UserMapper {
 
     public User mapUserEntityToUser(UserEntity userEntity) {
@@ -20,7 +18,7 @@ public class UserMapper {
                 .withSurname(userEntity.getSurname())
                 .withPassword(userEntity.getPassword())
                 .withPhoneNumber(userEntity.getPhoneNumber())
-                .withRole(Optional.of(Role.valueOf(userEntity.getRoleEntity().name())).orElse(null))
+                .withRole(Role.valueOf(userEntity.getRoleEntity().name()))
                 .build();
     }
 
@@ -32,7 +30,7 @@ public class UserMapper {
                 .withSurname(user.getSurname())
                 .withPassword(user.getPassword())
                 .withPhoneNumber(user.getPhone())
-                .withRole(Optional.of(RoleEntity.valueOf(user.getRole().name())).orElse(null))
+                .withRole(RoleEntity.valueOf(user.getRole().name()))
                 .build();
     }
 }

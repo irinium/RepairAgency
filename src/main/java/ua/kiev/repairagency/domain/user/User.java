@@ -136,4 +136,9 @@ public class User {
         result = (int) (prime * result + (getId()==null ? 0: getId()));
         return result;
     }
+
+    @Override
+    public String toString() {
+        return id + " " + name + " " + surname + " \n email: " + email + " phone: " + phoneNumber;
+    }
 }

@@ -22,7 +22,7 @@ public class MasterSelectOrdersCommand implements Command {
     public String execute(HttpServletRequest request) {
         String currentPageParam = request.getParameter("currentPage");
         int currentPage = (currentPageParam == null || getInt(currentPageParam) < 1) ? 1 : getInt(currentPageParam);
-        int rows = orderService.getNumberOfOrdersRows();
+        int rows = orderService.getNumberOfOrdersRowsWithoutMaster();
 
         List<Order> orders = orderService.getOrdersWithoutMaster(currentPage, RECORDS_PER_PAGE);
 

@@ -29,6 +29,7 @@ public class OrderServiceImpl implements OrderService {
         this.userMapper = userMapper;
     }
 
+    @Override
     public List<Order> getAll(int currentPage, int recordsPerPage) {
         return orderDao.findAll(currentPage, recordsPerPage).stream()
                 .map(orderMapper::mapOrderEntityToOrder)
@@ -42,6 +43,7 @@ public class OrderServiceImpl implements OrderService {
                 .collect(Collectors.toList());
     }
 
+    @Override
     public int getNumberOfOrdersRows() {
         return orderDao.getNumberOfRows();
     }
@@ -61,12 +63,12 @@ public class OrderServiceImpl implements OrderService {
         return orderDao.numberOfOrdersWithoutMasterRows();
     }
 
+    @Override
     public int getNumberOfResponsesRows() {
         return responseDao.getNumberOfRows();
     }
 
-
-
+    @Override
     public List<Response> getAllResponses(int currentPage, int recordsPerPage) {
         return responseDao.findAll(currentPage, recordsPerPage).stream()
                 .map(responseMapper::mapResponseEntityToResponse)
