@@ -32,12 +32,8 @@ import static org.mockito.Mockito.when;
 
 @RunWith(MockitoJUnitRunner.class)
 public class OrderServiceImplTest {
-    private static final User USER = User.builder().build();
-    private static final UserEntity USER_ENTITY = UserEntity.builder().build();
     private static final Order ORDER = Order.builder().build();
     private static final OrderEntity ORDER_ENTITY = OrderEntity.builder().build();
-    private static final ResponseEntity RESPONSE_ENTITY = new ResponseEntity("", USER_ENTITY);
-    private static final Response RESPONSE = new Response("", USER);
     private static final Double PRICE = 0.00;
     @Rule
     public final ExpectedException exception = ExpectedException.none();
@@ -49,13 +45,14 @@ public class OrderServiceImplTest {
     private OrderDao orderDao;
 
     @Mock
-    private OrderMapper orderMapper;
-
-    @Mock
     private ResponseDao responseDao;
 
     @Mock
+    private OrderMapper orderMapper;
+
+    @Mock
     private ResponseMapper responseMapper;
+
 
     @Test
     public void getAllShouldReturnOrdersList() {
@@ -110,14 +107,17 @@ public class OrderServiceImplTest {
 
     @Test
     public void getOrdersWithoutMasterShouldReturnOrderList() {
-        when(orderMapper.mapOrderToOrderEntity(ORDER)).thenReturn(ORDER_ENTITY);
-
         orderService.getOrdersWithoutMaster(1, 5);
         verify(orderDao).findOrdersWithoutMaster(1, 5);
     }
 
     @Test
     public void getAllResponsesShouldReturnResponsesList() {
+        User user = User.builder().build();
+        UserEntity userEntity = UserEntity.builder().build();
+        Response response = new Response("", user);
+        ResponseEntity responseEntity = new ResponseEntity("",userEntity);
+
         orderService.getAllResponses(1, 5);
 
         verify(responseDao).findAll(1, 5);
@@ -127,7 +127,7 @@ public class OrderServiceImplTest {
     public void getAllResponsesShouldReturnEmptyListWhenResponsesAreAbsent() {
         when(responseDao.findAll(1, 5)).thenReturn(emptyList());
 
-        assertThat("Finding orders without master is failed",
+        assertThat("Finding responses is failed",
                 orderService.getAllResponses(1, 5), is(emptyList()));
     }
 }

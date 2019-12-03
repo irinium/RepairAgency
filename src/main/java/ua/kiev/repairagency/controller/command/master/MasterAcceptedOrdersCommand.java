@@ -25,10 +25,10 @@ public class MasterAcceptedOrdersCommand implements Command {
     @Override
     public String execute(HttpServletRequest request) {
         String currentPageParam = request.getParameter("currentPage");
-
         int currentPage = (currentPageParam == null || Integer.parseInt(currentPageParam) < 1) ? 1 : Integer.parseInt(currentPageParam);
-        int rows = orderService.getNumberOfOrdersRows();
+
         User master = (User) request.getSession().getAttribute("user");
+        int rows = orderService.getNumberOfMasterOrdersRows(master);
 
         List<Order> orders = masterService.findMastersOrders(master, currentPage, RECORDS_PER_PAGE);
 

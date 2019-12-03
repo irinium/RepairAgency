@@ -4,24 +4,29 @@ import ua.kiev.repairagency.dao.OrderDao;
 import ua.kiev.repairagency.dao.ResponseDao;
 import ua.kiev.repairagency.domain.order.Order;
 import ua.kiev.repairagency.domain.order.Response;
+import ua.kiev.repairagency.domain.user.User;
 import ua.kiev.repairagency.service.OrderService;
 import ua.kiev.repairagency.service.mapper.OrderMapper;
 import ua.kiev.repairagency.service.mapper.ResponseMapper;
+import ua.kiev.repairagency.service.mapper.UserMapper;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
 public class OrderServiceImpl implements OrderService {
     private final OrderDao orderDao;
-    private final OrderMapper orderMapper;
     private final ResponseDao responseDao;
+    private final OrderMapper orderMapper;
     private final ResponseMapper responseMapper;
+    private final UserMapper userMapper;
 
-    public OrderServiceImpl(OrderDao orderDao, OrderMapper orderMapper, ResponseDao responseDao, ResponseMapper responseMapper) {
+    public OrderServiceImpl(OrderDao orderDao, OrderMapper orderMapper,
+                            ResponseDao responseDao, ResponseMapper responseMapper, UserMapper userMapper) {
         this.orderDao = orderDao;
         this.orderMapper = orderMapper;
         this.responseDao = responseDao;
         this.responseMapper = responseMapper;
+        this.userMapper = userMapper;
     }
 
     public List<Order> getAll(int currentPage, int recordsPerPage) {
@@ -38,12 +43,29 @@ public class OrderServiceImpl implements OrderService {
     }
 
     public int getNumberOfOrdersRows() {
-       return orderDao.getNumberOfRows();
+        return orderDao.getNumberOfRows();
+    }
+
+    @Override
+    public int getNumberOfUserOrdersRows(User user) {
+        return orderDao.getNumberOfUserOrdersRows(userMapper.mapUserToUserEntity(user));
+    }
+
+    @Override
+    public int getNumberOfMasterOrdersRows(User master) {
+        return orderDao.getNumberOfMasterOrdersRows(userMapper.mapUserToUserEntity(master));
+    }
+
+    @Override
+    public int getNumberOfOrdersRowsWithoutMaster() {
+        return orderDao.numberOfOrdersWithoutMasterRows();
     }
 
     public int getNumberOfResponsesRows() {
         return responseDao.getNumberOfRows();
     }
+
+
 
     public List<Response> getAllResponses(int currentPage, int recordsPerPage) {
         return responseDao.findAll(currentPage, recordsPerPage).stream()

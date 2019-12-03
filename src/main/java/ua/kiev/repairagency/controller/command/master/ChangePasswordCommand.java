@@ -5,7 +5,6 @@ import ua.kiev.repairagency.domain.user.User;
 import ua.kiev.repairagency.service.MasterService;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
 
 public class ChangePasswordCommand implements Command {
     private final MasterService masterService;
@@ -16,7 +15,6 @@ public class ChangePasswordCommand implements Command {
 
     @Override
     public String execute(HttpServletRequest request) {
-        final HttpSession session = request.getSession();
         final String password = request.getParameter("password");
         final User master = (User) request.getSession().getAttribute("user");
 

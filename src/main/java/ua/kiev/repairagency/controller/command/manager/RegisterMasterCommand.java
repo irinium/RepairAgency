@@ -6,7 +6,6 @@ import ua.kiev.repairagency.domain.user.User;
 import ua.kiev.repairagency.service.UserGenericService;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
 
 public class RegisterMasterCommand implements Command {
     private final UserGenericService userGenericService;
@@ -23,8 +22,6 @@ public class RegisterMasterCommand implements Command {
         final String phone = request.getParameter("phone");
         final String password1 = request.getParameter("password");
         final String password2 = request.getParameter("password_two");
-
-        final HttpSession session = request.getSession();
 
         if (password1.equals(password2)) {
             User user = User.builder()

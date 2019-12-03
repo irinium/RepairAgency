@@ -8,7 +8,6 @@ import org.mockito.junit.MockitoJUnitRunner;
 import ua.kiev.repairagency.domain.user.Role;
 import ua.kiev.repairagency.domain.user.User;
 import ua.kiev.repairagency.service.UserGenericService;
-import ua.kiev.repairagency.service.exception.InvalidEmailOrPasswordException;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -34,11 +33,8 @@ public class LoginCommandTest {
 
     @Test
     public void executeShouldReturnLoginPageWhenEmailIsInvalid() {
-        when(request.getParameter("email")).thenReturn("admin@gmil.com");
-        when(userService.login(anyString(), anyString())).thenThrow(InvalidEmailOrPasswordException.class);
-
         final String actual = loginCommand.execute(request);
-        String expected = "view/login_register.jsp";
+        String expected = "/login_register.jsp";
 
         assertThat(actual, is(expected));
     }
@@ -51,7 +47,7 @@ public class LoginCommandTest {
         when(request.getParameter(anyString())).thenReturn("param");
         when(userService.login(anyString(), anyString())).thenReturn(user);
 
-        String expected = "/view/managerHome.jsp";
+        String expected = "/managerHome.jsp";
         String actual = loginCommand.execute(request);
 
         assertEquals(expected, actual);
@@ -65,7 +61,7 @@ public class LoginCommandTest {
         when(request.getParameter(anyString())).thenReturn("param");
         when(userService.login(anyString(), anyString())).thenReturn(user);
 
-        String expected = "/view/masterHome.jsp";
+        String expected = "/masterHome.jsp";
         String actual = loginCommand.execute(request);
 
         assertEquals(expected, actual);
@@ -79,7 +75,7 @@ public class LoginCommandTest {
         when(request.getParameter(anyString())).thenReturn("param");
         when(userService.login(anyString(), anyString())).thenReturn(user);
 
-        String expected = "/view/customerHome.jsp";
+        String expected = "/customerHome.jsp";
         String actual = loginCommand.execute(request);
 
         assertEquals(expected, actual);

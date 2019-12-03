@@ -71,7 +71,7 @@ public final class ApplicationContextInjector {
     private static final MasterService MASTER_SERVICE = new MasterServiceImpl(PASSWORD_ENCODER, USER_DAO,
             USER_VALIDATOR, USER_MAPPER, ORDER_MAPPER, ORDER_DAO);
     private static final OrderService ORDER_SERVICE =
-            new OrderServiceImpl(ORDER_DAO, ORDER_MAPPER, RESPONSE_DAO, RESPONSE_MAPPER);
+            new OrderServiceImpl(ORDER_DAO, ORDER_MAPPER, RESPONSE_DAO, RESPONSE_MAPPER, USER_MAPPER);
 
     private static final Command LOGIN_COMMAND = new LoginCommand(USER_GENERIC_SERVICE);
     private static final Command LOGOUT_COMMAND = new LogoutCommand();

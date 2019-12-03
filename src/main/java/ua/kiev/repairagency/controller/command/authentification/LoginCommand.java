@@ -30,11 +30,11 @@ public class LoginCommand implements Command {
             session.setAttribute("user", user);
 
             if (user.getRole() == Role.MANAGER) {
-                return "managerHome.jsp";
+                return "/managerHome.jsp";
             } else if (user.getRole() == Role.MASTER) {
-                return "masterHome.jsp";
+                return "/masterHome.jsp";
             } else {
-                return "customerHome.jsp";
+                return "/customerHome.jsp";
             }
         } else {
             LOGGER.info("User hasn't been authenticated");

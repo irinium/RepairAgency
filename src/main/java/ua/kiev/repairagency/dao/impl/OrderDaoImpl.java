@@ -37,7 +37,7 @@ public class OrderDaoImpl extends GenericDaoImpl<OrderEntity> implements OrderDa
                     " o.title title" +
                     " FROM `Orders` o" +
                     " JOIN `Users` u on o.user_id = u.user_id " +
-                    " JOIN `Appliances` a on u.user_id = a.user_id " +
+                    " JOIN `Appliances` a on o.appliance_id = a.appliance_id " +
                     " JOIN `Manufacturers` mn on a.manufacturer_id = mn.manufacturer_id" +
                     " LIMIT ?,?;";
     private static final String ORDERS_BY_USER_QUERY =
@@ -57,7 +57,7 @@ public class OrderDaoImpl extends GenericDaoImpl<OrderEntity> implements OrderDa
                     " o.title title" +
                     " FROM `Orders` o" +
                     " JOIN `Users` u on o.user_id = u.user_id " +
-                    " JOIN `Appliances` a on u.user_id = a.user_id " +
+                    " JOIN `Appliances` a on o.appliance_id = a.appliance_id " +
                     " JOIN `Manufacturers` mn on a.manufacturer_id = mn.manufacturer_id" +
                     " where u.user_id = ?" +
                     " LIMIT ?,?;";
@@ -78,7 +78,7 @@ public class OrderDaoImpl extends GenericDaoImpl<OrderEntity> implements OrderDa
                     " o.title title" +
                     " FROM `Orders` o" +
                     " JOIN `Users` u on o.user_id = u.user_id " +
-                    " JOIN `Appliances` a on u.user_id = a.user_id " +
+                    " JOIN `Appliances` a on o.appliance_id = a.appliance_id " +
                     " JOIN `Manufacturers` mn on a.manufacturer_id = mn.manufacturer_id" +
                     " where o.master_id = ?" +
                     " LIMIT ?,?;";
@@ -99,7 +99,7 @@ public class OrderDaoImpl extends GenericDaoImpl<OrderEntity> implements OrderDa
                     " o.title title" +
                     " FROM `Orders` o" +
                     " JOIN `Users` u on o.user_id = u.user_id " +
-                    " JOIN `Appliances` a on u.user_id = a.user_id " +
+                    " JOIN `Appliances` a on o.appliance_id = a.appliance_id " +
                     " JOIN `Manufacturers` mn on a.manufacturer_id = mn.manufacturer_id" +
                     " where o.master_id IS NULL and o.state = true" +
                     " LIMIT ?,?;";
@@ -227,6 +227,16 @@ public class OrderDaoImpl extends GenericDaoImpl<OrderEntity> implements OrderDa
     }
 
     @Override
+    public int getNumberOfUserOrdersRows(UserEntity userEntity) {
+        return getNumberOfRowsWithWildCard(NUMBER_OF_USER_ORDERS_ROWS, userEntity);
+    }
+
+    @Override
+    public int getNumberOfMasterOrdersRows(UserEntity userEntity) {
+        return getNumberOfRowsWithWildCard(NUMBER_OF_MASTER_ORDERS_ROWS, userEntity);
+    }
+
+    @Override
     public List<OrderEntity> findOrdersWithoutMaster(int currentPage, int recordsPerPage) {
         int start = currentPage * 5 - recordsPerPage;
 
@@ -242,7 +252,7 @@ public class OrderDaoImpl extends GenericDaoImpl<OrderEntity> implements OrderDa
         }
     }
 
-    private int numberOfOrdersWithoutMasterRows() {
+    public int numberOfOrdersWithoutMasterRows() {
         try (Connection connection = connector.getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(NUMBER_OF_ORDERS_WITHOUT_MASTER_ROWS)) {
             ResultSet resultSet = preparedStatement.executeQuery();
@@ -273,7 +283,7 @@ public class OrderDaoImpl extends GenericDaoImpl<OrderEntity> implements OrderDa
             preparedStatement.getConnection().setAutoCommit(false);
             applianceDao.save(entity.getApplianceEntity());
             saveToOrders(entity, preparedStatement);
-            preparedStatement.getConnection().commit();//TODO
+            preparedStatement.getConnection().commit();
         } catch (SQLException exception) {
             preparedStatement.getConnection().rollback();
             throw new DataBaseRuntimeException(exception);

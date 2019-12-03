@@ -27,14 +27,14 @@ public class OrdersOfUserCommand implements Command {
     public String execute(HttpServletRequest request) {
         String currentPageParam = request.getParameter("currentPage");
         int currentPage = (currentPageParam == null || getInt(currentPageParam) < 1) ? 1 : getInt(currentPageParam);
-        int rows = orderService.getNumberOfOrdersRows();
-        User user = (User)request.getSession().getAttribute("user");
+        User user = (User) request.getSession().getAttribute("user");
+        int rows = orderService.getNumberOfUserOrdersRows(user);
 
         List<Order> orders = customerService.findAllOrders(user, currentPage, RECORDS_PER_PAGE);
 
         request.setAttribute("userOrders", orders);
 
-        setPagination(request,currentPage,rows);
+        setPagination(request, currentPage, rows);
 
         return "/userOrderList.jsp";
     }

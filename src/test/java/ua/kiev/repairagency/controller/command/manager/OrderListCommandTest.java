@@ -1,4 +1,4 @@
-package ua.kiev.repairagency.controller.command.authentification;
+package ua.kiev.repairagency.controller.command.manager;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -12,11 +12,9 @@ import javax.servlet.http.HttpServletRequest;
 import static org.junit.Assert.assertEquals;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
-@RunWith(MockitoJUnitRunner.class)
-public class ShowResponsesCommandTest {
 
-    @InjectMocks
-    private ShowResponsesCommand showResponsesCommand;
+@RunWith(MockitoJUnitRunner.class)
+public class OrderListCommandTest {
 
     @Mock
     private OrderService orderService;
@@ -24,15 +22,17 @@ public class ShowResponsesCommandTest {
     @Mock
     private HttpServletRequest request;
 
+    @InjectMocks
+    private OrderListCommand orderListCommand;
+
     @Test
-    public void executeShouldReturnPage() {
+    public void executeShouldReturnOrderListCommand() {
         when(request.getParameter("currentPage")).thenReturn("1");
-        when(orderService.getNumberOfResponsesRows()).thenReturn(5);
 
-        String expected = "/responses.jsp";
-        String actual = showResponsesCommand.execute(request);
+        String expected = "/orders.jsp";
+        String actual = orderListCommand.execute(request);
 
-        verify(orderService).getAllResponses(1, 5);
+        verify(orderService).getAll(1, 5);
         assertEquals(expected, actual);
     }
 }

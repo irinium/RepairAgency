@@ -1,6 +1,6 @@
 body {
     background-image: linear-gradient(rgba(219, 225, 226, 0.6), rgba(75, 96, 175, 0.6)),
-    url("http://localhost:8085/view/css/images/Best-Appliance-Repair-Services-in-Canberra.jpg");
+    url("http://localhost:8085/css/images/Best-Appliance-Repair-Services-in-Canberra.jpg");
     min-width: 100%; min-height: 100%;
     height: 100vh;
     background-size: cover;

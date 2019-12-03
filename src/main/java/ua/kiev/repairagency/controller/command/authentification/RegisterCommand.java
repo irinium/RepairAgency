@@ -33,15 +33,14 @@ public class RegisterCommand implements Command {
         final HttpSession session = request.getSession();
 
         if (Objects.equals(password1, password2)) {
-            User user = User.builder()
+            User user = userGenericService.register(User.builder()
                     .withEmail(email)
                     .withName(name)
                     .withPassword(password1)
                     .withPhoneNumber(phone)
                     .withSurname(surname)
                     .withRole(Role.CUSTOMER)
-                    .build();
-            userGenericService.register(user);
+                    .build());
             session.setAttribute("user", user);
             return "/customerHome.jsp";
         }

@@ -44,7 +44,7 @@ public abstract class GenericDaoImpl<E> implements GenericDao<E, Long> {
     private final String numberOfRows;
 
     protected GenericDaoImpl(DataBaseConnector connector, String saveQuery, String findByIdQuery,
-                          String findAllQuery, String updateQuery, String numberOfRows) {
+                             String findAllQuery, String updateQuery, String numberOfRows) {
         this.connector = connector;
         this.saveQuery = saveQuery;
         this.findByIdQuery = findByIdQuery;

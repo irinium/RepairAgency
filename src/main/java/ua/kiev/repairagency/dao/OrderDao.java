@@ -15,6 +15,12 @@ public interface OrderDao extends GenericDao<OrderEntity, Long> {
 
     int getNumberOfRows();
 
+    int getNumberOfUserOrdersRows(UserEntity userEntity);
+
+    int numberOfOrdersWithoutMasterRows();
+
+    int getNumberOfMasterOrdersRows(UserEntity userEntity);
+
     void update(OrderEntity entity, String param);
 
     void updateByPrice(OrderEntity orderEntity, Double price);

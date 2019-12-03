@@ -6,7 +6,6 @@ import ua.kiev.repairagency.domain.user.User;
 import ua.kiev.repairagency.service.CustomerService;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
 
 public class LeaveFeedbackCommand implements Command {
     private final CustomerService customerService;
@@ -18,10 +17,9 @@ public class LeaveFeedbackCommand implements Command {
     @Override
     public String execute(HttpServletRequest request) {
         final String feedback = request.getParameter("feedback");
-        final HttpSession session = request.getSession();
-        final User user = (User) session.getAttribute("user");
+        final User user = (User) request.getSession().getAttribute("user");
 
-        customerService.createResponse(new Response( feedback, user));
+        customerService.createResponse(new Response(feedback, user));
 
         return "/customerHome.jsp";
     }

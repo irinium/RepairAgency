@@ -7,8 +7,6 @@ import ua.kiev.repairagency.entity.appliance.ApplianceEntity;
 import ua.kiev.repairagency.entity.appliance.ManufacturerEntity;
 import ua.kiev.repairagency.entity.appliance.TypeEntity;
 
-import java.util.Optional;
-
 public class ApplianceMapper {
     private final UserMapper userMapper;
 
@@ -21,10 +19,8 @@ public class ApplianceMapper {
                 .withId(applianceEntity.getId())
                 .withName(applianceEntity.getName())
                 .withModel(applianceEntity.getModel())
-                .withManufacturer(Optional
-                        .of(Manufacturer.valueOf(applianceEntity.getManufacturerEntity().name()))
-                        .orElse(null))
-                .withType(Optional.of(Type.valueOf(applianceEntity.getTypeEntity().name())).orElse(null))
+                .withManufacturer(Manufacturer.valueOf(applianceEntity.getManufacturerEntity().name()))
+                .withType(Type.valueOf(applianceEntity.getTypeEntity().name()))
                 .withDisrepair(applianceEntity.getDisrepair())
                 .withUser(userMapper.mapUserEntityToUser(applianceEntity.getUserEntity()))
                 .build();
@@ -35,10 +31,8 @@ public class ApplianceMapper {
                 .withId(appliance.getId())
                 .withName(appliance.getName())
                 .withModel(appliance.getModel())
-                .withManufacturer(Optional
-                        .of(ManufacturerEntity.valueOf(appliance.getManufacturer().name()))
-                        .orElse(null))
-                .withType(Optional.of(TypeEntity.valueOf(appliance.getType().name())).orElse(null))
+                .withManufacturer(ManufacturerEntity.valueOf(appliance.getManufacturer().name()))
+                .withType(TypeEntity.valueOf(appliance.getType().name()))
                 .withDisrepair(appliance.getDisrepair())
                 .withUser(userMapper.mapUserToUserEntity(appliance.getUser()))
                 .build();

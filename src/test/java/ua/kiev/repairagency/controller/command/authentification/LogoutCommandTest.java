@@ -31,7 +31,7 @@ public class LogoutCommandTest {
         when(request.getSession()).thenReturn(session);
 
         final String actual = logoutCommand.execute(request);
-        String expected = "view/index.jsp";
+        String expected = "/index.jsp";
 
         verify(session).invalidate();
         MatcherAssert.assertThat(actual, is(expected));

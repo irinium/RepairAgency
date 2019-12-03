@@ -8,7 +8,6 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
 import ua.kiev.repairagency.dao.OrderDao;
-import ua.kiev.repairagency.dao.UserDao;
 import ua.kiev.repairagency.dao.impl.ResponseDaoImpl;
 import ua.kiev.repairagency.domain.appliance.Appliance;
 import ua.kiev.repairagency.domain.order.Order;
@@ -18,12 +17,9 @@ import ua.kiev.repairagency.entity.appliance.ApplianceEntity;
 import ua.kiev.repairagency.entity.order.OrderEntity;
 import ua.kiev.repairagency.entity.order.ResponseEntity;
 import ua.kiev.repairagency.entity.user.UserEntity;
-import ua.kiev.repairagency.service.encoder.PasswordEncoder;
-import ua.kiev.repairagency.service.mapper.ApplianceMapper;
 import ua.kiev.repairagency.service.mapper.OrderMapper;
 import ua.kiev.repairagency.service.mapper.ResponseMapper;
 import ua.kiev.repairagency.service.mapper.UserMapper;
-import ua.kiev.repairagency.service.validator.UserValidator;
 
 import java.util.List;
 
@@ -53,28 +49,21 @@ public class CustomerServiceImplTest {
     @Mock
     private OrderDao orderDao;
     @Mock
-    private UserDao userDao;
-    @Mock
     private OrderMapper orderMapper;
-    @Mock
-    private ApplianceMapper applianceMapper;
     @Mock
     private UserMapper userMapper;
     @Mock
     private ResponseDaoImpl responseDao;
     @Mock
     private ResponseMapper responseMapper;
-    @Mock
-    private PasswordEncoder passwordEncoder;
-    @Mock
-    private UserValidator userValidator;
 
 
     @Test
     public void makeOrderShouldSaveOrder() {
-        customerService.makeOrder(APPLIANCE, USER, "");
+        when(orderMapper.mapOrderToOrderEntity(any(Order.class))).thenReturn(ORDER_ENTITY);
+        customerService.makeOrder(ORDER.getAppliance(), ORDER.getCustomer(), ORDER.getTitle());
 
-        verify(orderDao).save(null);
+        verify(orderDao).save(ORDER_ENTITY);
     }
 
 
@@ -91,8 +80,6 @@ public class CustomerServiceImplTest {
     @Test
     public void findAllOrdersShouldReturnEmptyListWhenThereIsNoOrders(){
         List<Order> expected = emptyList();
-
-        when(orderDao.findAll(any(Integer.class) , any(Integer.class))).thenReturn(emptyList());
         when(userMapper.mapUserToUserEntity(USER)).thenReturn(USER_ENTITY);
 
         List<Order> actual = customerService.findAllOrders(USER,1 , 10);
@@ -106,9 +93,7 @@ public class CustomerServiceImplTest {
 
         when(userMapper.mapUserToUserEntity(USER)).thenReturn(USER_ENTITY);
         when(orderDao.findUserOrders(USER_ENTITY,1 , 5)).thenReturn(entities);
-        when(orderMapper.mapOrderToOrderEntity(ORDER)).thenReturn(ORDER_ENTITY);
 
         customerService.findAllOrders(USER,1 , 5);
-        verify(orderDao).findUserOrders(USER_ENTITY,1,5);
     }
 }

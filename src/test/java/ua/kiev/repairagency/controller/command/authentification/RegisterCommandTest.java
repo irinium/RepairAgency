@@ -1,6 +1,5 @@
 package ua.kiev.repairagency.controller.command.authentification;
 
-import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
@@ -33,23 +32,21 @@ public class RegisterCommandTest {
         when(request.getParameter("password")).thenReturn("password");
         when(request.getParameter("password_two")).thenReturn("wrong");
 
-        String expected = "view/login_register.jsp";
+        String expected = "/login_register.jsp";
         String actual = registerCommand.execute(request);
 
         assertEquals(expected, actual);
     }
 
-    @Ignore
     @Test
-    public void executeShouldReturnSuccessfulRegisterPage() {
+    public void executeShouldReturnSuccessfulHomePage() {
         HttpSession session = mock(HttpSession.class);
-        User user = User.builder().withPassword("password").build();
+        User user = User.builder().withEmail("email@gmail.com").withPassword("password").build();
+
         when(request.getParameter(anyString())).thenReturn("password");
-        when(userGenericService.register(user)).thenReturn(user);
+        when(request.getSession()).thenReturn(session);
 
-        session.setAttribute("user",user);
-
-        String expected = "view/customerHome.jsp";
+        String expected = "/customerHome.jsp";
         String actual = registerCommand.execute(request);
 
         assertEquals(expected, actual);

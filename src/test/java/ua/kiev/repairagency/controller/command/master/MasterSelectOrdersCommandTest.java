@@ -1,4 +1,4 @@
-package ua.kiev.repairagency.controller.command.authentification;
+package ua.kiev.repairagency.controller.command.master;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -12,27 +12,26 @@ import javax.servlet.http.HttpServletRequest;
 import static org.junit.Assert.assertEquals;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
-@RunWith(MockitoJUnitRunner.class)
-public class ShowResponsesCommandTest {
 
-    @InjectMocks
-    private ShowResponsesCommand showResponsesCommand;
+@RunWith(MockitoJUnitRunner.class)
+public class MasterSelectOrdersCommandTest {
+    @Mock
+    private HttpServletRequest request;
 
     @Mock
     private OrderService orderService;
 
-    @Mock
-    private HttpServletRequest request;
+    @InjectMocks
+    private MasterSelectOrdersCommand selectOrdersCommand;
 
     @Test
-    public void executeShouldReturnPage() {
+    public void executeShouldReturnOrdersPage() {
         when(request.getParameter("currentPage")).thenReturn("1");
-        when(orderService.getNumberOfResponsesRows()).thenReturn(5);
 
-        String expected = "/responses.jsp";
-        String actual = showResponsesCommand.execute(request);
+        String expected = "/ordersForMaster.jsp";
+        String actual = selectOrdersCommand.execute(request);
 
-        verify(orderService).getAllResponses(1, 5);
         assertEquals(expected, actual);
+        verify(orderService).getOrdersWithoutMaster(1, 5);
     }
 }

@@ -54,7 +54,7 @@ public class Response {
         int result = 1;
         result = prime * result + ((getText() == null) ? 0 : getText().hashCode());
         result = prime * result + ((getUser() == null) ? 0 : getUser().hashCode());
-        result = (int) (prime * result + getId());
+        result = (int) (prime * result + (getId() == null ? 0 : getId()));
         return result;
     }
 }
