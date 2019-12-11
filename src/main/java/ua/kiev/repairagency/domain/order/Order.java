@@ -12,8 +12,14 @@ public class Order {
     private final User customer;
     private final Appliance appliance;
     private final User master;
-    private final Boolean state; //access -true, denied - false
-    private Boolean status; //active -true, complete - false
+    /**
+     * Indicates accepting (accepted -true, denied - false)
+     */
+    private final Boolean state;
+    /**
+     * Indicates activity status (active -true, archive - false)
+     */
+    private Boolean status; 
 
     private Order(Builder builder) {
         this.id = builder.id;

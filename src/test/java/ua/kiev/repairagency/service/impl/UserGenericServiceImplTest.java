@@ -67,20 +67,24 @@ public class UserGenericServiceImplTest {
     }
 
     @Test
-    public void loginShouldThrownExceptionWithIllegalArguments() {
-        exception.expect(IllegalArgumentException.class);
-        when(userDao.findByEmail(null)).thenThrow(IllegalArgumentException.class);
-        userGenericServiceImpl.login(null, null);
+    public void loginShouldReturnNullWhenEmailIsAbsentInDatabase() {
+        when(userDao.findByEmail("admin@gmail.com")).thenReturn(Optional.empty());
+        User actual = userGenericServiceImpl.login("admin@gmail.com", "password");
+        User expected = null;
+
+        assertThat("Login is failed", actual, is(expected));
     }
 
     @Test
     public void updateShouldCallUpdateMethodInDao() {
+        when(userMapper.mapUserToUserEntity(USER)).thenReturn(USER_ENTITY);
+
         userGenericServiceImpl.updatePassword(USER, PASSWORD);
-        verify(userDao).update(userMapper.mapUserToUserEntity(USER), PASSWORD);
+        verify(userDao).update(USER_ENTITY, PASSWORD);
     }
 
     @Test
-    public void findAllshouldReturnListOfUsers() {
+    public void findAllShouldReturnListOfUsers() {
         List<UserEntity> found = singletonList(USER_ENTITY);
         List<User> expected = singletonList(USER);
         when(userDao.findAll(anyInt(), anyInt())).thenReturn(found);

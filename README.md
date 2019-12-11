@@ -20,5 +20,18 @@ Technology:
 8. JDBC;
 9. Mockito;
 
-Database schema link https://app.sqldbm.com/MySQL/Edit/p89646/
+Database schema link https://app.sqldbm.com/MySQL/Share/OAXyzFaSpzedN5MJxWXPt0GFrngIE8md_DYjF4jNYw0
 
+Tests coverage:
+
+![](https://cdn1.savepice.ru/uploads/2019/12/4/087c1b92256a6e5b725c8cef4910c879-full.png)
+
+
+
+
+
+How to run the project:
+1. Clone the project to your computer
+2. Open it with Intellij Idea
+3. Run the DataBaseDeployer class to create the database with required tables
+4. Run the project with Tomcat web container
